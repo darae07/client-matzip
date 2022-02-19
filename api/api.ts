@@ -1,8 +1,7 @@
 import axios from 'axios'
 import httpRequest from 'constants/httpRequest'
 import httpRequestCode from 'constants/httpRequestCode'
-import { useAppDispatch } from 'hooks'
-import { useRootState } from 'hooks'
+
 import jwt_decode from 'jwt-decode'
 import { setAccessToken } from 'store/modules/auth/token'
 
@@ -21,8 +20,8 @@ interface TokenRefresh {
 }
 
 async function getAccessToken() {
-  const accessToken = useRootState((state) => state.token.accessToken)
-  const refreshToken = useRootState((state) => state.token.refreshToken)
+  const accessToken = ''
+  const refreshToken = ''
   const TOKEN_REFRESH_URL = '/auth/token/refresh/'
   const MICROSECOND = 1000
   const ACCESS_TOKEN_EXPIRE_MARGIN_MINUTE = 1
@@ -48,8 +47,8 @@ async function getAccessToken() {
     const response = await axios.post(TOKEN_REFRESH_URL, data)
     const { result } = response.data
     if (result) {
-      const dispatch = useAppDispatch()
-      dispatch(setAccessToken(result.access))
+      // const dispatch = useAppDispatch()
+      // dispatch(setAccessToken(result.access))
       return result.access
     } else {
       finishSession()

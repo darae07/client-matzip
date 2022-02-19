@@ -1,14 +1,12 @@
 import { anonymousInstance } from 'api/setupAxios'
-import { useAppDispatch } from 'hooks'
 import { setAccessToken, setRefreshToken } from 'store/modules/auth/token'
 import { userLogin, catchError } from 'store/modules/auth/user'
-import { AppDispatch } from 'store'
 
 interface LoginForm {
   email: string
   password: string
 }
-const login = (data: LoginForm) => async (dispatch: AppDispatch) => {
+const login = (data: LoginForm) => async (dispatch: any) => {
   try {
     const response = await anonymousInstance.post('/common/login/', data)
     const { result, message } = response.data
