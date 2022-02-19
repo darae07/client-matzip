@@ -1,1 +1,2 @@
-import { useRootState } from './useRootState'
+export { useRootState } from './useRootState'
+export { useAppDispatch } from './useAppDispatch'
