@@ -1,10 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit'
 import token from './auth/token'
 
-const rootReducer = () => {
-  return combineReducers({
-    token,
-  })
-}
+const rootReducer = combineReducers({
+  token,
+})
 
 export default rootReducer
