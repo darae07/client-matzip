@@ -3,9 +3,12 @@ import { AxiosRequestConfig } from 'axios'
 import httpRequest from 'constants/httpRequest'
 import { getAccessToken } from './api'
 
-axios.defaults.baseURL = httpRequest.SERVICE_BASE_URL + 'api'
-
-const authorizedInstance = axios.create()
+const anonymousInstance = axios.create({
+  baseURL: httpRequest.SERVICE_BASE_URL + 'api',
+})
+const authorizedInstance = axios.create({
+  baseURL: httpRequest.SERVICE_BASE_URL + 'api',
+})
 authorizedInstance.interceptors.request.use((config: any) => {
   const accessToken = getAccessToken()
   if (accessToken) {
@@ -14,4 +17,4 @@ authorizedInstance.interceptors.request.use((config: any) => {
   return config
 })
 
-export { authorizedInstance }
+export { anonymousInstance, authorizedInstance }
