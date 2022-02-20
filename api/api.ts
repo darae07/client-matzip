@@ -4,6 +4,7 @@ import httpRequestCode from 'constants/httpRequestCode'
 
 import jwt_decode from 'jwt-decode'
 import { setAccessToken } from 'store/modules/auth/token'
+import { userLogout } from 'store/modules/auth/user'
 import { anonymousInstance } from './setupAxios'
 
 let store: any
@@ -13,6 +14,7 @@ const injectStore = (_store: any) => {
 
 function finishSession() {
   // 세션 만료 처리
+  store.dispatch(userLogout())
 }
 
 interface Token {
