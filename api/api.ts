@@ -4,6 +4,12 @@ import httpRequestCode from 'constants/httpRequestCode'
 
 import jwt_decode from 'jwt-decode'
 import { setAccessToken } from 'store/modules/auth/token'
+import { anonymousInstance } from './setupAxios'
+
+let store: any
+const injectStore = (_store: any) => {
+  store = _store
+}
 
 function finishSession() {
   // 세션 만료 처리
@@ -20,8 +26,9 @@ interface TokenRefresh {
 }
 
 async function getAccessToken() {
-  const accessToken = ''
-  const refreshToken = ''
+  const accessToken = store.getState().token.accessToken
+  const refreshToken = store.getState().token.refreshToken
+  console.log(accessToken, refreshToken)
   const TOKEN_REFRESH_URL = '/auth/token/refresh/'
   const MICROSECOND = 1000
   const ACCESS_TOKEN_EXPIRE_MARGIN_MINUTE = 1
@@ -31,6 +38,7 @@ async function getAccessToken() {
   if (accessToken !== null) {
     const ACCESS_TOKEN_EXPIRE = jwt_decode<Token>(accessToken).exp * MICROSECOND
     const ACCESS_TOKEN_EXPIRE_AT = new Date(ACCESS_TOKEN_EXPIRE)
+    console.log(ACCESS_TOKEN_EXPIRE, ACCESS_TOKEN_EXPIRE_AT)
     if (now < ACCESS_TOKEN_EXPIRE_AT) {
       return accessToken
     }
@@ -39,16 +47,16 @@ async function getAccessToken() {
     finishSession()
     return null
   }
-  const REFRESH_TOKEN_EXPIRE = jwt_decode<Token>(refreshToken).exp
+  const REFRESH_TOKEN_EXPIRE = jwt_decode<Token>(refreshToken).exp * MICROSECOND
   const REFRESH_TOKEN_EXPIRE_AT = new Date(REFRESH_TOKEN_EXPIRE)
+  console.log(REFRESH_TOKEN_EXPIRE_AT)
   if (now < REFRESH_TOKEN_EXPIRE_AT) {
     // user 가입 타입에 따라 분기 필요
     const data = { refresh: refreshToken }
-    const response = await axios.post(TOKEN_REFRESH_URL, data)
+    const response = await anonymousInstance.post(TOKEN_REFRESH_URL, data)
     const { result } = response.data
     if (result) {
-      // const dispatch = useAppDispatch()
-      // dispatch(setAccessToken(result.access))
+      store.dispatch(setAccessToken(result.access))
       return result.access
     } else {
       finishSession()
@@ -60,4 +68,4 @@ async function getAccessToken() {
   }
 }
 
-export { getAccessToken }
+export { getAccessToken, injectStore }

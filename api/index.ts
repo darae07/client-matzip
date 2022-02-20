@@ -1,1 +1,1 @@
-export { getAccessToken } from './api'
+export { getAccessToken, injectStore } from './api'

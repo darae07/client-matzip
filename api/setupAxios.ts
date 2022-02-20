@@ -9,8 +9,8 @@ const anonymousInstance = axios.create({
 const authorizedInstance = axios.create({
   baseURL: httpRequest.SERVICE_BASE_URL + 'api',
 })
-authorizedInstance.interceptors.request.use((config: any) => {
-  const accessToken = getAccessToken()
+authorizedInstance.interceptors.request.use(async (config: any) => {
+  const accessToken = await getAccessToken()
   if (accessToken) {
     config.headers['Authorization'] = `Bearer ${accessToken}`
   }
