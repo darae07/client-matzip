@@ -16,11 +16,14 @@ export const userSlice = createSlice({
   reducers: {
     userLogin: (state, action: PayloadAction<User>) => {
       state.user = action.payload
+      state.errorMessage = null
     },
     userLogout: (state) => {
       state.user = null
+      state.errorMessage = null
     },
     catchError: (state, action: PayloadAction<string>) => {
+      state.user = null
       state.errorMessage = action.payload
     },
   },
