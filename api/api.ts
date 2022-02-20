@@ -15,6 +15,7 @@ const injectStore = (_store: any) => {
 function finishSession() {
   // 세션 만료 처리
   store.dispatch(userLogout())
+  // 로그인 페이지로 이동 필요
 }
 
 interface Token {
