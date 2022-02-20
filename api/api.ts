@@ -42,7 +42,6 @@ async function getAccessToken() {
   if (accessToken !== null) {
     const ACCESS_TOKEN_EXPIRE = jwt_decode<Token>(accessToken).exp * MICROSECOND
     const ACCESS_TOKEN_EXPIRE_AT = new Date(ACCESS_TOKEN_EXPIRE)
-    console.log(ACCESS_TOKEN_EXPIRE, ACCESS_TOKEN_EXPIRE_AT)
     if (now < ACCESS_TOKEN_EXPIRE_AT) {
       return accessToken
     }
@@ -53,7 +52,6 @@ async function getAccessToken() {
   }
   const REFRESH_TOKEN_EXPIRE = jwt_decode<Token>(refreshToken).exp * MICROSECOND
   const REFRESH_TOKEN_EXPIRE_AT = new Date(REFRESH_TOKEN_EXPIRE)
-  console.log(REFRESH_TOKEN_EXPIRE_AT)
   if (now < REFRESH_TOKEN_EXPIRE_AT) {
     // user 가입 타입에 따라 분기 필요
     if (login_method === 'email') {
