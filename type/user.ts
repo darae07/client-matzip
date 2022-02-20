@@ -10,6 +10,7 @@ export interface User {
     nickname: string | null
     phone_number: string | null
     status: string | null
+    login_method: string | null
     team_profile: TeamMember | null
   } | null
 }
