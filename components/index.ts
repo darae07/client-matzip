@@ -1,1 +1,1 @@
-export { Input } from './forms/Input'
+export { Input } from './controls/forms/Input'
