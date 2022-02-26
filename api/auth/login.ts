@@ -1,24 +1,28 @@
 import { anonymousInstance } from 'api/setupAxios'
+import { resolve } from 'path'
+import { Dispatch } from 'react'
 import { setAccessToken, setRefreshToken } from 'store/modules/auth/token'
-import { userLogin, catchError } from 'store/modules/auth/user'
+import { userLogin, catchError, userLoginStart } from 'store/modules/auth/user'
+import { ApiResponseType } from 'type/api'
 
-interface LoginForm {
+export interface LoginValuesType {
   email: string
   password: string
 }
-const login = (data: LoginForm) => async (dispatch: any) => {
-  try {
-    const response = await anonymousInstance.post('/common/login/', data)
-    const { result, message } = response.data
-    const { user, access_token, refresh_token } = result
-    dispatch(userLogin(user))
-    dispatch(setAccessToken(access_token))
-    dispatch(setRefreshToken(refresh_token))
-    return message
-  } catch (error) {
-    console.log(error)
-    dispatch(catchError('로그인에 실패했습니다.'))
+export const login =
+  (data: LoginValuesType) =>
+  async (dispatch: Dispatch<Object>): Promise<ApiResponseType> => {
+    try {
+      dispatch(userLoginStart())
+      const response = await anonymousInstance.post('/common/login/', data)
+      const { result, message, success } = response.data
+      const { user, access_token, refresh_token } = result
+      dispatch(userLogin(user))
+      dispatch(setAccessToken(access_token))
+      dispatch(setRefreshToken(refresh_token))
+      return { message, success }
+    } catch (error) {
+      dispatch(catchError('로그인에 실패했습니다.'))
+      return { message: '로그인 실패', success: false }
+    }
   }
-}
-
-export { login }
