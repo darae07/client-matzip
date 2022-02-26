@@ -13,30 +13,24 @@ import {
 import { getDefaultMiddleware } from '@reduxjs/toolkit'
 import { createWrapper } from 'next-redux-wrapper'
 
-const makeConfiguredStore = (reducer: any) => {
-  return configureStore({
-    reducer: reducer,
-    devTools: process.env.NODE_ENV !== 'production',
-    middleware: getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-  })
+const persistConfig = {
+  key: 'root',
+  storage,
 }
+const store = configureStore({
+  reducer: persistReducer(persistConfig, rootReducer),
+  devTools: process.env.NODE_ENV !== 'production',
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
+})
+
 const makeStore = () => {
-  const isServer = typeof window === 'undefined'
-  if (isServer) {
-    return makeConfiguredStore(rootReducer)
-  } else {
-    const persistConfig = {
-      key: 'root',
-      storage,
-    }
-    const persistedReducer = persistReducer(persistConfig, rootReducer)
-    const store = makeConfiguredStore(persistedReducer)
-    return store
-  }
+  return store
 }
 
 export const wrapper = createWrapper(makeStore)
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
