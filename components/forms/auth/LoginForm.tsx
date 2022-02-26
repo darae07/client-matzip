@@ -2,6 +2,10 @@ import React, { FC } from 'react'
 import { Field, Formik, Form } from 'formik'
 import { Input } from 'components'
 import * as Yup from 'yup'
+import { login, LoginValuesType } from 'api/auth/login'
+import { ApiResponseType } from 'type/api'
+import { useAppDispatch, useAppSelector } from 'hooks'
+import Image from 'next/image'
 
 const loginValues = {
   email: '',
@@ -17,19 +21,26 @@ export const LoginForm: FC = () => {
       .required('이메일을 입력해주세요'),
     password: Yup.string()
       .min(8, '8글자 이상 입력해 주세요')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-        '비밀번호는 대문자, 소문자, 숫자 조합으로 입력해주세요',
-      )
       .required('비밀번호를 입력해주세요'),
   })
+
+  const dispatch = useAppDispatch()
+  const handleLogin = async (values: LoginValuesType) => {
+    const data = await dispatch(login(values))
+  }
+  const { isLoading } = useAppSelector((state) => ({
+    isLoading: state.user.isLoading,
+  }))
+
   return (
     <div>
       <Formik
         enableReinitialize={true}
         initialValues={loginValues}
         validationSchema={loginFormSchema}
-        onSubmit={() => {}}
+        onSubmit={(values) => {
+          handleLogin(values)
+        }}
       >
         {({ handleSubmit, values }) => (
           <Form>
@@ -41,6 +52,23 @@ export const LoginForm: FC = () => {
               component={Input}
               value={values.password}
             />
+            <button
+              type="submit"
+              onSubmit={() => handleSubmit()}
+              className="mt-2.5 w-full items-center justify-center rounded-md border  bg-sky-600 py-2 px-2 font-semibold text-white md:text-sm"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Image
+                  src="/icon/loading_spinner.svg"
+                  width="24"
+                  height="16"
+                  className="mr-3 inline h-4 w-4 animate-spin text-white"
+                />
+              ) : (
+                '로그인'
+              )}
+            </button>
           </Form>
         )}
       </Formik>
