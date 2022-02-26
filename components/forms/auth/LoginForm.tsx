@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import { login, LoginValuesType } from 'api/auth/login'
 import { ApiResponseType } from 'type/api'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import Image from 'next/image'
+import LoadingSpinner from 'components/skeletons/LoadingSpinner'
 
 const loginValues = {
   email: '',
@@ -59,11 +59,10 @@ export const LoginForm: FC = () => {
               disabled={isLoading}
             >
               {isLoading ? (
-                <Image
-                  src="/icon/loading_spinner.svg"
+                <LoadingSpinner
                   width="24"
                   height="16"
-                  className="mr-3 inline h-4 w-4 animate-spin text-white"
+                  className="mr-3 inline h-4 w-4 text-white"
                 />
               ) : (
                 '로그인'
