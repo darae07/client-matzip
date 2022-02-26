@@ -3,6 +3,7 @@ import { resolve } from 'path'
 import { Dispatch } from 'react'
 import { setAccessToken, setRefreshToken } from 'store/modules/auth/token'
 import { userLogin, catchError, userLoginStart } from 'store/modules/auth/user'
+import { openToast } from 'store/modules/ui/toast'
 import { ApiResponseType } from 'type/api'
 
 export interface LoginValuesType {
@@ -23,6 +24,7 @@ export const login =
       return { message, success }
     } catch (error) {
       dispatch(catchError('로그인에 실패했습니다.'))
+      dispatch(openToast('로그인에 실패했습니다.'))
       return { message: '로그인 실패', success: false }
     }
   }
