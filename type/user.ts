@@ -1,3 +1,10 @@
+const LOGIN_CHOICES = {
+  kakao: 'kakao',
+  email: 'email',
+  google: 'google',
+} as const
+type LOGIN_CHOICES = typeof LOGIN_CHOICES[keyof typeof LOGIN_CHOICES]
+
 export interface User {
   user: {
     id: number
@@ -10,7 +17,7 @@ export interface User {
     nickname: string | null
     phone_number: string | null
     status: string | null
-    login_method: string | null
+    login_method: LOGIN_CHOICES | null
     team_profile: TeamMember | null
   } | null
 }
