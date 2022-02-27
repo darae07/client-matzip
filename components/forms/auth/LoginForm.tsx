@@ -44,13 +44,19 @@ export const LoginForm: FC = () => {
       >
         {({ handleSubmit, values }) => (
           <Form>
-            <Field name="email" component={Input} value={values.email} />
+            <Field
+              name="email"
+              component={Input}
+              value={values.email}
+              placeholder="이메일 주소"
+            />
             <div className="mb-2.5"></div>
             <Field
               name="password"
               type="password"
               component={Input}
               value={values.password}
+              placeholder="비밀번호"
             />
             <button
               type="submit"
@@ -71,10 +77,6 @@ export const LoginForm: FC = () => {
           </Form>
         )}
       </Formik>
-      <div className="mt-2 flex justify-between text-gray-600 md:text-xs">
-        <button>회원가입</button>
-        <button>비밀번호 찾기</button>
-      </div>
     </div>
   )
 }

@@ -7,6 +7,7 @@ import { kakaoLogin, googleLogin } from 'api/auth/socialLogin'
 import { ReactElement } from 'react'
 import AuthLayout from 'components/layout/AuthLayout'
 import { loginFail, logout } from 'api/auth/login'
+import Link from 'next/link'
 
 const Login: NextPageWithLayout = () => {
   const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
@@ -39,6 +40,10 @@ const Login: NextPageWithLayout = () => {
       </p>
 
       <LoginForm />
+      <div className="mt-2 flex justify-between text-gray-600 md:text-xs">
+        <Link href="/signup">이메일로 회원가입</Link>
+        <button>비밀번호 찾기</button>
+      </div>
       <div className="my-5 w-full border-t border-gray-300">
         <p className="my-4 text-slate-500 md:text-sm">
           소셜 계정으로 3초만에 로그인/회원가입 하기
@@ -75,7 +80,6 @@ const Login: NextPageWithLayout = () => {
           />
         )}
       </div>
-      <div></div>
     </div>
   )
 }
