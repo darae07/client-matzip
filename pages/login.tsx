@@ -6,6 +6,7 @@ import GoogleLogin from 'react-google-login'
 import { kakaoLogin, googleLogin } from 'api/auth/socialLogin'
 import { ReactElement } from 'react'
 import AuthLayout from 'components/layout/AuthLayout'
+import { loginFail, logout } from 'api/auth/login'
 
 const Login: NextPageWithLayout = () => {
   const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
@@ -18,8 +19,18 @@ const Login: NextPageWithLayout = () => {
   const handleGoogleLoginSuccess = (response: any) => {
     dispatch(googleLogin(response))
   }
-  const handleKakaoLoginFail = () => {}
-  const handleKakaoLogout = () => {}
+  const handleLoginFail = (err: any) => {
+    if (typeof err === 'string') {
+      dispatch(loginFail(err))
+    } else if ('error_description' in err) {
+      dispatch(loginFail(err.error_description))
+    } else {
+      dispatch(loginFail('로그인에 실패했습니다.'))
+    }
+  }
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   return (
     <div>
@@ -39,6 +50,7 @@ const Login: NextPageWithLayout = () => {
             clientId={GOOGLE_KEY}
             buttonText="로그인"
             onSuccess={handleGoogleLoginSuccess}
+            onFailure={handleLoginFail}
             className="flex w-1/2"
           />
         )}
@@ -47,8 +59,8 @@ const Login: NextPageWithLayout = () => {
           <KakaoLogin
             token={KAKAO_KEY}
             onSuccess={handleKakaoLoginSuccess}
-            onFail={handleKakaoLoginFail}
-            onLogout={handleKakaoLogout}
+            onFail={handleLoginFail}
+            onLogout={handleLogout}
             scopes={['id', 'kakao_account']}
             render={({ onClick }) => (
               <a

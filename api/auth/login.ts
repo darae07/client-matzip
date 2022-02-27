@@ -1,8 +1,18 @@
 import { anonymousInstance } from 'api/setupAxios'
 import { resolve } from 'path'
 import { Dispatch } from 'react'
-import { setAccessToken, setRefreshToken } from 'store/modules/auth/token'
-import { userLogin, catchError, userLoginStart } from 'store/modules/auth/user'
+import {
+  removeAccessToken,
+  removeRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from 'store/modules/auth/token'
+import {
+  userLogin,
+  catchError,
+  userLoginStart,
+  userLogout,
+} from 'store/modules/auth/user'
 import { openToast } from 'store/modules/ui/toast'
 import { ApiResponseType } from 'type/api'
 import { User } from 'type/user'
@@ -48,3 +58,9 @@ export const loginFail =
     dispatch(catchError(message))
     dispatch(openToast(message))
   }
+
+export const logout = () => async (dispatch: Dispatch<object>) => {
+  dispatch(userLogout())
+  dispatch(removeAccessToken())
+  dispatch(removeRefreshToken())
+}
