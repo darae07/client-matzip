@@ -40,7 +40,16 @@ const Login: NextPage = () => {
                 onFail={handleKakaoLoginFail}
                 onLogout={handleKakaoLogout}
                 scopes={['id', 'kakao_account']}
-                className="flex w-1/2 items-center justify-center rounded-md bg-yellow-400 py-2 px-2 font-semibold text-amber-900 md:text-sm"
+                render={({ onClick }) => (
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onClick()
+                    }}
+                    className="flex w-1/2 items-center justify-center rounded-md bg-[url(//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg)] py-2 px-2 font-semibold text-amber-900 md:text-sm"
+                  />
+                )}
               />
             )}
           </div>
