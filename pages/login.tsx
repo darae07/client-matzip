@@ -1,7 +1,6 @@
 import { LoginForm } from 'components/forms/auth/LoginForm'
 import { useAppDispatch } from 'hooks'
 import type { NextPage } from 'next'
-import GoogleIcon from 'public/icon/google_corp_symbol.svg'
 import KakaoLogin from 'react-kakao-login'
 import GoogleLogin from 'react-google-login'
 import { kakaoLogin, googleLogin } from 'api/auth/socialLogin'
