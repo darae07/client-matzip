@@ -1,9 +1,18 @@
-import { Input } from 'components'
 import { LoginForm } from 'components/forms/auth/LoginForm'
+import { useAppDispatch } from 'hooks'
 import type { NextPage } from 'next'
-import Image from 'next/image'
+import GoogleIcon from 'public/icon/google_corp_symbol.svg'
+import KakaoLogin from 'react-kakao-login'
+import { kakaoLogin } from 'api/auth/socialLogin'
 
 const Login: NextPage = () => {
+  const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
+  const dispatch = useAppDispatch()
+  const handleKakaoLoginSuccess = (response: any) => {
+    dispatch(kakaoLogin(response))
+  }
+  const handleKakaoLoginFail = () => {}
+  const handleKakaoLogout = () => {}
   return (
     <div className="flex h-screen">
       <div className="flex w-full items-center p-10 md:w-1/2">
@@ -21,22 +30,19 @@ const Login: NextPage = () => {
           </div>
           <div className="flex space-x-2">
             <button className="flex w-1/2 items-center justify-center rounded-md border border-gray-300 py-2 px-2 font-semibold text-gray-500 md:text-sm">
-              <Image
-                src="/icon/google_corp_symbol.svg"
-                width="24"
-                height="16"
-              />
-              구글로 로그인
+              <GoogleIcon width="20" height="20" />
+              <span className="ml-2"> Google 로그인</span>
             </button>
-            <button className="flex w-1/2 items-center justify-center rounded-md bg-yellow-400 py-2 px-2 font-semibold text-amber-900 md:text-sm">
-              <Image
-                src="/icon/Kakao_Corp_symbol.svg"
-                width="24"
-                height="16"
-                className="mr-2"
+            {KAKAO_KEY && (
+              <KakaoLogin
+                token={KAKAO_KEY}
+                onSuccess={handleKakaoLoginSuccess}
+                onFail={handleKakaoLoginFail}
+                onLogout={handleKakaoLogout}
+                scopes={['id', 'kakao_account']}
+                className="flex w-1/2 items-center justify-center rounded-md bg-yellow-400 py-2 px-2 font-semibold text-amber-900 md:text-sm"
               />
-              카카오로 로그인
-            </button>
+            )}
           </div>
           <div></div>
         </div>
