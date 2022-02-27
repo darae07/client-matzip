@@ -62,22 +62,22 @@ async function getAccessToken() {
         store.dispatch(setAccessToken(result.access))
         return result.access
       }
-      if (login_method === 'kakao') {
-        const KAKAO_TOKEN_REFRESH_URL = '/common/kakao_token-refresh/'
-        const data = { refresh_token: refreshToken }
-        const response = await anonymousInstance.post(
-          KAKAO_TOKEN_REFRESH_URL,
-          data,
-        )
-        const { result } = response.data
-        if (result) {
-          const { access_token, refresh_token } = result
-          store.dispatch(setAccessToken(access_token))
-          if (refresh_token) {
-            store.dispatch(setRefreshToken(refresh_token))
-          }
-          return result.access_token
+    }
+    if (login_method === 'kakao') {
+      const KAKAO_TOKEN_REFRESH_URL = '/common/kakao_token-refresh/'
+      const data = { refresh_token: refreshToken }
+      const response = await anonymousInstance.post(
+        KAKAO_TOKEN_REFRESH_URL,
+        data,
+      )
+      const { result } = response.data
+      if (result) {
+        const { access_token, refresh_token } = result
+        store.dispatch(setAccessToken(access_token))
+        if (refresh_token) {
+          store.dispatch(setRefreshToken(refresh_token))
         }
+        return result.access_token
       }
     } else {
       finishSession()
