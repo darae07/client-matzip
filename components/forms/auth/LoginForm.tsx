@@ -55,7 +55,7 @@ export const LoginForm: FC = () => {
             <button
               type="submit"
               onSubmit={() => handleSubmit()}
-              className="mt-2.5 w-full items-center justify-center rounded-md border  bg-sky-600 py-2 px-2 font-semibold text-white md:text-sm"
+              className="mt-2.5 w-full items-center justify-center rounded-md border  bg-sky-600 py-2 px-2 font-semibold text-white hover:bg-sky-700 md:text-sm"
               disabled={isLoading}
             >
               {isLoading ? (
