@@ -4,7 +4,7 @@ import { Input } from 'components'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import LoadingSpinner from 'components/skeletons/LoadingSpinner'
-import { SignUpValuesType } from 'api/auth/signUp'
+import { signUP, SignUpValuesType } from 'api/auth/signUp'
 import { passwordReg } from 'constants/validation'
 
 const signUpValues = {
@@ -27,11 +27,15 @@ export const SignUpForm: FC = () => {
         passwordReg,
         '비밀번호는 대문자, 소문자, 숫자 조합으로 입력해주세요',
       ),
-    password2: Yup.string().required('비밀번호를 확인해주세요'),
+    password2: Yup.string()
+      .required('비밀번호를 확인해주세요')
+      .oneOf([Yup.ref('password1'), null], '비밀번호가 다릅니다.'),
   })
 
   const dispatch = useAppDispatch()
-  const handleSignUp = async (values: SignUpValuesType) => {}
+  const handleSignUp = async (values: SignUpValuesType) => {
+    dispatch(signUP(values))
+  }
   const { isLoading } = useAppSelector((state) => ({
     isLoading: state.user.isLoading,
   }))

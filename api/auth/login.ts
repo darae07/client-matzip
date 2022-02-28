@@ -1,6 +1,6 @@
 import { anonymousInstance } from 'api/setupAxios'
 import { resolve } from 'path'
-import { Dispatch } from 'react'
+import { Dispatch } from '@reduxjs/toolkit'
 import {
   removeAccessToken,
   removeRefreshToken,
@@ -29,7 +29,7 @@ interface LoginParams {
 }
 
 export const login =
-  (data: LoginValuesType) => async (dispatch: Dispatch<Object>) => {
+  (data: LoginValuesType) => async (dispatch: Dispatch<any>) => {
     try {
       dispatch(userLoginStart())
       const response = await anonymousInstance.post('/common/login/', data)
@@ -47,19 +47,18 @@ export const login =
 
 export const loginSuccess =
   ({ user, access_token, refresh_token }: LoginParams) =>
-  async (dispatch: Dispatch<object>) => {
+  async (dispatch: Dispatch) => {
     dispatch(userLogin(user))
     dispatch(setAccessToken(access_token))
     dispatch(setRefreshToken(refresh_token))
   }
 
-export const loginFail =
-  (message: string) => async (dispatch: Dispatch<object>) => {
-    dispatch(catchError(message))
-    dispatch(openToast(message))
-  }
+export const loginFail = (message: string) => async (dispatch: Dispatch) => {
+  dispatch(catchError(message))
+  dispatch(openToast(message))
+}
 
-export const logout = () => async (dispatch: Dispatch<object>) => {
+export const logout = () => async (dispatch: Dispatch) => {
   dispatch(userLogout())
   dispatch(removeAccessToken())
   dispatch(removeRefreshToken())
