@@ -7,7 +7,6 @@ import { Popover, Transition } from '@headlessui/react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { PopoverContainer, PopoverItem } from 'components/popover/styledPopover'
-import Tooltip from 'components/popover/Tooltip'
 
 const MenuUserAvatar: FC = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)
@@ -19,26 +18,18 @@ const MenuUserAvatar: FC = () => {
           <Popover className="relative">
             {({ open }) => (
               <>
-                <Tooltip
-                  tooltipText={
-                    user.team_profile && user.team_profile.member_name
-                      ? user.team_profile.member_name
-                      : user.email
-                  }
-                >
-                  <Popover.Button>
-                    {user.team_profile && user.team_profile.image ? (
-                      <Image
-                        src={user.team_profile.image}
-                        width={24}
-                        height={24}
-                        className="h-6 w-6 rounded-full"
-                      />
-                    ) : (
-                      <UserCircleIcon className="h-6 w-6" />
-                    )}
-                  </Popover.Button>
-                </Tooltip>
+                <Popover.Button>
+                  {user.team_profile && user.team_profile.image ? (
+                    <Image
+                      src={user.team_profile.image}
+                      width={24}
+                      height={24}
+                      className="h-6 w-6 rounded-full"
+                    />
+                  ) : (
+                    <UserCircleIcon className="h-6 w-6" />
+                  )}
+                </Popover.Button>
 
                 <Transition
                   as={Fragment}
@@ -49,14 +40,27 @@ const MenuUserAvatar: FC = () => {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="max-w-32 absolute right-0 z-20 mt-3 w-[12rem] px-4 sm:px-0 ">
+                  <Popover.Panel className="max-w-32 absolute right-0 z-20 mt-1 min-w-[16rem] bg-white px-4 sm:px-0 md:min-w-[14rem]">
                     <PopoverContainer>
-                      <PopoverItem href="/">
-                        <UserCircleIcon className="h-4 w-4" />
-                        <div className="ml-4">
-                          <p className="text-sm font-medium ">내 프로필 보기</p>
-                        </div>
-                      </PopoverItem>
+                      {user.team_profile ? (
+                        <PopoverItem href="/">
+                          <UserCircleIcon className="h-4 w-4" />
+                          <div className="ml-4">
+                            <p className="text-sm font-medium ">
+                              내 프로필 보기
+                            </p>
+                          </div>
+                        </PopoverItem>
+                      ) : (
+                        <PopoverItem href="/">
+                          <UserCircleIcon className="h-4 w-4" />
+                          <div className="ml-4">
+                            <p className="text-sm font-medium ">
+                              계정에 회사를 등록해 보세요.
+                            </p>
+                          </div>
+                        </PopoverItem>
+                      )}
                       <div className="w-full border border-b-gray-50"></div>
                       <PopoverItem href="/">
                         <KeyIcon className="h-4 w-4" />

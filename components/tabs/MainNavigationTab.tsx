@@ -21,7 +21,7 @@ const MainNavigationTab: FC = () => {
   const router = useRouter()
 
   return (
-    <div className="flex">
+    <div className="fixed bottom-0 z-10 flex w-full sm:static sm:w-fit">
       {navigationTabList.map((nav, i) => (
         <Link href={nav.href} key={i}>
           <TabItem selected={nav.href === router.pathname}>
@@ -37,13 +37,13 @@ const MainNavigationTab: FC = () => {
 export default MainNavigationTab
 
 const TabItem = styled.a<{ selected: boolean }>`
-  ${tw`flex items-center flex-col text-xs p-2 md:w-24 rounded hover:bg-gray-50 cursor-pointer text-gray-500 font-bold`}
+  ${tw`flex w-1/4 items-center flex-col text-xs p-2 md:w-24 rounded hover:bg-gray-50 cursor-pointer text-gray-500 font-bold`}
   & {
     svg {
       ${tw`h-6 w-6`}
     }
     span {
-      ${tw`hidden md:block mt-1`}
+      ${tw`mt-1`}
     }
   }
   ${(props) => props.selected && tw`bg-gray-100 text-gray-800`}
