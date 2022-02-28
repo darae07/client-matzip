@@ -25,7 +25,7 @@ export const signUP =
       } else {
         dispatch(loginFail(message || '회원가입에 실패했습니다.'))
       }
-    } catch (error) {
+    } catch (error: any) {
       const { data } = error.response
       const { message } = data
 

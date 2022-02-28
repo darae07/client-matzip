@@ -4,15 +4,17 @@ import lottie from 'lottie-web'
 import OurMatzipLogo from 'public/icon/our_matzip_logo.svg'
 
 export default function AuthLayout({ children }: LayoutProps) {
-  const animation = useRef()
+  const animation = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    lottie.loadAnimation({
-      container: animation.current,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      animationData: require('public/animation/41570-time-relax-lunch.json'),
-    })
+    if (animation.current) {
+      lottie.loadAnimation({
+        container: animation.current,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: require('public/animation/41570-time-relax-lunch.json'),
+      })
+    }
   }, [])
   return (
     <div className="mx-auto flex h-screen w-fit items-center justify-self-center">
