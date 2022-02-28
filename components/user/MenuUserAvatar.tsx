@@ -7,6 +7,7 @@ import { Popover, Transition } from '@headlessui/react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { PopoverContainer, PopoverItem } from 'components/popover/styledPopover'
+import Tooltip from 'components/popover/Tooltip'
 
 const MenuUserAvatar: FC = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)
@@ -18,18 +19,27 @@ const MenuUserAvatar: FC = () => {
           <Popover className="relative">
             {({ open }) => (
               <>
-                <Popover.Button>
-                  {user.team_profile && user.team_profile.image ? (
-                    <Image
-                      src={user.team_profile.image}
-                      width={24}
-                      height={24}
-                      className="h-6 w-6 rounded-full"
-                    />
-                  ) : (
-                    <UserCircleIcon className="h-6 w-6" />
-                  )}
-                </Popover.Button>
+                <Tooltip
+                  tooltipText={
+                    user.team_profile && user.team_profile.member_name
+                      ? user.team_profile.member_name
+                      : user.email
+                  }
+                >
+                  <Popover.Button>
+                    {user.team_profile && user.team_profile.image ? (
+                      <Image
+                        src={user.team_profile.image}
+                        width={24}
+                        height={24}
+                        className="h-6 w-6 rounded-full"
+                      />
+                    ) : (
+                      <UserCircleIcon className="h-6 w-6" />
+                    )}
+                  </Popover.Button>
+                </Tooltip>
+
                 <Transition
                   as={Fragment}
                   enter="transition ease-out duration-200"
@@ -39,7 +49,7 @@ const MenuUserAvatar: FC = () => {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="z-15 max-w-32 absolute right-0 mt-3 w-[12rem] px-4 sm:px-0 ">
+                  <Popover.Panel className="max-w-32 absolute right-0 z-20 mt-3 w-[12rem] px-4 sm:px-0 ">
                     <PopoverContainer>
                       <PopoverItem href="/">
                         <UserCircleIcon className="h-4 w-4" />
