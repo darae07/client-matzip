@@ -22,8 +22,8 @@ const MainNavigationTab: FC = () => {
 
   return (
     <div className="flex">
-      {navigationTabList.map((nav) => (
-        <Link href={nav.href}>
+      {navigationTabList.map((nav, i) => (
+        <Link href={nav.href} key={i}>
           <TabItem selected={nav.href === router.pathname}>
             {nav.icon}
             <span>{nav.text}</span>
@@ -46,5 +46,5 @@ const TabItem = styled.a<{ selected: boolean }>`
       ${tw`hidden md:block mt-1`}
     }
   }
-  ${(props) => props.selected && tw`bg-gray-100`}
+  ${(props) => props.selected && tw`bg-gray-100 text-gray-800`}
 `
