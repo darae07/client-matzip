@@ -8,11 +8,11 @@ export default function HomeLayout({ children }: LayoutProps) {
   return (
     <>
       <header className="">
-        <div className="sticky top-0 z-10 flex items-center justify-between py-2.5 md:container md:mx-auto">
+        <div className="sticky top-0 z-10 flex items-center justify-between py-2.5 px-3 md:container md:mx-auto md:px-0">
           <OurMatzipLogo width={160} className="w-[6rem] md:w-[8rem]" />
           <MainHeaderTab />
           <div>
-            <button>
+            <button className="mr-2">
               <BellIcon className="h-6 w-6" />
             </button>
             <MenuUserAvatar />
