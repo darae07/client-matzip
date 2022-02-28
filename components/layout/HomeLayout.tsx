@@ -6,9 +6,9 @@ import MenuUserAvatar from 'components/user/MenuUserAvatar'
 
 export default function HomeLayout({ children }: LayoutProps) {
   return (
-    <>
-      <header className="">
-        <div className="sticky top-0 z-10 flex items-center justify-between py-2.5 px-3 md:container md:mx-auto md:px-0">
+    <div className="bg-gray-50">
+      <header className="sticky top-0 z-10 bg-white drop-shadow-sm">
+        <div className=" flex items-center justify-between py-2.5 px-3 md:container md:mx-auto md:px-0">
           <OurMatzipLogo width={160} className="w-[6rem] md:w-[8rem]" />
           <MainHeaderTab />
           <div>
@@ -19,7 +19,9 @@ export default function HomeLayout({ children }: LayoutProps) {
           </div>
         </div>
       </header>
-      <section className="md:container md:mx-auto">{children}</section>
-    </>
+      <section className="h-screen overflow-y-auto md:container md:mx-auto">
+        {children}
+      </section>
+    </div>
   )
 }
