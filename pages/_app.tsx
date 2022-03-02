@@ -7,6 +7,8 @@ import { injectStore } from 'api'
 import { Toast } from 'components/toast/toast'
 import { AppPropsWithLayout } from 'type/ui'
 import { ReactNode } from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 export default wrapper.withRedux(
   ({ Component, pageProps }: AppPropsWithLayout) => {
@@ -15,12 +17,16 @@ export default wrapper.withRedux(
     injectStore(store)
 
     const getLayout = Component.getLayout ?? ((page: ReactNode) => page)
+    const queryClient = new QueryClient()
 
     return (
       <>
         <PersistGate persistor={persistor} loading={null}>
-          <Toast />
-          {getLayout(<Component {...pageProps} />)}
+          <QueryClientProvider client={queryClient}>
+            <Toast />
+            {getLayout(<Component {...pageProps} />)}
+            <ReactQueryDevtools />
+          </QueryClientProvider>
         </PersistGate>
       </>
     )
