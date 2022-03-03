@@ -14,7 +14,6 @@ import {
   userLogout,
 } from 'store/modules/auth/user'
 import { openToast } from 'store/modules/ui/toast'
-import { ApiResponseType } from 'type/api'
 import { User } from 'type/user'
 
 export interface LoginValuesType {
