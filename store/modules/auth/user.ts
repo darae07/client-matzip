@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { User } from 'type/user'
+import { TeamMember, User } from 'type/user'
 
 interface UserState {
   isLoading: boolean
@@ -34,9 +34,19 @@ export const userSlice = createSlice({
       state.errorMessage = action.payload
       state.isLoading = false
     },
+    setUserTeamProfile: (state, action: PayloadAction<TeamMember>) => {
+      if (state.user) {
+        state.user.team_profile = action.payload
+      }
+    },
   },
 })
 
-export const { userLogin, userLogout, catchError, userLoginStart } =
-  userSlice.actions
+export const {
+  userLogin,
+  userLogout,
+  catchError,
+  userLoginStart,
+  setUserTeamProfile,
+} = userSlice.actions
 export default userSlice.reducer
