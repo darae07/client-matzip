@@ -10,6 +10,6 @@ export const retrieveTeam = async (teamId: number | undefined) => {
     const { data: response }: ApiResponse = await authorizedInstance.get(
       `/group/team/${teamId}/`,
     )
-    return response
+    return response.result
   }
 }
