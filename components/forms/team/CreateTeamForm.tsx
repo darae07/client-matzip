@@ -41,7 +41,7 @@ export const CreateTeamForm: FC = () => {
     onSuccess: (data: ApiResponseData) => {
       const { message, result } = data
       dispatch(openToast(message || '팀을 생성했습니다.'))
-      queryClient.setQueriesData('myTeam', result)
+      queryClient.setQueryData(['myTeam'], result)
       dispatch(setUserTeamProfile(result.team_profile))
     },
     onError: (error: ApiErrorResponse) => {
