@@ -1,5 +1,4 @@
 import { authorizedInstance } from 'api/setupAxios'
-import { AxiosResponse } from 'axios'
 import { ApiResponse } from 'type/api'
 import { CreateTeamValue } from 'type/team'
 
