@@ -5,7 +5,7 @@ export interface ApiResponse extends AxiosResponse {
 }
 
 export interface ApiResponseData {
-  result?: any
+  result: any
   message: null | string
   success: boolean
 }
