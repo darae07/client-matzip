@@ -28,10 +28,9 @@ const TeamPage: NextPageWithLayout = () => {
         <span className="mr-2 text-3xl">🤝</span> 동료에게 입장 코드를
         공유받으셨나요? 입장 코드로 회사에 합류해 보세요
       </WhiteRoundedCard>
-      <WhiteRoundedCard className="mb-4">
-        회사 정보
+      <div className="mb-4">
         <TeamInformation />
-      </WhiteRoundedCard>
+      </div>
       <WhiteRoundedCard className="mb-4">우리 회사 주변 맛집</WhiteRoundedCard>
       {showTeamCreateModal && <CreateTeamModal />}
     </div>
