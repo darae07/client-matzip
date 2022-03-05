@@ -5,6 +5,7 @@ import { NextPageWithLayout } from 'type/ui'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import CreateTeamModal from 'components/modal/team/CreateTeamModal'
+import { TeamInformation } from 'components/modules/team/TeamInformation'
 
 const TeamPage: NextPageWithLayout = () => {
   const router = useRouter()
@@ -27,7 +28,10 @@ const TeamPage: NextPageWithLayout = () => {
         <span className="mr-2 text-3xl">🤝</span> 동료에게 입장 코드를
         공유받으셨나요? 입장 코드로 회사에 합류해 보세요
       </WhiteRoundedCard>
-      <WhiteRoundedCard className="mb-4">회사 정보</WhiteRoundedCard>
+      <WhiteRoundedCard className="mb-4">
+        회사 정보
+        <TeamInformation />
+      </WhiteRoundedCard>
       <WhiteRoundedCard className="mb-4">우리 회사 주변 맛집</WhiteRoundedCard>
       {showTeamCreateModal && <CreateTeamModal />}
     </div>
