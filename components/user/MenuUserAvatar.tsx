@@ -1,15 +1,20 @@
 import { useAppSelector } from 'hooks'
 import { FC, Fragment } from 'react'
-import { UserCircleIcon, KeyIcon } from '@heroicons/react/outline'
+import { UserCircleIcon, KeyIcon, LogoutIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Popover, Transition } from '@headlessui/react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 import { PopoverContainer, PopoverItem } from 'components/popover/styledPopover'
+import { useAppDispatch } from 'hooks'
+import { logout } from 'api/auth/login'
 
 const MenuUserAvatar: FC = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)
+
+  const dispatch = useAppDispatch()
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   return (
     <div className="inline-block">
@@ -52,7 +57,7 @@ const MenuUserAvatar: FC = () => {
                           </div>
                         </PopoverItem>
                       ) : (
-                        <PopoverItem href="/">
+                        <PopoverItem href="/team">
                           <UserCircleIcon className="h-4 w-4" />
                           <div className="ml-4">
                             <p className="text-sm font-medium ">
@@ -66,6 +71,14 @@ const MenuUserAvatar: FC = () => {
                         <KeyIcon className="h-4 w-4" />
                         <div className="ml-4">
                           <p className="text-sm font-medium ">계정 설정</p>
+                        </div>
+                      </PopoverItem>
+                      <PopoverItem onClick={handleLogout}>
+                        <LogoutIcon className="h-4 w-4 text-red-500" />
+                        <div className="ml-4">
+                          <p className="text-sm font-medium text-red-500">
+                            로그아웃
+                          </p>
                         </div>
                       </PopoverItem>
                     </PopoverContainer>
