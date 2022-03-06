@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* z-index rule
+ 0-9 페이지 레이어
+ 10-14 헤더, 스티키 영역
+ 15 툴팁
+ 20 드랍다운
+ 21-29 모달
+ 30-39 토스트, 알림 */

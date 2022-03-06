@@ -8,7 +8,9 @@ interface InputProps {
 }
 
 const getClasses = (touched: boolean, errors: boolean) => {
-  const classes = []
+  const classes = [
+    `block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`,
+  ]
   if (touched && errors) {
     classes.push('border-red-500')
   }
@@ -38,7 +40,9 @@ export const Input: FC<InputProps & FieldProps> = ({
         {...field}
         {...props}
       />
-      {withFeedbackLabel && isTouched && fieldError && <div>{fieldError}</div>}
+      {withFeedbackLabel && isTouched && fieldError && (
+        <div className="mt-1 text-xs text-red-500">{fieldError}</div>
+      )}
     </div>
   )
 }
