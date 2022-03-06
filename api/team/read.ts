@@ -1,5 +1,6 @@
 import { authorizedInstance } from 'api/setupAxios'
 import { ApiResponse } from 'type/api'
+import { isValidId } from 'type/validation'
 
 export const retrieveTeam = async (teamId: number | undefined) => {
   try {
