@@ -1,13 +1,15 @@
 import { LoginForm } from 'components/forms/auth/LoginForm'
-import { useAppDispatch } from 'hooks'
+import { useAppDispatch, useAppSelector } from 'hooks'
 import { NextPageWithLayout } from 'type/ui'
 import KakaoLogin from 'react-kakao-login'
 import GoogleLogin from 'react-google-login'
 import { kakaoLogin, googleLogin } from 'api/auth/socialLogin'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 import AuthLayout from 'components/layout/AuthLayout'
 import { loginFail, logout } from 'api/auth/login'
 import Link from 'next/link'
+import { redirect } from 'next/dist/server/api-utils'
+import { useRouter } from 'next/router'
 
 const Login: NextPageWithLayout = () => {
   const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
@@ -32,6 +34,15 @@ const Login: NextPageWithLayout = () => {
   const handleLogout = () => {
     dispatch(logout())
   }
+
+  const user = useAppSelector((state) => state.user)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user.user) {
+      router.back()
+    }
+  }, [user])
 
   return (
     <div>
