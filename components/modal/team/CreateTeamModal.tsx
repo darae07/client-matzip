@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 import { CreateTeamForm } from 'components/forms/team/CreateTeamForm'
 import { XIcon } from '@heroicons/react/outline'
+import ModalTransition from '../ModalTransition'
 
 const CreateTeamModal = () => {
   const router = useRouter()
@@ -16,17 +17,9 @@ const CreateTeamModal = () => {
         onClose={closeModal}
       >
         <div className="min-h-screen px-4 text-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+          <ModalTransition>
             <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity" />
-          </Transition.Child>
+          </ModalTransition>
 
           {/* This element is to trick the browser into centering the modal contents. */}
           <span
@@ -35,15 +28,7 @@ const CreateTeamModal = () => {
           >
             &#8203;
           </span>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
-          >
+          <ModalTransition>
             <div className="my-8 inline-block w-full max-w-screen-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
               <button
                 type="button"
@@ -70,7 +55,7 @@ const CreateTeamModal = () => {
                 <CreateTeamForm />
               </div>
             </div>
-          </Transition.Child>
+          </ModalTransition>
         </div>
       </Dialog>
     </Transition>
