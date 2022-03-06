@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className="text-3xl underline" >
+        <h1 className="text-3xl underline">
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
@@ -70,3 +70,11 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export function getServerSideProps() {
+  return {
+    redirect: {
+      destination: '/home',
+    },
+  }
+}
