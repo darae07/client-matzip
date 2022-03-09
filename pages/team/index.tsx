@@ -24,14 +24,6 @@ const TeamPage: NextPageWithLayout = () => {
       {!team_profile && (
         <>
           <WhiteRoundedCard className="mb-4 cursor-pointer">
-            <Link href="/team" as="/team/create">
-              <div>
-                <span className="mr-2 text-3xl">👋 </span>서비스가 처음이신가요?
-                회사를 등록하고 동료들과 함께 점심을 즐기세요
-              </div>
-            </Link>
-          </WhiteRoundedCard>
-          <WhiteRoundedCard className="mb-4 cursor-pointer">
             <Link href="/team" as="/team/find">
               <div>
                 <span className="mr-2 text-3xl">🤝</span> 동료에게 입장 코드를
@@ -39,10 +31,22 @@ const TeamPage: NextPageWithLayout = () => {
               </div>
             </Link>
           </WhiteRoundedCard>
+          <WhiteRoundedCard className="mb-4 cursor-pointer">
+            <Link href="/team" as="/team/create">
+              <div>
+                <span className="mr-2 text-3xl">👋 </span>서비스가 처음이신가요?
+                회사를 등록하고 동료을 초대해서 함께 점심을 즐기세요
+              </div>
+            </Link>
+          </WhiteRoundedCard>
         </>
       )}
       {!!team_profile && (
         <>
+          <WhiteRoundedCard className="mb-4">
+            <span className="mr-2 text-3xl">🤝</span> 동료에게 입장 코드를
+            공유해 보세요
+          </WhiteRoundedCard>
           <div className="mb-4">
             <TeamInformation />
           </div>

@@ -51,6 +51,9 @@ const MenuUserAvatar: FC = () => {
                         <PopoverItem href="/">
                           <UserCircleIcon className="h-4 w-4" />
                           <div className="ml-4">
+                            <p className="font-semibold">
+                              {user.team_profile.member_name}
+                            </p>
                             <p className="text-sm font-medium ">
                               내 프로필 보기
                             </p>
@@ -61,7 +64,7 @@ const MenuUserAvatar: FC = () => {
                           <UserCircleIcon className="h-4 w-4" />
                           <div className="ml-4">
                             <p className="text-sm font-medium ">
-                              계정에 회사를 등록해 보세요.
+                              계정에 회사 연동하기
                             </p>
                           </div>
                         </PopoverItem>
