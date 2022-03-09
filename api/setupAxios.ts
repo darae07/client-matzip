@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { AxiosRequestConfig } from 'axios'
 import httpRequest from 'constants/httpRequest'
+import { openToast } from 'store/modules/ui/toast'
+
 import { getAccessToken } from './api'
 
 const anonymousInstance = axios.create({
@@ -9,14 +11,28 @@ const anonymousInstance = axios.create({
 const authorizedInstance = axios.create({
   baseURL: httpRequest.SERVICE_BASE_URL + 'api',
 })
-authorizedInstance.interceptors.request.use(async (config: any) => {
-  const accessToken = await getAccessToken()
-  if (accessToken) {
-    config.headers['Authorization'] = `Bearer ${accessToken}`
-  } else {
-    throw new axios.Cancel('로그인이 필요합니다.')
-  }
-  return config
-})
 
-export { anonymousInstance, authorizedInstance }
+const setupAxiosInterceptors = (store: any, router: any) => {
+  authorizedInstance.interceptors.request.use(
+    async (config: any) => {
+      try {
+        const accessToken = await getAccessToken()
+        if (accessToken) {
+          config.headers['Authorization'] = `Bearer ${accessToken}`
+        } else {
+          throw new axios.Cancel('로그인이 필요합니다.')
+        }
+        return config
+      } catch (error) {
+        router.push('/login')
+        store.dispatch(openToast(error.message))
+        return Promise.reject(error)
+      }
+    },
+    (error) => {
+      return Promise.reject(error)
+    },
+  )
+}
+
+export { anonymousInstance, authorizedInstance, setupAxiosInterceptors }
