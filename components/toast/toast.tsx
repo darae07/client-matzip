@@ -17,9 +17,8 @@ export const Toast: FC = () => {
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => {
-        handleCloseToast()
-      }, disappearTime)
+      const timeout = setTimeout(() => handleCloseToast(), disappearTime)
+      return () => clearTimeout(timeout)
     }
   }, [isOpen])
 
