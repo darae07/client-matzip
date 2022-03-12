@@ -5,6 +5,7 @@ import { WhiteRoundedCard } from 'components/card/styledCard'
 import { useAppSelector } from 'hooks'
 import Link from 'next/link'
 import PartyItemList from 'components/modules/party/PartyItemList'
+import MyPartyItemList from 'components/modules/party/MyPartyItemList'
 
 const PartyPage: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user)
@@ -23,7 +24,11 @@ const PartyPage: NextPageWithLayout = () => {
           </Link>
         </WhiteRoundedCard>
       )}
-      {team_profile && <PartyItemList />}
+      {team_profile && (
+        <div>
+          <PartyItemList />
+        </div>
+      )}
     </div>
   )
 }
