@@ -2,7 +2,7 @@ import axios from 'axios'
 import { AxiosRequestConfig } from 'axios'
 import httpRequest from 'constants/httpRequest'
 import { openToast } from 'store/modules/ui/toast'
-
+import toast from 'react-hot-toast'
 import { getAccessToken } from './api'
 
 const anonymousInstance = axios.create({
@@ -26,11 +26,11 @@ const setupAxiosInterceptors = (store: any, router: any) => {
       } catch (error) {
         router.push('/login')
         store.dispatch(openToast(error.message))
-        return Promise.reject(error)
+        return Promise.reject({ response: { data: { error } } })
       }
     },
     (error) => {
-      return Promise.reject(error)
+      return Promise.reject({ response: { data: { error } } })
     },
   )
 }
