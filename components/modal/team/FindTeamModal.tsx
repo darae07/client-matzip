@@ -2,7 +2,7 @@ import { FindTeamForm } from 'components/forms/team/FindTeamForm'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Team } from 'type/team'
-import PageModal from '../PageModal'
+import ContentModal from '../ContentModal'
 import { Field, Formik, Form } from 'formik'
 import { Input } from 'components'
 import * as Yup from 'yup'
@@ -16,6 +16,7 @@ import _ from 'lodash'
 import { teamCodeReg } from 'constants/validation'
 import { setUserTeamProfile } from 'store/modules/auth/user'
 import useMutationHandleError from 'hooks/useMutationHandleError'
+import { TeamMember } from 'type/user'
 
 const teamValues = {
   code: '',
@@ -49,7 +50,7 @@ const FindTeamModal = () => {
   const { mutate, isLoading } = useMutationHandleError(
     findTeamByCode,
     {
-      onSuccess: (data: ApiResponseData) => {
+      onSuccess: (data: ApiResponseData<Team>) => {
         const { message, result } = data
         // dispatch(openToast(message || '회사를 찾았습니다.'))
         queryClient.setQueryData(['foundTeam'], result)
@@ -68,10 +69,10 @@ const FindTeamModal = () => {
   const handleJoinTeam = (values: CreateMembershipValue) => {
     joinMutation.mutate(values)
   }
-  const joinMutation = useMutationHandleError(
+  const joinMutation = useMutationHandleError<TeamMember>(
     joinTeam,
     {
-      onSuccess: (data: ApiResponseData) => {
+      onSuccess: (data: ApiResponseData<TeamMember>) => {
         const { message, result } = data
         dispatch(openToast(message || '회사에 가입했습니다.'))
         dispatch(setUserTeamProfile(result))
@@ -82,7 +83,7 @@ const FindTeamModal = () => {
 
   const data: Team | undefined = queryClient.getQueryData(['foundTeam'])
   return (
-    <PageModal closeAction={closeModal} title="회사 합류하기">
+    <ContentModal closeAction={closeModal} title="회사 합류하기">
       {!data && (
         <div className="mt-2 justify-between md:flex">
           <p className="mb-4 text-sm text-gray-700">
@@ -157,7 +158,7 @@ const FindTeamModal = () => {
           </div>
         </div>
       )}
-    </PageModal>
+    </ContentModal>
   )
 }
 
