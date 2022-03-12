@@ -8,9 +8,9 @@ const PartyItemList: FC = () => {
   const { data, error, isLoading } = useQuery(['party'], listParty)
 
   return (
-    <div>
-      {data.results?.map((party: Party) => (
-        <PartyItem party={party} />
+    <div className="grid gap-4 md:grid-cols-3">
+      {data?.results?.map((party: Party) => (
+        <PartyItem party={party} key={party.id} />
       ))}
     </div>
   )

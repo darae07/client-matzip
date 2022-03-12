@@ -4,6 +4,7 @@ export type Keyword = {
   hit_count: number
   eat_count: number
   team: number
+  category?: Category
 }
 
 export type Category = {
