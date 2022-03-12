@@ -15,6 +15,7 @@ import { useAppDispatch } from 'hooks'
 import _ from 'lodash'
 import { teamCodeReg } from 'constants/validation'
 import { setUserTeamProfile } from 'store/modules/auth/user'
+import useMutationHandleError from 'hooks/useMutationHandleError'
 
 const teamValues = {
   code: '',
@@ -45,19 +46,17 @@ const FindTeamModal = () => {
   const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
 
-  const { mutate, isLoading } = useMutation(findTeamByCode, {
-    onSuccess: (data: ApiResponseData) => {
-      const { message, result } = data
-      dispatch(openToast(message || '회사를 찾았습니다.'))
-      queryClient.setQueryData(['foundTeam'], result)
+  const { mutate, isLoading } = useMutationHandleError(
+    findTeamByCode,
+    {
+      onSuccess: (data: ApiResponseData) => {
+        const { message, result } = data
+        dispatch(openToast(message || '회사를 찾았습니다.'))
+        queryClient.setQueryData(['foundTeam'], result)
+      },
     },
-    onError: (error: ApiErrorResponse) => {
-      const { message } = error.response.data
-      dispatch(
-        openToast(_.isString(message) ? message : '회사를 찾을 수 없습니다.'),
-      )
-    },
-  })
+    '회사를 찾을 수 없습니다.',
+  )
 
   const joinTeamSchema = Yup.object().shape({
     member_name: Yup.string()
@@ -69,19 +68,17 @@ const FindTeamModal = () => {
   const handleJoinTeam = (values: CreateMembershipValue) => {
     joinMutation.mutate(values)
   }
-  const joinMutation = useMutation(joinTeam, {
-    onSuccess: (data: ApiResponseData) => {
-      const { message, result } = data
-      dispatch(openToast(message || '회사에 가입했습니다.'))
-      dispatch(setUserTeamProfile(result))
+  const joinMutation = useMutationHandleError(
+    joinTeam,
+    {
+      onSuccess: (data: ApiResponseData) => {
+        const { message, result } = data
+        dispatch(openToast(message || '회사에 가입했습니다.'))
+        dispatch(setUserTeamProfile(result))
+      },
     },
-    onError: (error: ApiErrorResponse) => {
-      const { message } = error.response.data
-      dispatch(
-        openToast(_.isString(message) ? message : '회사에 가입할 수 없습니다.'),
-      )
-    },
-  })
+    '회사에 가입할 수 없습니다.',
+  )
 
   const data: Team | undefined = queryClient.getQueryData(['foundTeam'])
   return (
