@@ -1,9 +1,20 @@
 import { SignUpForm } from 'components/forms/auth/SignUpForm'
 import AuthLayout from 'components/layout/AuthLayout'
-import { ReactElement } from 'react'
+import { useAppSelector } from 'hooks'
+import { useRouter } from 'next/router'
+import { ReactElement, useEffect } from 'react'
 import { NextPageWithLayout } from 'type/ui'
 
 const SignUp: NextPageWithLayout = () => {
+  const user = useAppSelector((state) => state.user)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user.user) {
+      router.push('/home')
+    }
+  }, [user])
+
   return (
     <div>
       <p className="mb-4 text-slate-500 md:text-sm">
