@@ -51,7 +51,7 @@ const FindTeamModal = () => {
     {
       onSuccess: (data: ApiResponseData) => {
         const { message, result } = data
-        dispatch(openToast(message || '회사를 찾았습니다.'))
+        // dispatch(openToast(message || '회사를 찾았습니다.'))
         queryClient.setQueryData(['foundTeam'], result)
       },
     },
