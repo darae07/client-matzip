@@ -1,15 +1,22 @@
 import { AxiosResponse, AxiosError } from 'axios'
 
-export interface ApiResponse extends AxiosResponse {
-  data: ApiResponseData
+export interface ApiResponse<ResultT> extends AxiosResponse {
+  data: ApiResponseData<ResultT>
 }
 
-export interface ApiResponseData {
-  result: any
+export interface ApiResponseData<ResultT> {
+  result: ResultT
   message: null | string
   success: boolean
 }
 
-export interface ApiErrorResponse extends AxiosError {
-  response: ApiResponse
+export interface ApiErrorResponse<ResultT> extends AxiosError {
+  response: ApiResponse<ResultT>
+}
+
+export type PaginatedResult<ResultT> = {
+  count: 2
+  next: null
+  previous: null
+  results: Array<ResultT>
 }
