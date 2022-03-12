@@ -1,11 +1,15 @@
 import { listParty } from 'api/party'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
+import { PaginatedResult } from 'type/api'
 import { Party } from 'type/party'
 import PartyItem from './PartyItem'
 
 const PartyItemList: FC = () => {
-  const { data, error, isLoading } = useQuery(['party'], listParty)
+  const { data, error, isLoading } = useQuery<PaginatedResult<Party>>(
+    ['party'],
+    listParty,
+  )
 
   return (
     <div className="grid gap-4 md:grid-cols-3">

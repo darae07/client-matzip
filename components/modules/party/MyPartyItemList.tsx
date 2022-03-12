@@ -5,7 +5,7 @@ import { Party } from 'type/party'
 import PartyItem from './PartyItem'
 
 const MyPartyItemList: FC = () => {
-  const { data, error, isLoading } = useQuery(['myParty'], listMyParty)
+  const { data, error, isLoading } = useQuery<Party[]>(['myParty'], listMyParty)
 
   return (
     <div className="grid grid-cols-1 gap-4">
