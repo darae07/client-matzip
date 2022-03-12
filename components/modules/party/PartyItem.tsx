@@ -1,5 +1,6 @@
 import { WhiteRoundedCard } from 'components/card/styledCard'
 import { UserAvatar, UserAvatarTooltip } from 'components/user/UserAvatar'
+import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { Party } from 'type/party'
 
@@ -7,8 +8,10 @@ type PartyItemProps = {
   party: Party
 }
 const PartyItem: FC<PartyItemProps> = ({ party }) => {
+  const router = useRouter()
+  const goDetail = () => router.push(`/party/${party.id}`)
   return (
-    <WhiteRoundedCard>
+    <WhiteRoundedCard onClick={goDetail}>
       <div className="mb-1 flex items-center">
         <span className="mr-2 rounded border border-blue-500 p-1 text-xs text-blue-500">
           {party.keyword.category?.name}

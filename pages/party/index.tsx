@@ -6,6 +6,7 @@ import { useAppSelector } from 'hooks'
 import Link from 'next/link'
 import PartyItemList from 'components/modules/party/PartyItemList'
 import MyPartyItemList from 'components/modules/party/MyPartyItemList'
+import CategoryFilter from 'components/modules/party/CategoryFilter'
 
 const PartyPage: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user)
@@ -13,7 +14,6 @@ const PartyPage: NextPageWithLayout = () => {
 
   return (
     <div>
-      party
       {!team_profile && (
         <WhiteRoundedCard className="mb-4 cursor-pointer">
           <Link href="/team">
@@ -26,6 +26,8 @@ const PartyPage: NextPageWithLayout = () => {
       )}
       {team_profile && (
         <div>
+          <CategoryFilter />
+          <div className="mb-4"></div>
           <PartyItemList />
         </div>
       )}
