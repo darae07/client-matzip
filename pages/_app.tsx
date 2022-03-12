@@ -7,9 +7,12 @@ import { injectStore, setupAxiosInterceptors } from 'api'
 import { Toast } from 'components/toast/toast'
 import { AppPropsWithLayout } from 'type/ui'
 import { ReactNode, useEffect } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from 'components/error/ErrorFallback'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 export default wrapper.withRedux(
   ({ Component, pageProps }: AppPropsWithLayout) => {
@@ -18,19 +21,28 @@ export default wrapper.withRedux(
     const router = useRouter()
 
     injectStore(store)
-    useEffect(() => {
-      setupAxiosInterceptors(store, router)
-    }, [])
+    setupAxiosInterceptors(store, router)
 
     const getLayout = Component.getLayout ?? ((page: ReactNode) => page)
-    const queryClient = new QueryClient()
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        mutations: {
+          // useErrorBoundary: true,
+        },
+      },
+      queryCache: new QueryCache({
+        onError: (error: any) => toast.error(error.message),
+      }),
+    })
 
     return (
       <>
         <PersistGate persistor={persistor} loading={null}>
           <QueryClientProvider client={queryClient}>
             <Toast />
-            {getLayout(<Component {...pageProps} />)}
+            <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => {}}>
+              {getLayout(<Component {...pageProps} />)}
+            </ErrorBoundary>
             <ReactQueryDevtools />
           </QueryClientProvider>
         </PersistGate>
