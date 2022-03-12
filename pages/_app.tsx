@@ -12,7 +12,6 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from 'components/error/ErrorFallback'
 import { useRouter } from 'next/router'
-import toast from 'react-hot-toast'
 
 export default wrapper.withRedux(
   ({ Component, pageProps }: AppPropsWithLayout) => {
@@ -30,9 +29,7 @@ export default wrapper.withRedux(
           // useErrorBoundary: true,
         },
       },
-      queryCache: new QueryCache({
-        onError: (error: any) => toast.error(error.message),
-      }),
+      queryCache: new QueryCache({}),
     })
 
     return (

@@ -2,7 +2,6 @@ import axios from 'axios'
 import { AxiosRequestConfig } from 'axios'
 import httpRequest from 'constants/httpRequest'
 import { openToast } from 'store/modules/ui/toast'
-import toast from 'react-hot-toast'
 import { getAccessToken } from './api'
 
 const anonymousInstance = axios.create({
