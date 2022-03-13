@@ -11,3 +11,12 @@ export type Category = {
   id: number
   name: string
 }
+
+export type Marker = {
+  position: {
+    lat: number
+    lng: number
+  }
+  content: string
+  place_url: string
+}
