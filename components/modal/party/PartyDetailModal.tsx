@@ -7,6 +7,9 @@ import PageModal from '../PageModal'
 import { UserAvatarTooltip } from 'components/user/UserAvatar'
 import { Party } from 'type/party'
 import { KakaoMap } from 'components/modules/keyword'
+import { useAppSelector } from 'hooks'
+import { retrieveTeam } from 'api/team'
+import { Team } from 'type/team'
 
 const PartyDetailModal: FC = () => {
   const router = useRouter()
@@ -17,6 +20,18 @@ const PartyDetailModal: FC = () => {
     ['partyItem', id],
     () => retrieveParty<Party>(id),
     { enabled: !!id },
+  )
+
+  const user = useAppSelector((state) => state.user)
+  const team_profile = user.user?.team_profile
+  const teamId = team_profile?.team
+
+  const myTeam = useQuery(
+    ['myTeam', teamId],
+    () => retrieveTeam<Team>(teamId),
+    {
+      enabled: !!teamId,
+    },
   )
   if (data)
     return (
@@ -47,9 +62,14 @@ const PartyDetailModal: FC = () => {
             </div>
           </div>
         </WhiteRoundedCard>
-        <WhiteRoundedCard className="h-72">
-          <KakaoMap />
-        </WhiteRoundedCard>
+        {myTeam.data && (
+          <WhiteRoundedCard className="h-72">
+            <KakaoMap
+              location={myTeam.data.location}
+              keyword={data.keyword.name}
+            />
+          </WhiteRoundedCard>
+        )}
       </div>
     )
   return <></>
