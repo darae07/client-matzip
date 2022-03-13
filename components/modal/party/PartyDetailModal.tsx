@@ -6,6 +6,7 @@ import { useQuery } from 'react-query'
 import PageModal from '../PageModal'
 import { UserAvatarTooltip } from 'components/user/UserAvatar'
 import { Party } from 'type/party'
+import { KakaoMap } from 'components/modules/keyword'
 
 const PartyDetailModal: FC = () => {
   const router = useRouter()
@@ -20,7 +21,7 @@ const PartyDetailModal: FC = () => {
   if (data)
     return (
       <div>
-        <WhiteRoundedCard>
+        <WhiteRoundedCard className="mb-4">
           <div className="mb-1 flex items-center">
             <span className="mr-2 rounded border border-blue-500 p-1 text-xs text-blue-500">
               {data.keyword.category?.name}
@@ -30,14 +31,24 @@ const PartyDetailModal: FC = () => {
 
           <span className="text-blue-500">#{data.keyword.name}</span>
 
-          <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
-            {data.membership.map((membership) => (
-              <UserAvatarTooltip
-                user={membership.team_member}
-                key={membership.id}
-              />
-            ))}
+          <div className="my-4 flex justify-between border border-white border-y-gray-200 py-3">
+            <div className="flex -space-x-1">
+              {data.membership.map((membership) => (
+                <UserAvatarTooltip
+                  user={membership.team_member}
+                  key={membership.id}
+                />
+              ))}
+            </div>
+            <div>
+              <button className="rounded bg-blue-600 p-2 px-3 text-sm text-white">
+                같이갈래요
+              </button>
+            </div>
           </div>
+        </WhiteRoundedCard>
+        <WhiteRoundedCard className="h-72">
+          <KakaoMap />
         </WhiteRoundedCard>
       </div>
     )

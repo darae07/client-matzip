@@ -12,6 +12,13 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from 'components/error/ErrorFallback'
 import { useRouter } from 'next/router'
+import Script from 'next/script'
+
+declare global {
+  interface Window {
+    kakao: any
+  }
+}
 
 export default wrapper.withRedux(
   ({ Component, pageProps }: AppPropsWithLayout) => {
@@ -32,8 +39,15 @@ export default wrapper.withRedux(
       queryCache: new QueryCache({}),
     })
 
+    const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
+
     return (
       <>
+        <Script
+          id="kakao-sdk"
+          type="text/javascript"
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&autoload=false`}
+        />
         <PersistGate persistor={persistor} loading={null}>
           <QueryClientProvider client={queryClient}>
             <Toast />
