@@ -45,6 +45,13 @@ const PartyDetailModal: FC = () => {
           </div>
 
           <span className="text-blue-500">#{data.keyword.name}</span>
+          <div className="mt-1 text-sm">
+            <p>키워드 인기도</p>
+            <p>동료들이 검색한 횟수: {data.keyword.hit_count}</p>
+            <p>동료들이 식사한 횟수: {data.keyword.eat_count}</p>
+          </div>
+
+          <div className="mt-2 text-sm">{data.description}</div>
 
           <div className="my-4 flex justify-between border border-white border-y-gray-200 py-3">
             <div className="flex -space-x-1">
