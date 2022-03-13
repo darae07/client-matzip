@@ -1,8 +1,9 @@
 import { ReactElement } from 'react'
 import HomeLayout from 'components/layout/HomeLayout'
 import PartyDetailModal from 'components/modal/party/PartyDetailModal'
+import { NextPageWithLayout } from 'type/ui'
 
-const PartyDetail = () => {
+const PartyDetail: NextPageWithLayout = () => {
   return <PartyDetailModal />
 }
 
