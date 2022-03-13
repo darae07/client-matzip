@@ -1,18 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
+import { Marker } from 'type/lunch'
 
 type KakaoMapProps = {
   location: string | null
   keyword: string | null
 }
-type Marker = {
-  position: {
-    lat: number
-    lng: number
-  }
-  content: string
-  place_url: string
-}
+
 const KakaoMap = ({ location, keyword }: KakaoMapProps) => {
   const [info, setInfo] = useState()
   const [markers, setMarkers] = useState<Marker[]>([])
