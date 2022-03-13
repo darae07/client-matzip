@@ -1,3 +1,5 @@
+import { TeamMember } from './user'
+
 export interface CreateTeamValue {
   name: string
   location: string
@@ -15,6 +17,10 @@ export interface Team {
   location: string
   name: string
   title: string | null
+}
+
+export interface CreateTeam extends Team {
+  team_profile: TeamMember
 }
 
 export interface CreateMembershipValue {

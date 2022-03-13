@@ -1,6 +1,6 @@
 import { Field, Formik, Form } from 'formik'
 import { Input } from 'components'
-import { SearchIcon } from '@heroicons/react/outline'
+import { SearchIcon, CheckIcon } from '@heroicons/react/outline'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import { useState } from 'react'
 import { Marker } from 'type/lunch'
@@ -19,8 +19,9 @@ type Keyword = {
 
 type SearchKeywordMapProps = {
   setKeyword: Function
+  keyword: string | null
 }
-const SearchKeywordMap = ({ setKeyword }: SearchKeywordMapProps) => {
+const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
   const [markers, setMarkers] = useState<Marker[]>([])
   const [map, setMap] = useState<any>()
   const [noData, setNoData] = useState(true)
@@ -96,9 +97,14 @@ const SearchKeywordMap = ({ setKeyword }: SearchKeywordMapProps) => {
                 name="keyword"
                 component={Input}
                 value={values.keyword}
-                placeholder="맛집 이름"
+                placeholder="맛집 이름을 입력해 주세요"
                 className="w-full"
               />
+              {keyword && (
+                <div className="p-2 text-green-500">
+                  <CheckIcon className=" h-6 w-6" />
+                </div>
+              )}
               <button
                 type="button"
                 onClick={() => handleSubmit()}
@@ -111,7 +117,14 @@ const SearchKeywordMap = ({ setKeyword }: SearchKeywordMapProps) => {
         )}
       </Formik>
 
-      <div className={`${noData ? '' : ''} mt-2 h-36 w-full`}>
+      <div className={` relative mt-2 h-36 w-full`}>
+        <div
+          className={`absolute z-10 h-36 w-full bg-white text-sm text-gray-500 ${
+            !noData && 'hidden'
+          }`}
+        >
+          맛집 이름을 검색하고 지도에서 지점을 선택해주세요
+        </div>
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }}
           style={{ width: '100%', height: '100%' }}

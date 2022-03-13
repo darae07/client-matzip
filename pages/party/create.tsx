@@ -6,10 +6,22 @@ import { Field, Formik, Form } from 'formik'
 import { Input } from 'components'
 import * as Yup from 'yup'
 import { SearchKeywordMap, SearchCategory } from 'components/modules/party'
+import { useAppDispatch } from 'hooks'
+import { openToast } from 'store/modules/ui/toast'
+import useMutationHandleError from 'hooks/useMutationHandleError'
+import { createParty } from 'api/party/create'
+import { ApiResponseData } from 'type/api'
+import { Party } from 'type/party'
+import { useQueryClient } from 'react-query'
 
 const partyValue = {
   name: '',
   description: '',
+}
+
+type PartyCreateValue = {
+  name: string
+  description: string | null
 }
 
 const PartyCreate: NextPageWithLayout = () => {
@@ -20,7 +32,31 @@ const PartyCreate: NextPageWithLayout = () => {
   const [keyword, setKeyword] = useState(null)
   const [category, setCategory] = useState(null)
 
-  const handelCreateParty = (values) => {}
+  const dispatch = useAppDispatch()
+  const queryClient = useQueryClient()
+
+  const handelCreateParty = (values: PartyCreateValue) => {
+    if (!keyword) {
+      dispatch(openToast('맛집 이름을 입력해 주세요'))
+      return
+    }
+    if (!category) {
+      dispatch(openToast('카테고리를 선택해 주세요'))
+      return
+    }
+    mutate({ ...values, keyword, category })
+  }
+
+  const { mutate, isLoading } = useMutationHandleError(
+    createParty,
+    {
+      onSuccess: (data: ApiResponseData<Party>) => {
+        const { message, result } = data
+        dispatch(openToast(message || '오늘의 메뉴를 등록했습니다.'))
+      },
+    },
+    '오늘의 메뉴를 등록할 수 없습니다.',
+  )
 
   return (
     <div>
@@ -42,10 +78,10 @@ const PartyCreate: NextPageWithLayout = () => {
                   name="name"
                   component={Input}
                   value={values.name}
-                  placeholder="제목을 입력해 주세요"
+                  placeholder="게시글 제목을 입력해 주세요"
                 />
                 <div className="mt-2.5"></div>
-                <SearchKeywordMap setKeyword={setKeyword} />
+                <SearchKeywordMap setKeyword={setKeyword} keyword={keyword} />
                 <div className="mt-4"></div>
                 <SearchCategory setCategory={setCategory} category={category} />
                 <Field
@@ -59,6 +95,7 @@ const PartyCreate: NextPageWithLayout = () => {
                 <div className="mb-2.5"></div>
                 <button
                   type="submit"
+                  disabled={isLoading}
                   onSubmit={() => handleSubmit()}
                   className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >

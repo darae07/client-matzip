@@ -23,3 +23,10 @@ export type PartyMembership = {
   status: number
   party: number
 }
+
+export type CreatePartyValue = {
+  name: string
+  keyword: string
+  category: number
+  description?: string
+}
