@@ -30,27 +30,27 @@ export const CreateTeamForm: FC = () => {
       .matches(locationDongReg, '위치를 동단위로 입력해 주세요'),
   })
 
-  const handleCreateTeam = (values: CreateTeamValue) => {
-    mutate(values)
-  }
+  // const handleCreateTeam = (values: CreateTeamValue) => {
+  //   mutate(values)
+  // }
 
-  const dispatch = useAppDispatch()
-  const queryClient = useQueryClient()
+  // const dispatch = useAppDispatch()
+  // const queryClient = useQueryClient()
 
-  const { mutate, isLoading } = useMutation(createTeam, {
-    onSuccess: (data: ApiResponseData) => {
-      const { message, result } = data
-      dispatch(openToast(message || '회사를 생성했습니다.'))
-      queryClient.setQueryData(['myTeam'], result)
-      dispatch(setUserTeamProfile(result.team_profile))
-    },
-    onError: (error: ApiErrorResponse) => {
-      const { message } = error.response.data
-      dispatch(
-        openToast(_.isString(message) ? message : '회사를 생성할 수 없습니다.'),
-      )
-    },
-  })
+  // const { mutate, isLoading } = useMutation(createTeam, {
+  //   onSuccess: (data: ApiResponseData) => {
+  //     const { message, result } = data
+  //     dispatch(openToast(message || '회사를 생성했습니다.'))
+  //     queryClient.setQueryData(['myTeam'], result)
+  //     dispatch(setUserTeamProfile(result.team_profile))
+  //   },
+  //   onError: (error: ApiErrorResponse) => {
+  //     const { message } = error.response.data
+  //     dispatch(
+  //       openToast(_.isString(message) ? message : '회사를 생성할 수 없습니다.'),
+  //     )
+  //   },
+  // })
 
   return (
     <div>
@@ -58,7 +58,7 @@ export const CreateTeamForm: FC = () => {
         enableReinitialize={true}
         initialValues={teamValues}
         validationSchema={teamFormSchema}
-        onSubmit={(values) => handleCreateTeam(values)}
+        onSubmit={(values) => {}}
       >
         {({ handleSubmit, values }) => (
           <Form>
@@ -78,7 +78,7 @@ export const CreateTeamForm: FC = () => {
             <div className="mb-2.5"></div>
             <button
               type="submit"
-              disabled={isLoading}
+              // disabled={isLoading}
               onSubmit={() => handleSubmit()}
               className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
             >
