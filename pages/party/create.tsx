@@ -5,7 +5,7 @@ import { NextPageWithLayout } from 'type/ui'
 import { Field, Formik, Form } from 'formik'
 import { Input } from 'components'
 import * as Yup from 'yup'
-import { SearchKeywordMap } from 'components/modules/party/SearchKeywordMap'
+import { SearchKeywordMap, SearchCategory } from 'components/modules/party'
 
 const partyValue = {
   name: '',
@@ -25,7 +25,10 @@ const PartyCreate: NextPageWithLayout = () => {
   return (
     <div>
       <WhiteRoundedCard>
-        <div>오늘의 메뉴 등록하기</div>
+        <div className="text-xl font-bold">오늘의 메뉴 등록하기</div>
+        <p className="mb-4 mt-1 text-sm">
+          동료들과 오늘 먹고 싶은 점심 메뉴를 등록해 보세요.
+        </p>
         <div>
           <Formik
             enableReinitialize={true}
@@ -43,6 +46,8 @@ const PartyCreate: NextPageWithLayout = () => {
                 />
                 <div className="mt-2.5"></div>
                 <SearchKeywordMap setKeyword={setKeyword} />
+                <div className="mt-4"></div>
+                <SearchCategory setCategory={setCategory} category={category} />
                 <Field
                   name="description"
                   type="textarea"
