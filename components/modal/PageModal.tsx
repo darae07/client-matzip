@@ -5,7 +5,7 @@ import { Fragment } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 import ModalTransition from 'components/modal/ModalTransition'
 
-const PageModal = ({ children, closeAction, title }: ModalLayoutProps) => {
+const PageModal = ({ children, closeAction }: ModalLayoutProps) => {
   const router = useRouter()
   const closeModal = () => {
     if (closeAction) closeAction()
@@ -31,7 +31,7 @@ const PageModal = ({ children, closeAction, title }: ModalLayoutProps) => {
             &#8203;
           </span>
           <ModalTransition>
-            <div className="my-8 inline-block w-full max-w-screen-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+            <div className="my-8 inline-block w-full max-w-screen-md transform overflow-y-auto overflow-x-hidden bg-white p-6 text-left align-middle shadow-xl transition-all">
               <button
                 type="button"
                 className="absolute right-6 text-gray-400"
@@ -39,13 +39,6 @@ const PageModal = ({ children, closeAction, title }: ModalLayoutProps) => {
               >
                 <XIcon className="h-6 w-6" />
               </button>
-              <Dialog.Title
-                as="h3"
-                className="text-lg font-medium leading-6 text-gray-900"
-              >
-                {title}
-              </Dialog.Title>
-
               {children}
             </div>
           </ModalTransition>

@@ -17,5 +17,5 @@ export type AppPropsWithLayout = AppProps & {
 export interface ModalLayoutProps {
   children: React.ReactNode
   closeAction?: Function
-  title: string
+  title?: string
 }

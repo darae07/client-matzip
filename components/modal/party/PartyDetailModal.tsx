@@ -11,10 +11,12 @@ import { useAppSelector } from 'hooks'
 import { retrieveTeam } from 'api/team'
 import { Team } from 'type/team'
 
-const PartyDetailModal: FC = () => {
+type Props = {
+  id: string | string[] | undefined
+}
+const PartyDetailModal = ({ id }: Props) => {
   const router = useRouter()
   const closeModal = () => router.push('/party')
-  const { id } = router.query
 
   const { data, error, isLoading } = useQuery(
     ['partyItem', id],
@@ -35,7 +37,7 @@ const PartyDetailModal: FC = () => {
   )
   if (data)
     return (
-      <div>
+      <PageModal closeAction={closeModal}>
         <WhiteRoundedCard className="mb-4">
           <div className="mb-1 flex items-center">
             <span className="mr-2 rounded border border-blue-500 p-1 text-xs text-blue-500">
@@ -77,7 +79,7 @@ const PartyDetailModal: FC = () => {
             />
           </WhiteRoundedCard>
         )}
-      </div>
+      </PageModal>
     )
   return <></>
 }

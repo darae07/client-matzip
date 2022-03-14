@@ -7,10 +7,18 @@ import Link from 'next/link'
 import PartyItemList from 'components/modules/party/PartyItemList'
 import MyPartyItemList from 'components/modules/party/MyPartyItemList'
 import CategoryFilter from 'components/modules/party/CategoryFilter'
+import { useRouter } from 'next/router'
+import _ from 'lodash'
+import PartyDetailModal from 'components/modal/party/PartyDetailModal'
 
 const PartyPage: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
+
+  const router = useRouter()
+  const detailId = router.query.id
+
+  const showDetailModal = !_.isNil(detailId)
 
   return (
     <div>
@@ -30,7 +38,8 @@ const PartyPage: NextPageWithLayout = () => {
           <div className="mb-4"></div>
           <PartyItemList />
         </div>
-      )}
+      )}{' '}
+      {showDetailModal && <PartyDetailModal id={detailId} />}
     </div>
   )
 }
