@@ -16,6 +16,7 @@ export const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
           height={24}
           src={user.image}
           className="h-6 w-6 rounded-full"
+          alt="user-image"
         />
       ) : (
         <div className="flex h-6 w-6 cursor-default items-center justify-center rounded-full border border-gray-300 bg-white text-center text-xs">

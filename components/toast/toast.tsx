@@ -11,16 +11,16 @@ export const Toast: FC = () => {
   }))
 
   const dispatch = useAppDispatch()
-  const handleCloseToast = () => {
-    dispatch(closeToast())
-  }
 
   useEffect(() => {
     if (isOpen) {
+      const handleCloseToast = () => {
+        dispatch(closeToast())
+      }
       const timeout = setTimeout(() => handleCloseToast(), disappearTime)
       return () => clearTimeout(timeout)
     }
-  }, [isOpen])
+  }, [isOpen, disappearTime, dispatch])
 
   const toastRef = useRef(null)
 

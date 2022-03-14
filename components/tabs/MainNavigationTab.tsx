@@ -17,13 +17,15 @@ const navigationTabList = [
   { icon: <HomeIcon />, href: '/home', text: '홈' },
 ]
 
-const MainNavigationTab: FC = () => {
+const MainNavigationTab: FC<{ className?: string }> = ({ className }) => {
   const router = useRouter()
 
   return (
-    <div className="fixed -bottom-[97vh] z-10 flex w-full bg-white sm:static sm:w-fit ">
+    <div
+      className={`${className} fixed bottom-0 z-10 flex h-full w-full bg-white sm:static sm:w-fit`}
+    >
       {navigationTabList.map((nav, i) => (
-        <Link href={nav.href} key={i}>
+        <Link href={nav.href} key={i} passHref>
           <TabItem selected={nav.href === router.pathname}>
             {nav.icon}
             <span>{nav.text}</span>

@@ -30,6 +30,7 @@ const MenuUserAvatar: FC = () => {
                       width={24}
                       height={24}
                       className="h-6 w-6 rounded-full"
+                      alt="user-image"
                     />
                   ) : (
                     <UserCircleIcon className="h-6 w-6" />

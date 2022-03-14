@@ -13,7 +13,7 @@ const SignUp: NextPageWithLayout = () => {
     if (user.user) {
       router.push('/home')
     }
-  }, [user])
+  }, [user, router])
 
   return (
     <div>
