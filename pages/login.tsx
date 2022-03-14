@@ -42,7 +42,7 @@ const Login: NextPageWithLayout = () => {
     if (user.user) {
       router.back()
     }
-  }, [user])
+  }, [user, router])
 
   return (
     <div>

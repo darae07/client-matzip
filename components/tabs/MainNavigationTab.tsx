@@ -25,7 +25,7 @@ const MainNavigationTab: FC<{ className?: string }> = ({ className }) => {
       className={`${className} fixed bottom-0 z-10 flex h-full w-full bg-white sm:static sm:w-fit`}
     >
       {navigationTabList.map((nav, i) => (
-        <Link href={nav.href} key={i}>
+        <Link href={nav.href} key={i} passHref>
           <TabItem selected={nav.href === router.pathname}>
             {nav.icon}
             <span>{nav.text}</span>

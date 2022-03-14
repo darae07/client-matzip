@@ -24,7 +24,7 @@ const PartyPage: NextPageWithLayout = () => {
     <div>
       {!team_profile && (
         <WhiteRoundedCard className="mb-4 cursor-pointer">
-          <Link href="/team">
+          <Link href="/team" passHref>
             <div>
               <span className="mr-2 text-3xl">👋</span> 계정에 회사를 연동하면
               동료들이 오늘 먹고싶은 점심 메뉴를 볼 수 있어요

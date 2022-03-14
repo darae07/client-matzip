@@ -14,6 +14,7 @@ const PartyItem: FC<PartyItemProps> = ({ party }) => {
       href={`/party?id=${party.id}`}
       as={`/party/${party.id}`}
       scroll={false}
+      passHref
     >
       <WhiteRoundedCard>
         <div className="mb-1 flex items-center">
