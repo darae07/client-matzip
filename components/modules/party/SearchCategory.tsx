@@ -15,7 +15,7 @@ const SearchCategory = ({ category, setCategory }: SearchCategoryProps) => {
   )
   if (data)
     return (
-      <div className={`grid grid-cols-${data.results.length} gap-2`}>
+      <div className={`gird grid-cols-4 gap-4 sm:grid-cols-7 `}>
         {data.results.map((cat) => (
           <button
             key={cat.id}

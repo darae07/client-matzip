@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react'
 import { WhiteRoundedCard } from 'components/card/styledCard'
 import { PlusIcon } from '@heroicons/react/outline'
+import { HeartIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 import { SearchCategory } from './SearchCategory'
 
@@ -14,17 +15,19 @@ const CategoryFilter: FC = () => {
 
   return (
     <WhiteRoundedCard>
-      <div className="flex">
-        <div className="w-3/4 border-r pr-4">
+      <div className="flex justify-between">
+        <div className=" border-r pr-4">
           <SearchCategory setCategory={setCategory} category={category} />
         </div>
-        <div className="flex w-1/4 justify-between px-4">
-          <button className="">내파티 보기</button>
+        <div className="flex justify-between ">
+          <button className="my-auto ml-4 mr-2 max-h-10 rounded-lg border border-blue-200 p-1.5">
+            <HeartIcon className="h-4 w-4 text-blue-500" />
+          </button>
           <button
             onClick={createParty}
-            className="rounded-full bg-blue-500 p-1"
+            className="my-auto max-h-10 rounded-lg bg-blue-500 p-1.5"
           >
-            <PlusIcon className="h-8 w-8 text-white" />
+            <PlusIcon className="h-4 w-4 text-white" />
           </button>
         </div>
       </div>
