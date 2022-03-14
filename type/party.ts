@@ -30,3 +30,8 @@ export type CreatePartyValue = {
   category: number
   description?: string
 }
+
+export type joinPartyValue = {
+  party: number
+  invite_reason?: string
+}
