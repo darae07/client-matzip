@@ -22,7 +22,7 @@ const MainNavigationTab: FC<{ className?: string }> = ({ className }) => {
 
   return (
     <div
-      className={`${className} fixed bottom-0 z-10 flex h-full w-full bg-white sm:static sm:w-fit`}
+      className={`${className} fixed bottom-0 z-[15] flex w-full bg-white sm:static sm:w-fit`}
     >
       {navigationTabList.map((nav, i) => (
         <Link href={nav.href} key={i} passHref>
