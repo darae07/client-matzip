@@ -10,7 +10,7 @@ const MyPartyItemList: FC = () => {
   return (
     <div className="grid grid-cols-1 gap-4">
       {data?.map((party: Party) => (
-        <PartyItem party={party} />
+        <PartyItem party={party} key={party.id} />
       ))}
     </div>
   )
