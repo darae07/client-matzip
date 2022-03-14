@@ -15,7 +15,6 @@ const injectStore = (_store: any) => {
 function finishSession() {
   // 세션 만료 처리
   store.dispatch(userLogout())
-  // 로그인 페이지로 이동 필요
 }
 
 interface Token {
@@ -31,7 +30,12 @@ interface TokenRefresh {
 async function getAccessToken() {
   const accessToken = store.getState().token.accessToken
   const refreshToken = store.getState().token.refreshToken
-  const { login_method } = store.getState().user.user
+  const user = store.getState().user.user
+  if (!user) {
+    finishSession()
+    return null
+  }
+  const { login_method } = user
 
   const TOKEN_REFRESH_URL = '/auth/token/refresh/'
   const MICROSECOND = 1000

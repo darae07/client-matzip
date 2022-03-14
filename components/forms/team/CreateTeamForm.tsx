@@ -3,14 +3,15 @@ import { Field, Formik, Form } from 'formik'
 import { Input } from 'components'
 import * as Yup from 'yup'
 import { locationDongReg } from 'constants/validation'
-import { CreateTeamValue } from 'type/team'
-import { useMutation, useQueryClient } from 'react-query'
+import { CreateTeam, CreateTeamValue } from 'type/team'
+import { useQueryClient } from 'react-query'
 import { createTeam } from 'api/team'
-import { ApiResponseData, ApiErrorResponse } from 'type/api'
+import { ApiResponseData } from 'type/api'
 import { openToast } from 'store/modules/ui/toast'
 import { useAppDispatch } from 'hooks'
 import { setUserTeamProfile } from 'store/modules/auth/user'
 import _ from 'lodash'
+import useMutationHandleError from 'hooks/useMutationHandleError'
 
 const teamValues: CreateTeamValue = {
   name: '',
@@ -37,20 +38,18 @@ export const CreateTeamForm: FC = () => {
   const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
 
-  const { mutate, isLoading } = useMutation(createTeam, {
-    onSuccess: (data: ApiResponseData) => {
-      const { message, result } = data
-      dispatch(openToast(message || '회사를 생성했습니다.'))
-      queryClient.setQueryData(['myTeam'], result)
-      dispatch(setUserTeamProfile(result.team_profile))
+  const { mutate, isLoading } = useMutationHandleError(
+    createTeam,
+    {
+      onSuccess: (data: ApiResponseData<CreateTeam>) => {
+        const { message, result } = data
+        dispatch(openToast(message || '회사를 생성했습니다.'))
+        queryClient.setQueryData(['myTeam'], result)
+        dispatch(setUserTeamProfile(result.team_profile))
+      },
     },
-    onError: (error: ApiErrorResponse) => {
-      const { message } = error.response.data
-      dispatch(
-        openToast(_.isString(message) ? message : '회사를 생성할 수 없습니다.'),
-      )
-    },
-  })
+    '회사를 생성할 수 없습니다.',
+  )
 
   return (
     <div>

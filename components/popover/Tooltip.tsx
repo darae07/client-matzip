@@ -21,14 +21,14 @@ const Tooltip = ({ children, tooltipText }: TooltipProps) => {
   }
   return (
     <div
-      className="relative z-[15] flex items-center"
+      className="relative z-[15] flex w-fit items-center"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{ zIndex: 15 }}
     >
       <div
-        className="whitespace-no-wrap absolute right-0 flex items-center rounded-lg bg-gray-700 px-4 py-3 text-white transition-all duration-150"
-        style={{ bottom: '-140%', opacity: 0 }}
+        className="whitespace-no-wrap absolute right-0 flex items-center rounded-lg bg-gray-700 px-4 py-3 text-xs text-white transition-all duration-150"
+        style={{ bottom: '-200%', opacity: 0, minWidth: '80px' }}
         ref={tipRef}
       >
         <div

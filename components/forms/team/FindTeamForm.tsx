@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Field, Formik, Form } from 'formik'
 import { Input } from 'components'
 import * as Yup from 'yup'
-import { FindTeamValue } from 'type/team'
+import { FindTeamValue, Team } from 'type/team'
 import { useMutation, useQueryClient } from 'react-query'
 import { findTeamByCode } from 'api/team'
 import { ApiResponseData, ApiErrorResponse } from 'type/api'
@@ -24,30 +24,24 @@ export const FindTeamForm: FC = () => {
       .matches(teamCodeReg, '영문과 숫자만 입력 가능합니다.'),
   })
 
-  const handleFindTeam = (values: FindTeamValue) => {
-    mutate(values)
-  }
+  // const handleFindTeam = (values: FindTeamValue) => {
+  //   mutate(values)
+  // }
 
-  const dispatch = useAppDispatch()
-  const queryClient = useQueryClient()
+  // const dispatch = useAppDispatch()
+  // const queryClient = useQueryClient()
 
-  const { mutate, isLoading } = useMutation(findTeamByCode, {
-    onSuccess: (data: ApiResponseData) => {
-      const { message, result } = data
-      dispatch(openToast(message || '회사를 찾았습니다.'))
-      queryClient.setQueryData(['foundTeam'], result)
-    },
-    onError: (error: ApiErrorResponse) => {
-      const { message } = error.response.data
-      dispatch(
-        openToast(_.isString(message) ? message : '회사를 찾을 수 없습니다.'),
-      )
-    },
-  })
+  // const { mutate, isLoading } = useMutation(findTeamByCode, {
+  //   onSuccess: (data: ApiResponseData<Team>) => {
+  //     const { message, result } = data
+  //     dispatch(openToast(message || '회사를 찾았습니다.'))
+  //     queryClient.setQueryData(['foundTeam'], result)
+  //   },
+  // })
 
   return (
     <div>
-      <Formik
+      {/* <Formik
         enableReinitialize={true}
         initialValues={teamValues}
         validationSchema={findTeamSchema}
@@ -72,7 +66,7 @@ export const FindTeamForm: FC = () => {
             </button>
           </Form>
         )}
-      </Formik>
+      </Formik> */}
     </div>
   )
 }
