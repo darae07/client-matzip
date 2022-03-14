@@ -22,7 +22,7 @@ type Props = {
 }
 const PartyDetailModal = ({ id }: Props) => {
   const router = useRouter()
-  const closeModal = () => router.push('/party')
+  const closeModal = () => router.push(router.pathname)
   const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
 

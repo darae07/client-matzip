@@ -27,6 +27,7 @@ type PartyCreateValue = {
 const PartyCreate: NextPageWithLayout = () => {
   const createPartySchema = Yup.object().shape({
     name: Yup.string().required('제목을 입력해 주세요'),
+    description: Yup.string().required('내용을 입력해 주세요'),
   })
 
   const [keyword, setKeyword] = useState(null)
@@ -94,9 +95,8 @@ const PartyCreate: NextPageWithLayout = () => {
                 />
                 <div className="mb-2.5"></div>
                 <button
-                  type="button"
+                  type="submit"
                   disabled={isLoading}
-                  onClick={() => handleSubmit()}
                   className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   등록하기
