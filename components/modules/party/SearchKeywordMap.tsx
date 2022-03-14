@@ -25,6 +25,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
   const [markers, setMarkers] = useState<Marker[]>([])
   const [map, setMap] = useState<any>()
   const [noData, setNoData] = useState(true)
+  const [markerInfo, setMarkerInfo] = useState<Marker>()
 
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
@@ -40,6 +41,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
 
   const handleSearchKeyword = (values: Keyword) => {
     if (map) {
+      setMarkerInfo(undefined)
       const ps = new kakao.maps.services.Places()
 
       const location = myTeam.data && myTeam.data.location
@@ -65,6 +67,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
                 },
                 content: data[i].place_name,
                 place_url: data[i].place_url,
+                id: data[i].id,
               })
               // @ts-ignore
               bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
@@ -81,6 +84,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
 
   const updateKeyword = (marker: Marker) => {
     setKeyword(marker.content)
+    setMarkerInfo(marker)
   }
 
   return (
@@ -100,7 +104,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
                 placeholder="맛집 이름을 입력해 주세요"
                 className="w-full"
               />
-              {keyword && (
+              {markerInfo && (
                 <div className="p-2 text-green-500">
                   <CheckIcon className=" h-6 w-6" />
                 </div>
@@ -117,7 +121,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
         )}
       </Formik>
 
-      <div className={` relative mt-2 h-36 w-full`}>
+      <div className={` relative mt-2  w-full`}>
         <div
           className={`absolute z-10 h-36 w-full bg-white text-sm text-gray-500 ${
             !noData && 'hidden'
@@ -125,9 +129,14 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
         >
           맛집 이름을 검색하고 지도에서 지점을 선택해주세요
         </div>
+        {!markerInfo && !noData && (
+          <div className="text-sm text-gray-800">
+            지도에서 마커를 선택해주세요
+          </div>
+        )}
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }}
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: '100%', height: '9rem' }}
           onCreate={setMap}
         >
           {markers.map((marker: Marker) => (
@@ -135,8 +144,13 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
               key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
               position={marker.position}
               onClick={() => updateKeyword(marker)}
+              infoWindowOptions={{
+                className: `${
+                  markerInfo?.id === marker.id && 'text-green-600 font-semibold'
+                }`,
+              }}
             >
-              <div style={{ color: '#000' }}>{marker.content}</div>
+              <div className="p-0.5 px-2 text-sm">{marker.content}</div>
             </MapMarker>
           ))}
         </Map>

@@ -17,6 +17,7 @@ export type Marker = {
     lat: number
     lng: number
   }
+  id?: number | string
   content: string
   place_url: string
 }

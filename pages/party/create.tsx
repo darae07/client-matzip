@@ -94,9 +94,9 @@ const PartyCreate: NextPageWithLayout = () => {
                 />
                 <div className="mb-2.5"></div>
                 <button
-                  type="submit"
+                  type="button"
                   disabled={isLoading}
-                  onSubmit={() => handleSubmit()}
+                  onClick={() => handleSubmit()}
                   className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   등록하기
