@@ -22,7 +22,7 @@ const setupAxiosInterceptors = (store: any, router: any) => {
           throw new axios.Cancel('로그인이 필요합니다.')
         }
         return config
-      } catch (error) {
+      } catch (error: any) {
         router.push('/login')
         store.dispatch(openToast(error.message))
         return Promise.reject({ response: { data: { error } } })
