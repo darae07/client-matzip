@@ -18,7 +18,7 @@ export const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
           className="h-6 w-6 rounded-full"
         />
       ) : (
-        <div className="flex h-6 w-6 cursor-default items-center justify-center rounded-full border border-gray-300 text-center text-xs">
+        <div className="flex h-6 w-6 cursor-default items-center justify-center rounded-full border border-gray-300 bg-white text-center text-xs">
           {user.member_name && user.member_name[0]}
         </div>
       )}

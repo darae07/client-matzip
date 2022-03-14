@@ -1,7 +1,7 @@
 import { ModalLayoutProps } from 'type/ui'
 import { Dialog, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
-import { Fragment } from 'react'
+import { Fragment, useRef } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 import ModalTransition from 'components/modal/ModalTransition'
 
@@ -11,12 +11,15 @@ const PageModal = ({ children, closeAction }: ModalLayoutProps) => {
     if (closeAction) closeAction()
     router.back()
   }
+
+  const cancelButtonRef = useRef(null)
+
   return (
     <Transition appear show={true} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-[21] overflow-y-auto "
-        onClose={closeModal}
+        onClose={() => {}}
       >
         <div className="min-h-screen px-4 text-center">
           <ModalTransition>

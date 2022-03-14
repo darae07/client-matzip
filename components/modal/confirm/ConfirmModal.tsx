@@ -29,7 +29,7 @@ export const ConfirmModal: React.FC<ModalProps> = ({
 
   return isOpen ? (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+      <div className="fixed inset-0 z-[25] flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
         <div className="relative my-6 mx-auto w-auto min-w-[50%] max-w-3xl">
           {/*content*/}
           <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
@@ -46,7 +46,9 @@ export const ConfirmModal: React.FC<ModalProps> = ({
               </button>
             </div>
             {/*body*/}
-            <div className="relative flex-auto">{options?.children}</div>
+            <div className="relative flex-auto px-5 text-sm text-gray-600">
+              {options?.children}
+            </div>
             {/*footer*/}
             <div className="flex items-center justify-end rounded-b  py-3 px-5">
               <button
@@ -59,7 +61,7 @@ export const ConfirmModal: React.FC<ModalProps> = ({
               <button
                 className="mr-1 mb-1 rounded bg-blue-500 px-4 py-2 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
                 type="button"
-                onClick={() => onConfirm}
+                onClick={onConfirm}
               >
                 확인
               </button>
@@ -67,7 +69,7 @@ export const ConfirmModal: React.FC<ModalProps> = ({
           </div>
         </div>
       </div>
-      <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
+      <div className="fixed inset-0 z-[24] bg-black opacity-25"></div>
     </>
   ) : null
 }
