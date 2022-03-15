@@ -43,51 +43,59 @@ async function getAccessToken() {
   let now = new Date()
   now.setMinutes(now.getMinutes() + ACCESS_TOKEN_EXPIRE_MARGIN_MINUTE)
 
-  if (accessToken !== null) {
-    const ACCESS_TOKEN_EXPIRE = jwt_decode<Token>(accessToken).exp * MICROSECOND
-    const ACCESS_TOKEN_EXPIRE_AT = new Date(ACCESS_TOKEN_EXPIRE)
-    if (now < ACCESS_TOKEN_EXPIRE_AT) {
-      return accessToken
-    }
-  }
-  if (refreshToken === null) {
-    finishSession()
-    return null
-  }
-  const REFRESH_TOKEN_EXPIRE = jwt_decode<Token>(refreshToken).exp * MICROSECOND
-  const REFRESH_TOKEN_EXPIRE_AT = new Date(REFRESH_TOKEN_EXPIRE)
-  if (now < REFRESH_TOKEN_EXPIRE_AT) {
-    // user 가입 타입에 따라 분기 필요
-    if (login_method === 'email') {
-      const data = { refresh: refreshToken }
-      const response = await anonymousInstance.post(TOKEN_REFRESH_URL, data)
-      const { result } = response.data
-      if (result) {
-        store.dispatch(setAccessToken(result.access))
-        return result.access
+  try {
+    if (accessToken !== null) {
+      const ACCESS_TOKEN_EXPIRE =
+        jwt_decode<Token>(accessToken, { header: true }).exp * MICROSECOND
+      const ACCESS_TOKEN_EXPIRE_AT = new Date(ACCESS_TOKEN_EXPIRE)
+      if (now < ACCESS_TOKEN_EXPIRE_AT) {
+        return accessToken
       }
     }
-    if (login_method === 'kakao') {
-      const KAKAO_TOKEN_REFRESH_URL = '/common/kakao_token-refresh/'
-      const data = { refresh_token: refreshToken }
-      const response = await anonymousInstance.post(
-        KAKAO_TOKEN_REFRESH_URL,
-        data,
-      )
-      const { result } = response.data
-      if (result) {
-        const { access_token, refresh_token } = result
-        store.dispatch(setAccessToken(access_token))
-        if (refresh_token) {
-          store.dispatch(setRefreshToken(refresh_token))
+    if (refreshToken === null) {
+      finishSession()
+      return null
+    }
+    const REFRESH_TOKEN_EXPIRE =
+      jwt_decode<Token>(refreshToken).exp * MICROSECOND
+    const REFRESH_TOKEN_EXPIRE_AT = new Date(REFRESH_TOKEN_EXPIRE)
+    if (now < REFRESH_TOKEN_EXPIRE_AT) {
+      // user 가입 타입에 따라 분기 필요
+      if (login_method === 'email') {
+        const data = { refresh: refreshToken }
+        const response = await anonymousInstance.post(TOKEN_REFRESH_URL, data)
+        const { result } = response.data
+        if (result) {
+          store.dispatch(setAccessToken(result.access))
+          return result.access
         }
-        return result.access_token
+      }
+      if (login_method === 'kakao') {
+        const KAKAO_TOKEN_REFRESH_URL = '/common/kakao_token-refresh/'
+        const data = { refresh_token: refreshToken }
+        const response = await anonymousInstance.post(
+          KAKAO_TOKEN_REFRESH_URL,
+          data,
+        )
+        const { result } = response.data
+        if (result) {
+          const { access_token, refresh_token } = result
+          store.dispatch(setAccessToken(access_token))
+          if (refresh_token) {
+            store.dispatch(setRefreshToken(refresh_token))
+          }
+          return result.access_token
+        }
+      } else {
+        finishSession()
+        return null
       }
     } else {
       finishSession()
       return null
     }
-  } else {
+  } catch (e) {
+    console.log(e)
     finishSession()
     return null
   }
