@@ -46,7 +46,7 @@ async function getAccessToken() {
   try {
     if (accessToken !== null) {
       const ACCESS_TOKEN_EXPIRE =
-        jwt_decode<Token>(accessToken, { header: true }).exp * MICROSECOND
+        jwt_decode<Token>(accessToken).exp * MICROSECOND
       const ACCESS_TOKEN_EXPIRE_AT = new Date(ACCESS_TOKEN_EXPIRE)
       if (now < ACCESS_TOKEN_EXPIRE_AT) {
         return accessToken
