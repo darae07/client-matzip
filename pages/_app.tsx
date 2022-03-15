@@ -27,7 +27,9 @@ export default wrapper.withRedux(
     const router = useRouter()
 
     injectStore(store)
-    setupAxiosInterceptors(store, router)
+    useEffect(() => {
+      setupAxiosInterceptors(store, router)
+    }, [])
 
     const getLayout = Component.getLayout ?? ((page: ReactNode) => page)
     const queryClient = new QueryClient({
