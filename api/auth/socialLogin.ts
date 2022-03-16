@@ -11,8 +11,6 @@ export const kakaoLogin =
     try {
       dispatch(userLoginStart())
       const params: SocialAccountParams = {
-        access_token: response.response.access_token,
-        refresh_token: response.response.refresh_token,
         nickname: response.profile.kakao_account.profile.nickname,
         email: response.profile.kakao_account.email,
       }
@@ -38,7 +36,6 @@ export const googleLogin =
     try {
       dispatch(userLoginStart())
       const params: SocialAccountParams = {
-        access_token: response.accessToken,
         nickname: response.profileObj.name,
         email: response.profileObj.email,
       }

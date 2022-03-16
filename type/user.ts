@@ -32,8 +32,6 @@ export interface TeamMember {
 }
 
 export interface SocialAccountParams {
-  access_token: string
-  refresh_token?: string
   nickname?: string
-  email?: string
+  email: string
 }
