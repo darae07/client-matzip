@@ -49,7 +49,7 @@ export default wrapper.withRedux(
           id="kakao-sdk"
           type="text/javascript"
           strategy="beforeInteractive"
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&autoload=false&libraries=services,clusterer`}
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&autoload=false&libraries=services`}
         />
         <PersistGate persistor={persistor} loading={null}>
           <QueryClientProvider client={queryClient}>
