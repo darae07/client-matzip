@@ -1,23 +1,21 @@
 import { anonymousInstance } from 'api/setupAxios'
 import httpRequest from 'constants/httpRequest'
 import { Dispatch } from 'react'
+import { GoogleLoginResponse } from 'react-google-login'
 import { catchError, userLoginStart } from 'store/modules/auth/user'
 import { openToast } from 'store/modules/ui/toast'
 import { loginSuccess, loginFail } from './login'
-import { SocialAccountParams } from 'type/user'
 
 export const kakaoLogin =
   (response: any) => async (dispatch: Dispatch<object>) => {
     try {
       dispatch(userLoginStart())
-      const params: SocialAccountParams = {
-        nickname: response.profile.kakao_account.profile.nickname,
-        email: response.profile.kakao_account.email,
-      }
       const loginResponse = await anonymousInstance.get(
         '/common/kakao-callback/',
         {
-          params: params,
+          headers: {
+            Authorization: response.response.access_token,
+          },
         },
       )
       const { result, message, success } = loginResponse.data
@@ -32,17 +30,15 @@ export const kakaoLogin =
   }
 
 export const googleLogin =
-  (response: any) => async (dispatch: Dispatch<object>) => {
+  (response: GoogleLoginResponse) => async (dispatch: Dispatch<object>) => {
     try {
       dispatch(userLoginStart())
-      const params: SocialAccountParams = {
-        nickname: response.profileObj.name,
-        email: response.profileObj.email,
-      }
       const loginResponse = await anonymousInstance.get(
         '/common/google-callback/',
         {
-          params: params,
+          headers: {
+            Authorization: response.tokenId,
+          },
         },
       )
       const { result, message, success } = loginResponse.data
