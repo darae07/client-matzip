@@ -30,8 +30,3 @@ export interface TeamMember {
   title: string | null
   user: number
 }
-
-export interface SocialAccountParams {
-  nickname?: string
-  email: string
-}
