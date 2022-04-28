@@ -3,8 +3,8 @@ import httpRequest from 'constants/httpRequest'
 import httpRequestCode from 'constants/httpRequestCode'
 
 import jwt_decode from 'jwt-decode'
-import { setAccessToken, setRefreshToken } from 'store/modules/auth/token'
-import { userLogout } from 'store/modules/auth/user'
+import { setAccessToken, setRefreshToken } from '@/store/modules/auth/token'
+import { userLogout } from '@/store/modules/auth/user'
 import { anonymousInstance } from './setupAxios'
 
 let store: any

@@ -1,5 +1,5 @@
 import { LoginForm } from 'components/forms/auth/LoginForm'
-import { useAppDispatch, useAppSelector } from 'hooks'
+import { useAppDispatch, useAppSelector } from '@/utils/hooks'
 import { NextPageWithLayout } from 'type/ui'
 import KakaoLogin from 'react-kakao-login'
 import GoogleLogin from 'react-google-login'

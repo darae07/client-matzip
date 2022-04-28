@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useEffect, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useAppDispatch, useAppSelector } from 'hooks'
+import { useAppDispatch, useAppSelector } from '@/utils/hooks'
 import { closeToast } from 'store/modules/ui/toast'
 
 export const Toast: FC = () => {

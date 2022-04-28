@@ -1,7 +1,7 @@
-import HomeLayout from 'components/layout/HomeLayout'
+import HomeLayout from '@/components/layout/HomeLayout'
 import { ReactElement } from 'react'
 import { NextPageWithLayout } from 'type/ui'
-import { WhiteRoundedCard } from 'components/card/styledCard'
+import { WhiteRoundedCard } from '@/components/card/styledCard'
 import {
   LightBulbIcon,
   UserGroupIcon,
@@ -11,7 +11,7 @@ import {
 const Home: NextPageWithLayout = () => {
   return (
     <div>
-      <WhiteRoundedCard className="mb-4">
+      <WhiteRoundedCard className="mb-4" role='today'> 
         오늘 뭐 먹지? 직장내 쉽고 빠른 점심메뉴 의사결정을 경험해 보세요
       </WhiteRoundedCard>
       <WhiteRoundedCard className="mb-4">

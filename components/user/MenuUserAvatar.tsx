@@ -1,12 +1,12 @@
-import { useAppSelector } from 'hooks'
+import { useAppSelector } from '@/utils/hooks'
 import { FC, Fragment } from 'react'
 import { UserCircleIcon, KeyIcon, LogoutIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Popover, Transition } from '@headlessui/react'
-import { PopoverContainer, PopoverItem } from 'components/popover/styledPopover'
-import { useAppDispatch } from 'hooks'
-import { logout } from 'api/auth/login'
+import { PopoverContainer, PopoverItem } from '@/components/popover/styledPopover'
+import { useAppDispatch } from '@/utils/hooks'
+import { logout } from '@/api/auth/login'
 
 const MenuUserAvatar: FC = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)

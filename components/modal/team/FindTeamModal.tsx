@@ -11,11 +11,11 @@ import { useMutation, useQueryClient } from 'react-query'
 import { findTeamByCode, joinTeam } from 'api/team'
 import { ApiResponseData, ApiErrorResponse } from 'type/api'
 import { openToast } from 'store/modules/ui/toast'
-import { useAppDispatch } from 'hooks'
+import { useAppDispatch } from '@/utils/hooks'
 import _ from 'lodash'
 import { teamCodeReg } from 'constants/validation'
 import { setUserTeamProfile } from 'store/modules/auth/user'
-import useMutationHandleError from 'hooks/useMutationHandleError'
+import useMutationHandleError from '@/utils/hooks/useMutationHandleError'
 import { TeamMember } from 'type/user'
 
 const teamValues = {

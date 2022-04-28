@@ -1,4 +1,4 @@
-import { anonymousInstance } from 'api/setupAxios'
+import { anonymousInstance } from '@/api/setupAxios'
 import { resolve } from 'path'
 import { Dispatch } from '@reduxjs/toolkit'
 import {
@@ -6,14 +6,14 @@ import {
   removeRefreshToken,
   setAccessToken,
   setRefreshToken,
-} from 'store/modules/auth/token'
+} from '@/store/modules/auth/token'
 import {
   userLogin,
   catchError,
   userLoginStart,
   userLogout,
-} from 'store/modules/auth/user'
-import { openToast } from 'store/modules/ui/toast'
+} from '@/store/modules/auth/user'
+import { openToast } from '@/store/modules/ui/toast'
 import { User } from 'type/user'
 
 export interface LoginValuesType {

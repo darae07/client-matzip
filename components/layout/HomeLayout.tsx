@@ -1,8 +1,8 @@
 import { LayoutProps } from 'type/ui'
-import OurMatzipLogo from 'public/icon/our_matzip_logo.svg'
+import OurMatzipLogo from '@/public/icon/our_matzip_logo.svg'
 import { BellIcon } from '@heroicons/react/outline'
-import MainHeaderTab from 'components/tabs/MainNavigationTab'
-import MenuUserAvatar from 'components/user/MenuUserAvatar'
+import MainHeaderTab from '@/components/tabs/MainNavigationTab'
+import MenuUserAvatar from '@/components/user/MenuUserAvatar'
 
 export default function HomeLayout({ children }: LayoutProps) {
   return (

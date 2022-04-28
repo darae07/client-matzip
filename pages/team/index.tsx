@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import CreateTeamModal from 'components/modal/team/CreateTeamModal'
 import { TeamInformation } from 'components/modules/team/TeamInformation'
 import FindTeamModal from 'components/modal/team/FindTeamModal'
-import { useAppSelector } from 'hooks'
+import { useAppSelector } from '@/utils/hooks'
 
 const TeamPage: NextPageWithLayout = () => {
   const router = useRouter()

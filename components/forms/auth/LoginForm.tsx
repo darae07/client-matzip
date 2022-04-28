@@ -3,7 +3,7 @@ import { Field, Formik, Form } from 'formik'
 import { Input } from 'components'
 import * as Yup from 'yup'
 import { login, LoginValuesType } from 'api/auth/login'
-import { useAppDispatch, useAppSelector } from 'hooks'
+import { useAppDispatch, useAppSelector } from '@/utils/hooks'
 import LoadingSpinner from 'components/skeletons/LoadingSpinner'
 
 const loginValues = {
