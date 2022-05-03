@@ -14,6 +14,7 @@ import { Party } from 'type/party'
 import { listParty } from '@/api/party'
 import { ListItem } from '@/components/listItem'
 import { UserAvatarTooltip } from '@/components/user/UserAvatar'
+import { CategoryName } from '@/components/modules/store/category'
 
 const PartyPage: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user)
@@ -46,9 +47,7 @@ const PartyPage: NextPageWithLayout = () => {
             >
               <ListItem >
                 <div className="mb-1 flex items-center">
-                  <span className="mr-2 rounded border border-blue-500 p-1 text-xs text-blue-500">
-                    {party.keyword.category?.name}
-                  </span>
+                  <CategoryName category={party.keyword.category} className='mr-2' />
                   <p className="text-lg font-bold">{party.name}</p>
                 </div>
 
