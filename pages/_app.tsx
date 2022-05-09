@@ -54,7 +54,7 @@ export default wrapper.withRedux(
         <PersistGate persistor={persistor} loading={null}>
           <QueryClientProvider client={queryClient}>
             <Toast />
-            <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => {}}>
+            <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => { }}>
               {getLayout(<Component {...pageProps} />)}
             </ErrorBoundary>
             <ReactQueryDevtools />

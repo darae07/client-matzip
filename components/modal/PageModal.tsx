@@ -19,7 +19,7 @@ const PageModal = ({ children, closeAction }: ModalLayoutProps) => {
       <Dialog
         as="div"
         className="fixed inset-0 z-[21] overflow-y-auto "
-        onClose={() => {}}
+        onClose={() => { }}
       >
         <div className="min-h-screen px-4 text-center">
           <ModalTransition>
