@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { useEffect } from 'react'
 import { MutationFunction, useMutation } from 'react-query'
-import { openToast } from 'store/modules/ui/toast'
+import { openToast } from '@/store/modules/ui/toast'
 import { ApiErrorResponse, ApiResponseData } from 'type/api'
 import { useAppDispatch } from './redux'
 
@@ -26,4 +26,4 @@ const useMutationHandleError = <ResultT>(
   return mutation
 }
 
-export default useMutationHandleError
+export { useMutationHandleError }

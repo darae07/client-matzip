@@ -11,7 +11,7 @@ import { openToast } from 'store/modules/ui/toast'
 import { useAppDispatch } from '@/utils/hooks'
 import { setUserTeamProfile } from 'store/modules/auth/user'
 import _ from 'lodash'
-import useMutationHandleError from '@/utils/hooks/useMutationHandleError'
+import { useMutationHandleError } from '@/utils/hooks'
 
 const teamValues: CreateTeamValue = {
   name: '',

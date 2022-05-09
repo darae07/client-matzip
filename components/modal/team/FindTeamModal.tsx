@@ -15,7 +15,7 @@ import { useAppDispatch } from '@/utils/hooks'
 import _ from 'lodash'
 import { teamCodeReg } from 'constants/validation'
 import { setUserTeamProfile } from 'store/modules/auth/user'
-import useMutationHandleError from '@/utils/hooks/useMutationHandleError'
+import { useMutationHandleError } from '@/utils/hooks'
 import { TeamMember } from 'type/user'
 
 const teamValues = {
