@@ -13,7 +13,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from 'components/error/ErrorFallback'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
-import 'flowbite'
+
 
 declare global {
   interface Window {
