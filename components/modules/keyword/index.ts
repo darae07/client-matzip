@@ -1,1 +1,1 @@
-export { KakaoMap } from './KakaoMap'
+export * from './KakaoMap'

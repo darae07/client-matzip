@@ -35,4 +35,4 @@ const CategoryFilter: FC = () => {
   )
 }
 
-export default CategoryFilter
+export { CategoryFilter }

@@ -1,1 +1,1 @@
-export { CategoryName } from './category'
+export * from './category'
