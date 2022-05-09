@@ -17,6 +17,7 @@
     "@svgr/webpack": "^6.2.1",
     "axios": "^0.26.0",
     "babel-plugin-styled-components": "^2.0.6",
+    "flowbite": "^1.4.5",
     "formik": "^2.2.9",
     "identity-obj-proxy": "^3.0.0",
     "js-cookie": "^3.0.1",
