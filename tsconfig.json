@@ -38,6 +38,9 @@
       "@/type/*": [
         "type/*"
       ],
+      "@/public/*": [
+        "public/*"
+      ],
       "@/components": [
         "components"
       ],

@@ -1,4 +1,4 @@
-import { LayoutProps } from 'type/ui'
+import { LayoutProps } from '@/type'
 import OurMatzipLogo from '@/public/icon/our_matzip_logo.svg'
 import { BellIcon } from '@heroicons/react/outline'
 import MainHeaderTab from '@/components/tabs/MainNavigationTab'
