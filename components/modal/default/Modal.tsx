@@ -4,7 +4,7 @@ import { Portal, defaultModalRootId } from '../portal'
 export interface ModalProps {
   isOpen: boolean
   children?: Element
-  handleClose?: Function
+  handleClose: Function
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -12,9 +12,6 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   handleClose,
 }) => {
-  const closeButtonClicked = () => {
-    if (handleClose) handleClose()
-  }
   if (!isOpen) return null
 
   return (
@@ -24,7 +21,7 @@ export const Modal: React.FC<ModalProps> = ({
         <button
           className="float-right"
           name="close"
-          onClick={closeButtonClicked}
+          onClick={() => handleClose()}
         >
           close
         </button>
