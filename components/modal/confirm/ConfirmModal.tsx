@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { XIcon } from '@heroicons/react/outline'
 import { Options } from '.'
+import { Modal } from '../style'
+import { Button } from '@/components'
 
 type ModalProps = {
   message: string
@@ -25,22 +26,25 @@ export const ConfirmModal: React.FC<ModalProps> = ({
   }
 
   return isOpen ? (
-    <>
-      <div role="confirm-modal">
-        <h3>{message}</h3>
-        <button className="float-right" onClick={onCancel}>
-          <XIcon className="h-6 w-6" />
-        </button>
-      </div>
-      <div>{options?.children}</div>
-      <div>
-        <button type="button" onClick={onCancel}>
-          취소
-        </button>
-        <button type="button" onClick={onConfirm}>
-          확인
-        </button>
-      </div>
-    </>
+    <Modal>
+      <Modal.Background role="confirm-modal">
+        <Modal.Container size="small">
+          <Modal.Header>
+            <Modal.Title>{message}</Modal.Title>
+            <Modal.CloseButton onClick={() => onCancel()} />
+          </Modal.Header>
+          <Modal.Body>{options?.children}</Modal.Body>
+          <Modal.Footer>
+            <Button type="button" onClick={onCancel} color="red">
+              취소
+            </Button>
+            <Button type="button" onClick={onConfirm} color="blue">
+              확인
+            </Button>
+          </Modal.Footer>
+        </Modal.Container>
+      </Modal.Background>
+      <Modal.BackArea />
+    </Modal>
   ) : null
 }
