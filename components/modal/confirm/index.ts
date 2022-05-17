@@ -48,7 +48,7 @@ export const confirm = async (
       // 포탈에 컨펌모달을 합성
       const PortalEl = React.createElement(
         Portal,
-        { rootId: confirmModalRootId, children: ConfirmModalEl },
+        { rootId: confirmModalRootId },
         ConfirmModalEl,
       )
 
