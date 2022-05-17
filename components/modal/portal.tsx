@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 type Props = {
-  children: React.ReactChild
+  children?: React.ReactChild
   rootId: string
 }
 export const defaultModalRootId = 'modal-root'
