@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 import { XIcon } from '@heroicons/react/outline'
-import ModalTransition from 'components/modal/ModalTransition'
+import ModalTransition from '@/components/modal/ModalTransition'
 
 const ContentModal = ({ children, closeAction, title }: ModalLayoutProps) => {
   const router = useRouter()

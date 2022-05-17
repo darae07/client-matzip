@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { CreateTeamForm } from 'components/forms/team/CreateTeamForm'
+import { CreateTeamForm } from '@/components/forms/team/CreateTeamForm'
 import ContentModal from '../ContentModal'
 
 const CreateTeamModal = () => {

@@ -1,6 +1,6 @@
-import { authorizedInstance } from 'api/setupAxios'
-import { ApiResponse } from 'type/api'
-import { isValidId } from 'type/validation'
+import { authorizedInstance } from '@/api/setupAxios'
+import { ApiResponse } from '@/type/api'
+import { isValidId } from '@/type/validation'
 
 export const listParty = async <ResultT>() => {
   const { data: response }: ApiResponse<ResultT> = await authorizedInstance.get(

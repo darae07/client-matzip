@@ -1,6 +1,6 @@
 import { ListItem } from '@/components/listItem'
 import { UserAvatarTooltip } from '@/components/user/UserAvatar'
-import { listParty } from 'api/party'
+import { listParty } from '@/api/party'
 import Link from 'next/link'
 import { FC } from 'react'
 import { useQuery } from 'react-query'
@@ -23,7 +23,7 @@ const PartyItemList: FC = () => {
           passHref
           key={party.id}
         >
-          <ListItem >
+          <ListItem>
             <div className="mb-1 flex items-center">
               <span className="mr-2 rounded border border-blue-500 p-1 text-xs text-blue-500">
                 {party.keyword.category?.name}

@@ -1,19 +1,19 @@
 import React, { FC, useEffect, useRef } from 'react'
 import { LayoutProps } from 'type/ui'
-import lottie from 'lottie-web'
-import OurMatzipLogo from 'public/icon/our_matzip_logo.svg'
+// import lottie from 'lottie-web'
+import OurMatzipLogo from '@/public/icon/our_matzip_logo.svg'
 
 export default function AuthLayout({ children }: LayoutProps) {
   const animation = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (animation.current) {
-      lottie.loadAnimation({
-        container: animation.current,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        animationData: require('public/animation/41570-time-relax-lunch.json'),
-      })
+      // lottie.loadAnimation({
+      //   container: animation.current,
+      //   renderer: 'svg',
+      //   loop: true,
+      //   autoplay: true,
+      //   animationData: require('public/animation/41570-time-relax-lunch.json'),
+      // })
     }
   }, [])
   return (

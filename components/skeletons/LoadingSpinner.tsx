@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import LoadingSpinnerIcon from 'public/icon/loading_spinner.svg'
+import LoadingSpinnerIcon from '@/public/icon/loading_spinner.svg'
 
 interface IconProps {
   width: number | string | null

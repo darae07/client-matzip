@@ -1,10 +1,10 @@
 import React, { FC } from 'react'
 import { Field, Formik, Form } from 'formik'
-import { Input } from 'components'
+import { Input } from '@/components'
 import * as Yup from 'yup'
-import { login, LoginValuesType } from 'api/auth/login'
+import { login, LoginValuesType } from '@/api/auth/login'
 import { useAppDispatch, useAppSelector } from '@/utils/hooks'
-import LoadingSpinner from 'components/skeletons/LoadingSpinner'
+import LoadingSpinner from '@/components/skeletons/LoadingSpinner'
 
 const loginValues = {
   email: '',

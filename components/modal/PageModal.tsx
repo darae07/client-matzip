@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { Fragment, useRef } from 'react'
 import { XIcon } from '@heroicons/react/outline'
-import ModalTransition from 'components/modal/ModalTransition'
+import ModalTransition from '@/components/modal/ModalTransition'
 
 const PageModal = ({ children, closeAction }: ModalLayoutProps) => {
   const router = useRouter()
@@ -19,7 +19,7 @@ const PageModal = ({ children, closeAction }: ModalLayoutProps) => {
       <Dialog
         as="div"
         className="fixed inset-0 z-[21] overflow-y-auto "
-        onClose={() => { }}
+        onClose={() => {}}
       >
         <div className="min-h-screen px-4 text-center">
           <ModalTransition>

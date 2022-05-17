@@ -1,8 +1,8 @@
 import { Dispatch } from '@reduxjs/toolkit'
-import { anonymousInstance } from 'api/setupAxios'
-import { userLoginStart } from 'store/modules/auth/user'
+import { anonymousInstance } from '@/api/setupAxios'
+import { userLoginStart } from '@/store/modules/auth/user'
 import { loginSuccess, loginFail } from './login'
-import serverErrorMessage from 'constants/serverResponseErrorMessages'
+import serverErrorMessage from '@/constants/serverResponseErrorMessages'
 
 export interface SignUpValuesType {
   email: string

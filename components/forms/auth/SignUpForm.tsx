@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 import { Field, Formik, Form } from 'formik'
-import { Input } from 'components'
+import { Input } from '@/components'
 import * as Yup from 'yup'
 import { useAppDispatch, useAppSelector } from '@/utils/hooks'
-import LoadingSpinner from 'components/skeletons/LoadingSpinner'
-import { signUP, SignUpValuesType } from 'api/auth/signUp'
-import { passwordReg } from 'constants/validation'
+import LoadingSpinner from '@/components/skeletons/LoadingSpinner'
+import { signUP, SignUpValuesType } from '@/api/auth/signUp'
+import { passwordReg } from '@/constants/validation'
 
 const signUpValues = {
   email: '',
