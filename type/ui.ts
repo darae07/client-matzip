@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 
 export interface LayoutProps {
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export type NextPageWithLayout = NextPage & {
