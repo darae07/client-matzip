@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from '@testing-library/react'
-import { Modal } from './Modal'
+import { Modal } from '@/components'
 
 describe('일반 모달 컴포넌트', () => {
   it('일반 모달 컴포넌트는 children을 렌더링하고, 닫기 버튼 클릭시 unmount되며 handleClose이 실행된다.', () => {
