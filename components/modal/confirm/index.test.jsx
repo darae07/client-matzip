@@ -9,6 +9,6 @@ describe('컨펌 모달 컴포넌트', () => {
     expect(okButton).toBeInTheDocument()
     fireEvent.click(okButton)
     expect(okButton).not.toBeInTheDocument()
-    // TODO: 버튼별 응답 확인하기
+    // 버튼별 응답 확인하기
   })
 })

@@ -14,7 +14,7 @@ describe('일반 모달 컴포넌트', () => {
     expect(modal).toBeInTheDocument()
     expect(getByText('test')).toBeTruthy()
 
-    fireEvent.click(getByRole('button', { name: 'close' }))
+    fireEvent.click(getByRole('button', { name: /close/i }))
 
     expect(handleClose).toHaveBeenCalledTimes(1)
     rerender(<Modal isOpen={false} handleClose={handleClose} />) // update props of a rendered component
