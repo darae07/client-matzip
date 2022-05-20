@@ -1,21 +1,15 @@
-import { WhiteRoundedCard } from 'components/card/styledCard'
-import HomeLayout from 'components/layout/HomeLayout'
 import { ReactElement } from 'react'
-import { NextPageWithLayout } from 'type/ui'
+import { NextPageWithLayout } from '@/type/ui'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import CreateTeamModal from 'components/modal/team/CreateTeamModal'
-import { TeamInformation } from 'components/modules/team/TeamInformation'
-import FindTeamModal from 'components/modal/team/FindTeamModal'
+import { WhiteRoundedCard, HomeLayout } from '@/components'
+import {
+  TeamInformation,
+  FindTeamModal,
+  CreateTeamModal,
+} from '@/components/modules'
 import { useAppSelector } from '@/utils/hooks'
 
 const TeamPage: NextPageWithLayout = () => {
-  const router = useRouter()
-  const { asPath } = router
-
-  const showTeamCreateModal = asPath === '/team/create'
-  const showTeamFindModal = asPath === '/team/find'
-
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
 
@@ -56,8 +50,8 @@ const TeamPage: NextPageWithLayout = () => {
         </>
       )}
 
-      {showTeamCreateModal && <CreateTeamModal />}
-      {showTeamFindModal && <FindTeamModal />}
+      <CreateTeamModal />
+      <FindTeamModal />
     </div>
   )
 }
