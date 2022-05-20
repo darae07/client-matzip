@@ -1,22 +1,21 @@
-import { FindTeamForm } from '@/components/forms/team/FindTeamForm'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { Team } from '@/type/team'
-import ContentModal from '../ContentModal'
-import { Field, Formik, Form } from 'formik'
-import { Input } from '@/components'
-import * as Yup from 'yup'
-import { FindTeamValue, CreateMembershipValue } from '@/type/team'
-import { useMutation, useQueryClient } from 'react-query'
-import { findTeamByCode, joinTeam } from '@/api/team'
-import { ApiResponseData, ApiErrorResponse } from '@/type/api'
-import { openToast } from '@/store/modules/ui/toast'
-import { useAppDispatch } from '@/utils/hooks'
 import _ from 'lodash'
+import { useRouter } from 'next/router'
+import { useQueryClient } from 'react-query'
+import { Field, Formik, Form } from 'formik'
+import * as Yup from 'yup'
+
+import {
+  Team,
+  FindTeamValue,
+  CreateMembershipValue,
+  ApiResponseData,
+  TeamMember,
+} from '@/type'
 import { teamCodeReg } from '@/constants/validation'
-import { setUserTeamProfile } from '@/store/modules/auth/user'
-import { useMutationHandleError } from '@/utils/hooks'
-import { TeamMember } from '@/type/user'
+import { findTeamByCode, joinTeam } from '@/api/team'
+import { useAppDispatch, useMutationHandleError } from '@/utils/hooks'
+import { setUserTeamProfile, openToast } from '@/store/modules'
+import { Input, Modal } from '@/components'
 
 const teamValues = {
   code: '',
@@ -28,9 +27,10 @@ const joinTeamValue = {
 
 const FindTeamModal = () => {
   const router = useRouter()
-  const closeModal = () => {
-    router.push('/team')
-  }
+  const { asPath } = router
+
+  const showTeamFindModal = asPath === '/team/find'
+  const closeModal = () => router.push('/team')
 
   const findTeamSchema = Yup.object().shape({
     code: Yup.string()
@@ -83,65 +83,30 @@ const FindTeamModal = () => {
 
   const data: Team | undefined = queryClient.getQueryData(['foundTeam'])
   return (
-    <ContentModal closeAction={closeModal} title="회사 합류하기">
-      {!data && (
-        <div className="mt-2 justify-between md:flex">
-          <p className="mb-4 text-sm text-gray-700">
-            동료에게 공유받은 입장코드를 입력해주세요
-          </p>
-          <Formik
-            enableReinitialize={true}
-            initialValues={teamValues}
-            validationSchema={findTeamSchema}
-            onSubmit={(values) => handleFindTeam(values)}
-          >
-            {({ handleSubmit, values }) => (
-              <Form>
-                <Field
-                  name="code"
-                  component={Input}
-                  value={values.code}
-                  placeholder="입장코드"
-                />
-                <div className="mb-2.5"></div>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  onSubmit={() => handleSubmit()}
-                  className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                >
-                  회사 찾기
-                </button>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      )}
-      {!!data && (
-        <div className="mt-2 justify-between md:flex">
-          <p className="mb-4 text-sm text-gray-700">
-            이 회사에 합류할까요?
-            <br /> 동료들이 알아볼 수 있도록 이름을 알려주세요.
-          </p>
-          <div className="w-1/2">
-            <p className="font-bold">{data.name}</p>
-            <p>{data.location}</p>
-            <p>{data.title}</p>
+    <Modal
+      handleClose={closeModal}
+      isOpen={showTeamFindModal}
+      title="회사 합류하기"
+    >
+      <>
+        {!data && (
+          <div className="mt-2 justify-between md:flex">
+            <p className="mb-4 text-sm text-gray-700">
+              동료에게 공유받은 입장코드를 입력해주세요
+            </p>
             <Formik
               enableReinitialize={true}
-              initialValues={joinTeamValue}
-              validationSchema={joinTeamSchema}
-              onSubmit={(values) =>
-                handleJoinTeam({ ...values, team: data.id })
-              }
+              initialValues={teamValues}
+              validationSchema={findTeamSchema}
+              onSubmit={(values) => handleFindTeam(values)}
             >
               {({ handleSubmit, values }) => (
                 <Form>
                   <Field
-                    name="member_name"
+                    name="code"
                     component={Input}
-                    value={values.member_name}
-                    placeholder="이름"
+                    value={values.code}
+                    placeholder="입장코드"
                   />
                   <div className="mb-2.5"></div>
                   <button
@@ -150,15 +115,56 @@ const FindTeamModal = () => {
                     onSubmit={() => handleSubmit()}
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   >
-                    합류하기
+                    회사 찾기
                   </button>
                 </Form>
               )}
             </Formik>
           </div>
-        </div>
-      )}
-    </ContentModal>
+        )}
+        {!!data && (
+          <div className="mt-2 justify-between md:flex">
+            <p className="mb-4 text-sm text-gray-700">
+              이 회사에 합류할까요?
+              <br /> 동료들이 알아볼 수 있도록 이름을 알려주세요.
+            </p>
+            <div className="w-1/2">
+              <p className="font-bold">{data.name}</p>
+              <p>{data.location}</p>
+              <p>{data.title}</p>
+              <Formik
+                enableReinitialize={true}
+                initialValues={joinTeamValue}
+                validationSchema={joinTeamSchema}
+                onSubmit={(values) =>
+                  handleJoinTeam({ ...values, team: data.id })
+                }
+              >
+                {({ handleSubmit, values }) => (
+                  <Form>
+                    <Field
+                      name="member_name"
+                      component={Input}
+                      value={values.member_name}
+                      placeholder="이름"
+                    />
+                    <div className="mb-2.5"></div>
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      onSubmit={() => handleSubmit()}
+                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    >
+                      합류하기
+                    </button>
+                  </Form>
+                )}
+              </Formik>
+            </div>
+          </div>
+        )}
+      </>
+    </Modal>
   )
 }
 
