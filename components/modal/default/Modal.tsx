@@ -5,12 +5,14 @@ export interface ModalProps {
   isOpen: boolean
   children?: React.ReactChild
   handleClose: Function
+  title?: string
 }
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   children,
   handleClose,
+  title,
 }) => {
   if (!isOpen) return null
 
@@ -20,6 +22,7 @@ export const Modal: React.FC<ModalProps> = ({
         <StyledModal.Background role="modal">
           <StyledModal.Container>
             <StyledModal.Header>
+              {title && <StyledModal.Title>{title}</StyledModal.Title>}
               <StyledModal.CloseButton
                 name="close"
                 onClick={() => handleClose()}

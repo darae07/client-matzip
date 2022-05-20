@@ -14,10 +14,10 @@ interface ContentProps {
   size?: 'small' | 'medium' | 'large'
 }
 const ModalContainer = styled.div<ContentProps>`
-  ${tw`relative my-8 bg-white rounded-2xl p-6`}
+  ${tw`relative my-8 max-w-screen-md bg-white rounded-2xl p-6`}
   ${(props) =>
     props.size === 'small'
-      ? tw`w-full max-w-screen-md sm:max-w-[50%] lg:max-w-[30%]`
+      ? tw`w-full sm:max-w-[50%] lg:max-w-[30%]`
       : tw`mx-auto w-full`}
 `
 const ModalContent = styled.div`
