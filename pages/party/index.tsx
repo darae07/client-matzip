@@ -7,7 +7,12 @@ import { NextPageWithLayout, PaginatedResult, Party } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
 import { listParty } from '@/api'
 import { CategoryName, CategoryFilter } from '@/components/modules'
-import { ListItem, UserAvatarTooltip, WhiteRoundedCard, HomeLayout } from '@/components'
+import {
+  ListItem,
+  UserAvatarTooltip,
+  WhiteRoundedCard,
+  HomeLayout,
+} from '@/components'
 
 const PartyPage: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user)
@@ -16,7 +21,7 @@ const PartyPage: NextPageWithLayout = () => {
   const { data, error, isLoading } = useQuery<PaginatedResult<Party>>(
     ['party'],
     listParty,
-    { enabled: !!team_profile }
+    { enabled: !!team_profile },
   )
 
   if (team_profile) {
@@ -26,36 +31,35 @@ const PartyPage: NextPageWithLayout = () => {
         <div className="mb-4"></div>
         <ul className="grid gap-4 md:grid-cols-3">
           {data?.results?.map((party: Party) => (
-            <Link
-              href={`/party/${party.id}`}
-              scroll={false}
-              key={party.id}
-            >
-              <ListItem >
-                <div className="mb-1 flex items-center">
-                  <CategoryName category={party.keyword.category} className='mr-2' />
-                  <p className="text-lg font-bold">{party.name}</p>
-                </div>
-
-                <span className="text-blue-500">#{party.keyword.name}</span>
-
-                <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
-                  {party.membership.map((membership) => (
-                    <UserAvatarTooltip
-                      user={membership.team_member}
-                      key={membership.id}
+            <ListItem key={party.id}>
+              <Link href={`/party/${party.id}`} scroll={false} key={party.id}>
+                <div>
+                  <div className="mb-1 flex items-center">
+                    <CategoryName
+                      category={party.keyword.category}
+                      className="mr-2"
                     />
-                  ))}
+                    <p className="text-lg font-bold">{party.name}</p>
+                  </div>
+
+                  <span className="text-blue-500">#{party.keyword.name}</span>
+
+                  <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
+                    {party.membership.map((membership) => (
+                      <UserAvatarTooltip
+                        user={membership.team_member}
+                        key={membership.id}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </ListItem>
-            </Link>
+              </Link>
+            </ListItem>
           ))}
         </ul>
       </div>
     )
-  }
-
-  else {
+  } else {
     return (
       <WhiteRoundedCard className="mb-4 cursor-pointer">
         <Link href="/team" passHref>
