@@ -1,5 +1,2 @@
-export { default as ContentModal } from './ContentModal'
-export { default as ModalTransition } from './ModalTransition'
-export { default as PageModal } from './PageModal'
 export * from './confirm'
 export { Modal } from './default/Modal'
