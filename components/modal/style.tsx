@@ -8,38 +8,38 @@ export const Modal = ({ children }: LayoutProps) => {
 }
 
 const ModalBackground = styled.div`
-  ${tw`fixed inset-0 z-[21] flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none`}
+  ${tw`fixed inset-0 z-[21] px-4 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none`}
 `
 interface ContentProps {
   size?: 'small' | 'medium' | 'large'
 }
 const ModalContainer = styled.div<ContentProps>`
-  ${tw`relative my-6    bg-white rounded-lg`}
+  ${tw`relative my-8 bg-white rounded-2xl p-6`}
   ${(props) =>
     props.size === 'small'
-      ? tw`w-auto w-10/12 sm:max-w-[50%] lg:max-w-[30%]`
-      : tw`mx-auto sm:my-8 w-11/12 sm:max-w-screen-lg`}
+      ? tw`w-full max-w-screen-md sm:max-w-[50%] lg:max-w-[30%]`
+      : tw`mx-auto w-full`}
 `
 const ModalContent = styled.div`
   ${tw`relative flex w-full flex-col rounded-lg border-0 bg-white shadow-xl outline-none focus:outline-none`}
 `
 const ModalHeader = styled.div`
-  ${tw`border-gray-200 p-5`}
+  ${tw`border-gray-200`}
 `
 const ModalTitle = styled.h3`
   ${tw`text-lg font-medium leading-6 text-gray-900`}
 `
 const ModalBody = styled.div`
-  ${tw`relative flex-auto p-5 sm:p-6 sm:pb-4 text-sm text-gray-600`}
+  ${tw`relative flex-auto text-sm text-gray-600`}
 `
 const ModalFooter = styled.div`
-  ${tw`flex items-center justify-end rounded-b  py-3 px-5`}
+  ${tw`flex items-center justify-end rounded-b pt-3`}
 `
 const ModalBackArea = styled.div`
   ${tw`fixed inset-0 z-[20] bg-black opacity-25`}
 `
 const ModalCloseButton = styled.button`
-  ${tw`absolute top-4 right-4 hover:border-2 hover:border-blue-300 hover:rounded`}
+  ${tw`absolute right-6 top-6 text-gray-400 z-[29]`}
 `
 interface CloseButtonProps {
   className?: string
