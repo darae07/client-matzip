@@ -12,6 +12,7 @@ const SearchCategory = ({ category, setCategory }: SearchCategoryProps) => {
   const { data } = useQuery<PaginatedResult<Category>>(
     ['category'],
     listCategory,
+    { staleTime: Infinity },
   )
   if (data)
     return (
@@ -19,8 +20,9 @@ const SearchCategory = ({ category, setCategory }: SearchCategoryProps) => {
         {data.results.map((cat) => (
           <button
             key={cat.id}
-            className={`${category === cat.id ? 'bg-blue-300 text-white' : 'text-blue-500'
-              } mr-1 mb-2 rounded border border-blue-300 p-2 text-sm font-medium sm:mb-0`}
+            className={`${
+              category === cat.id ? 'bg-blue-300 text-white' : 'text-blue-500'
+            } mr-1 mb-2 rounded border border-blue-300 p-2 text-sm font-medium sm:mb-0`}
             onClick={() => setCategory(cat.id)}
           >
             {cat.name}
