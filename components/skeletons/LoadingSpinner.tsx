@@ -7,7 +7,7 @@ interface IconProps {
   className: string | null
 }
 
-const LoadingSpinner: FC<IconProps> = ({
+export const LoadingSpinner: FC<IconProps> = ({
   width = 24,
   height = 16,
   className,
@@ -20,5 +20,3 @@ const LoadingSpinner: FC<IconProps> = ({
     />
   )
 }
-
-export default LoadingSpinner

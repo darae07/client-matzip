@@ -4,7 +4,7 @@ import { Input } from '@/components'
 import * as Yup from 'yup'
 import { login, LoginValuesType } from '@/api/auth/login'
 import { useAppDispatch, useAppSelector } from '@/utils/hooks'
-import LoadingSpinner from '@/components/skeletons/LoadingSpinner'
+import { LoadingSpinner } from '@/components'
 
 const loginValues = {
   email: '',
