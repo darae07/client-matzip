@@ -6,14 +6,13 @@ import { persistStore } from 'redux-persist'
 import { injectStore, setupAxiosInterceptors } from 'api'
 import { Toast } from 'components/toast/toast'
 import { AppPropsWithLayout } from 'type/ui'
-import { ReactNode, useEffect } from 'react'
-import { QueryCache, QueryClient, QueryClientProvider } from 'react-query'
+import { ReactNode, useEffect, useState } from 'react'
+import { QueryClient, QueryClientProvider, Hydrate } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from 'components/error/ErrorFallback'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
-
 
 declare global {
   interface Window {
@@ -33,14 +32,19 @@ export default wrapper.withRedux(
     }, [])
 
     const getLayout = Component.getLayout ?? ((page: ReactNode) => page)
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        mutations: {
-          // useErrorBoundary: true,
-        },
-      },
-      queryCache: new QueryCache({}),
-    })
+    const [queryClient] = useState(
+      () =>
+        new QueryClient({
+          defaultOptions: {
+            mutations: {
+              // useErrorBoundary: true,
+            },
+            queries: {
+              cacheTime: 1000 * 60 * 60 * 2, // 2 hours
+            },
+          },
+        }),
+    )
 
     const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
 
@@ -54,11 +58,16 @@ export default wrapper.withRedux(
         />
         <PersistGate persistor={persistor} loading={null}>
           <QueryClientProvider client={queryClient}>
-            <Toast />
-            <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => { }}>
-              {getLayout(<Component {...pageProps} />)}
-            </ErrorBoundary>
-            <ReactQueryDevtools />
+            <Hydrate state={pageProps.dehydratedState}>
+              <Toast />
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => {}}
+              >
+                {getLayout(<Component {...pageProps} />)}
+              </ErrorBoundary>
+              <ReactQueryDevtools />
+            </Hydrate>
           </QueryClientProvider>
         </PersistGate>
       </>
