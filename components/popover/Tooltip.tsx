@@ -21,10 +21,9 @@ const Tooltip = ({ children, tooltipText }: TooltipProps) => {
   }
   return (
     <div
-      className="relative z-[15] flex w-fit items-center"
+      className="relative flex w-fit items-center"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ zIndex: 15 }}
     >
       <div
         className="whitespace-no-wrap absolute right-0 flex items-center rounded-lg bg-gray-700 px-4 py-3 text-xs text-white transition-all duration-150"

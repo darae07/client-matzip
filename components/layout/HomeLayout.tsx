@@ -19,7 +19,7 @@ export default function HomeLayout({ children }: LayoutProps) {
           </div>
         </div>
       </header>
-      <section className="h-screen overflow-y-auto px-3 pt-7 md:container md:mx-auto md:px-0">
+      <section className=" px-3 pt-7 md:container md:mx-auto md:px-0">
         {children}
       </section>
       <MainHeaderTab className="block h-14 sm:hidden" />
