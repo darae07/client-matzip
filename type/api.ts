@@ -15,8 +15,8 @@ export interface ApiErrorResponse<ResultT> extends AxiosError {
 }
 
 export type PaginatedResult<ResultT> = {
-  count: 2
-  next: null
-  previous: null
+  count: number
+  next: null | number
+  previous: null | number
   results: Array<ResultT>
 }
