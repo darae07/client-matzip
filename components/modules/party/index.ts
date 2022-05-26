@@ -1,2 +1,3 @@
-export { SearchCategory } from './SearchCategory'
-export { SearchKeywordMap } from './SearchKeywordMap'
+export * from './SearchCategory'
+export * from './SearchKeywordMap'
+export * from './CategoryFilter'

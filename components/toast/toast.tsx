@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useEffect, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useAppDispatch, useAppSelector } from 'hooks'
-import { closeToast } from 'store/modules/ui/toast'
+import { useAppDispatch, useAppSelector } from '@/utils/hooks'
+import { closeToast } from '@/store/modules/ui/toast'
 
 export const Toast: FC = () => {
   const { isOpen, message, disappearTime } = useAppSelector((state) => ({

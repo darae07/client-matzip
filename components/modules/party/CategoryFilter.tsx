@@ -1,11 +1,11 @@
-import React, { FC, useState } from 'react'
+import React, { FC, HTMLAttributes, useState } from 'react'
 import { WhiteRoundedCard } from 'components/card/styledCard'
 import { PlusIcon } from '@heroicons/react/outline'
 import { HeartIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 import { SearchCategory } from './SearchCategory'
 
-const CategoryFilter: FC = () => {
+const CategoryFilter: FC<HTMLAttributes<HTMLDivElement>> = (props) => {
   const router = useRouter()
   const createParty = () => {
     router.push('/party/create')
@@ -14,7 +14,7 @@ const CategoryFilter: FC = () => {
   const [category, setCategory] = useState(null)
 
   return (
-    <WhiteRoundedCard>
+    <WhiteRoundedCard className={props.className}>
       <div className="flex justify-between">
         <div className=" border-r pr-4">
           <SearchCategory setCategory={setCategory} category={category} />
@@ -35,4 +35,4 @@ const CategoryFilter: FC = () => {
   )
 }
 
-export default CategoryFilter
+export { CategoryFilter }

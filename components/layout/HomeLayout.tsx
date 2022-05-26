@@ -1,8 +1,8 @@
-import { LayoutProps } from 'type/ui'
-import OurMatzipLogo from 'public/icon/our_matzip_logo.svg'
+import { LayoutProps } from '@/type'
+import OurMatzipLogo from '@/public/icon/our_matzip_logo.svg'
 import { BellIcon } from '@heroicons/react/outline'
-import MainHeaderTab from 'components/tabs/MainNavigationTab'
-import MenuUserAvatar from 'components/user/MenuUserAvatar'
+import MainHeaderTab from '@/components/tabs/MainNavigationTab'
+import MenuUserAvatar from '@/components/user/MenuUserAvatar'
 
 export default function HomeLayout({ children }: LayoutProps) {
   return (
@@ -19,7 +19,7 @@ export default function HomeLayout({ children }: LayoutProps) {
           </div>
         </div>
       </header>
-      <section className="h-screen overflow-y-auto px-3 pt-7 md:container md:mx-auto md:px-0">
+      <section className=" px-3 pt-7 md:container md:mx-auto md:px-0">
         {children}
       </section>
       <MainHeaderTab className="block h-14 sm:hidden" />

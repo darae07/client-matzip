@@ -12,6 +12,7 @@ const SearchCategory = ({ category, setCategory }: SearchCategoryProps) => {
   const { data } = useQuery<PaginatedResult<Category>>(
     ['category'],
     listCategory,
+    { staleTime: Infinity },
   )
   if (data)
     return (

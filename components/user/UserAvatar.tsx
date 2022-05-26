@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import { TeamMember } from 'type/user'
+import { TeamMember } from '@/type/user'
 import Image from 'next/image'
-import Tooltip from 'components/popover/Tooltip'
+import Tooltip from '@/components/popover/Tooltip'
 
 type UserAvatarProps = {
   user: TeamMember

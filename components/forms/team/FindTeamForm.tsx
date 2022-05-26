@@ -1,15 +1,15 @@
 import { FC } from 'react'
 import { Field, Formik, Form } from 'formik'
-import { Input } from 'components'
+import { Input } from '@/components'
 import * as Yup from 'yup'
-import { FindTeamValue, Team } from 'type/team'
+import { FindTeamValue, Team } from '@/type/team'
 import { useMutation, useQueryClient } from 'react-query'
-import { findTeamByCode } from 'api/team'
-import { ApiResponseData, ApiErrorResponse } from 'type/api'
-import { openToast } from 'store/modules/ui/toast'
-import { useAppDispatch } from 'hooks'
+import { findTeamByCode } from '@/api/team'
+import { ApiResponseData, ApiErrorResponse } from '@/type/api'
+import { openToast } from '@/store/modules/ui/toast'
+import { useAppDispatch } from '@/utils/hooks'
 import _ from 'lodash'
-import { teamCodeReg } from 'constants/validation'
+import { teamCodeReg } from '@/constants/validation'
 
 const teamValues = {
   code: '',

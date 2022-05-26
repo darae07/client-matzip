@@ -1,6 +1,6 @@
 import { retrieveTeam } from 'api/team'
 import { WhiteRoundedCard } from 'components/card/styledCard'
-import { useAppSelector } from 'hooks'
+import { useAppSelector } from '@/utils/hooks'
 import { FC, useEffect } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { Team } from 'type/team'

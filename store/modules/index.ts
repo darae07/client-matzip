@@ -9,4 +9,6 @@ const rootReducer = combineReducers({
   toast,
 })
 
-export default rootReducer
+export { rootReducer }
+export * from './auth'
+export * from './ui'

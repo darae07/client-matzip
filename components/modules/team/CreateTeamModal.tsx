@@ -1,13 +1,19 @@
 import { useRouter } from 'next/router'
-import { CreateTeamForm } from 'components/forms/team/CreateTeamForm'
-import ContentModal from '../ContentModal'
+import { CreateTeamForm, Modal } from '@/components'
 
 const CreateTeamModal = () => {
   const router = useRouter()
+  const { asPath } = router
+
+  const showTeamCreateModal = asPath === '/team/create'
   const closeModal = () => router.push('/team')
 
   return (
-    <ContentModal closeAction={closeModal} title="회사 등록하기">
+    <Modal
+      handleClose={closeModal}
+      isOpen={showTeamCreateModal}
+      title="회사 등록하기"
+    >
       <div className="mt-2 justify-between md:flex">
         <p className="mb-4 text-sm text-gray-700">
           동료들이 알아볼 수 있도록 회사 이름을 알려주세요.
@@ -18,7 +24,7 @@ const CreateTeamModal = () => {
         </p>
         <CreateTeamForm />
       </div>
-    </ContentModal>
+    </Modal>
   )
 }
 

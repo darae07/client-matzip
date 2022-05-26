@@ -1,6 +1,6 @@
 import { SignUpForm } from 'components/forms/auth/SignUpForm'
 import AuthLayout from 'components/layout/AuthLayout'
-import { useAppSelector } from 'hooks'
+import { useAppSelector } from '@/utils/hooks'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import { NextPageWithLayout } from 'type/ui'

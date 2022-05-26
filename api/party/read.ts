@@ -1,10 +1,10 @@
-import { authorizedInstance } from 'api/setupAxios'
-import { ApiResponse } from 'type/api'
-import { isValidId } from 'type/validation'
+import { authorizedInstance } from '@/api/setupAxios'
+import { ApiResponse } from '@/type/api'
+import { isValidId } from '@/type/validation'
 
-export const listParty = async <ResultT>() => {
+export const listParty = async <ResultT>(page: number = 1) => {
   const { data: response }: ApiResponse<ResultT> = await authorizedInstance.get(
-    'group/party/',
+    `group/party/?page=${page}`,
   )
   return response.result
 }

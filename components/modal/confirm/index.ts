@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react'
-import ReactDOM, { createPortal } from 'react-dom'
+import React from 'react'
+import { createRoot } from 'react-dom/client'
 import { ConfirmModal } from './ConfirmModal'
+import { Portal, confirmModalRootId, createRootContainer } from '../portal'
 
 // https://github.com/serrexlabs/react-confirm-box
 
-type Props = {
-  children: Element
-}
 type ClassNames = {
   container?: string
   buttons?: string
@@ -26,41 +24,36 @@ export type Options = {
   children?: React.ReactNode
 }
 
-const mountRootId = 'confirm-box-root'
-
-// portal: 부모 계층에 종속되지 않고 컴포넌트를 렌더링
-const Portal: React.FC<Props> = ({ children }: Props) => {
-  const mount = document.getElementById(mountRootId) as HTMLElement
-  const el = document.createElement('div')
-
-  useEffect((): any => {
-    mount.appendChild(el)
-    return () => mount.removeChild(el)
-  }, [el, mount])
-
-  return createPortal(children, el)
-}
-
 export const confirm = async (
   message: string,
   options?: Options,
-): Promise<any> => {
+): Promise<boolean> => {
   // 마운트 될 요소를 찾고, 없으면 생성
-  const mount = await document.getElementById(mountRootId)
+  let mount = document.getElementById(confirmModalRootId)
   if (!mount) {
-    const rootMount = await document.createElement('div')
-    await rootMount.setAttribute('id', mountRootId)
-    document.body.appendChild(rootMount)
+    mount = createRootContainer(confirmModalRootId)
   }
 
-  return new Promise((resolve) => {
-    const ConfirmModalEl = React.createElement(ConfirmModal, {
-      resolver: resolve,
-      message,
-      options,
+  if (mount) {
+    const root = createRoot(mount)
+    return new Promise((resolve) => {
+      const ConfirmModalEl = React.createElement(ConfirmModal, {
+        resolver: (response) => {
+          resolve(response)
+          root.unmount()
+        },
+        message,
+        options,
+      })
+      // 포탈에 컨펌모달을 합성
+      const PortalEl = React.createElement(
+        Portal,
+        { rootId: confirmModalRootId },
+        ConfirmModalEl,
+      )
+
+      root.render(PortalEl)
     })
-    // 포탈에 컨펌모달을 칠드런으로 전달
-    const PortalEl = React.createElement(Portal, null, ConfirmModalEl)
-    ReactDOM.render(PortalEl, document.getElementById(mountRootId))
-  })
+  }
+  return new Promise(() => {})
 }
