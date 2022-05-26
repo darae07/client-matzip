@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
-import HomeLayout from 'components/layout/HomeLayout'
-import FindTeamModal from 'components/modal/team/FindTeamModal'
+import { HomeLayout } from '@/components'
+import { FindTeamModal } from '@/components/modules'
 
 const FindTeam = () => {
   return <FindTeamModal />
