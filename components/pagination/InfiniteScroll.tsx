@@ -1,4 +1,4 @@
-import { HTMLAttributes, useEffect, useRef } from 'react'
+import { HTMLAttributes, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -15,12 +15,11 @@ export const InfiniteScroll = ({
 
   useEffect(() => {
     if (!hasNextPage) return
-    if (inView) fetchNextPage()
+    if (inView && !isFetchingNextPage) fetchNextPage()
   }, [inView, hasNextPage])
 
   return (
-    <div role="infiniteScroll">
-      <div ref={ref}></div>
+    <div role="infiniteScroll" ref={ref}>
       {isFetchingNextPage && <div role="loadingIndicator">loading...</div>}
     </div>
   )
