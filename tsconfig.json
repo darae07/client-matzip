@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,46 +16,20 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/utils/*": [
-        "utils/*"
-      ],
-      "@/components/*": [
-        "components/*"
-      ],
-      "@/constants/*": [
-        "constants/*"
-      ],
-      "@/store/*": [
-        "store/*"
-      ],
-      "@/api/*": [
-        "api/*"
-      ],
-      "@/type/*": [
-        "type/*"
-      ],
-      "@/public/*": [
-        "public/*"
-      ],
-      "@/components": [
-        "components"
-      ],
-      "@/constants": [
-        "constants"
-      ],
-      "@/store": [
-        "store"
-      ],
-      "@/api": [
-        "api"
-      ],
-      "@/type": [
-        "type/index.ts"
-      ]
+      "@/utils/*": ["utils/*"],
+      "@/components/*": ["components/*"],
+      "@/constants/*": ["constants/*"],
+      "@/store/*": ["store/*"],
+      "@/api/*": ["api/*"],
+      "@/type/*": ["type/*"],
+      "@/public/*": ["public/*"],
+      "@/components": ["components"],
+      "@/constants": ["constants"],
+      "@/store": ["store"],
+      "@/api": ["api"],
+      "@/type": ["type/index.ts"]
     },
-    "types": [
-      "kakao.maps.d.ts"
-    ]
+    "types": ["kakao.maps.d.ts"]
   },
   "include": [
     "next-env.d.ts",
@@ -67,7 +37,5 @@
     "**/*.tsx",
     "__tests__/index.test.jsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
