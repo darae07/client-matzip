@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import React, { ReactElement } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useQuery, useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery } from 'react-query'
 import { NextPageWithLayout, PaginatedResult, Party } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
 import { listParty } from '@/api'
@@ -12,20 +11,24 @@ import {
   UserAvatarTooltip,
   WhiteRoundedCard,
   HomeLayout,
+  InfiniteScroll,
 } from '@/components'
 
 const PartyPage: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
 
-  const { data, error, fetchNextPage } = useInfiniteQuery<
-    PaginatedResult<Party>
-  >('party', ({ pageParam = 1 }) => listParty(pageParam), {
-    enabled: !!team_profile,
-    keepPreviousData: true,
-    getNextPageParam: (lastPage, pages) => lastPage.next,
-    cacheTime: 1000 * 60 * 60,
-  })
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<PaginatedResult<Party>>(
+      'party',
+      ({ pageParam = 1 }) => listParty(pageParam),
+      {
+        enabled: !!team_profile,
+        keepPreviousData: true,
+        getNextPageParam: (lastPage, pages) => lastPage.next,
+        cacheTime: 1000 * 60 * 60,
+      },
+    )
 
   if (!team_profile) {
     return (
@@ -49,7 +52,7 @@ const PartyPage: NextPageWithLayout = () => {
             {group.results.map((party: Party) => (
               <ListItem key={party.id}>
                 <Link href={`/party/${party.id}`} scroll={false} key={party.id}>
-                  <div>
+                  <React.Fragment>
                     <div className="mb-1 flex items-center">
                       <CategoryName
                         category={party.keyword?.category}
@@ -70,14 +73,18 @@ const PartyPage: NextPageWithLayout = () => {
                         />
                       ))}
                     </div>
-                  </div>
+                  </React.Fragment>
                 </Link>
               </ListItem>
             ))}
           </React.Fragment>
         ))}
       </ul>
-      <button onClick={() => fetchNextPage()}>load more</button>
+      <InfiniteScroll
+        fetchNextPage={fetchNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        hasNextPage={hasNextPage}
+      />
     </div>
   )
 }
