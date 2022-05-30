@@ -1,21 +1,12 @@
-import { Field, Formik, Form } from 'formik'
-import { Input } from 'components'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
 import { SearchIcon, CheckIcon } from '@heroicons/react/outline'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
-import { useState } from 'react'
-import { Marker } from 'type/lunch'
+
+import { Input } from '@/components'
+import { Marker, Team } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
-import { useQuery } from 'react-query'
-import { retrieveTeam } from 'api/team'
-import { Team } from 'type/team'
-
-const keywordValue = {
-  keyword: '',
-}
-
-type Keyword = {
-  keyword: string
-}
+import { retrieveTeam } from '@/api'
 
 type SearchKeywordMapProps = {
   setKeyword: Function
@@ -39,14 +30,14 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
     },
   )
 
-  const handleSearchKeyword = (values: Keyword) => {
+  const handleSearchKeyword = () => {
     if (map) {
       setMarkerInfo(undefined)
       const ps = new kakao.maps.services.Places()
 
       const location = myTeam.data && myTeam.data.location
       ps.keywordSearch(
-        `${location} ${values.keyword}`,
+        `${location} ${keyword}`,
         (data, status, _pagination) => {
           if (status === kakao.maps.services.Status.ZERO_RESULT)
             return setNoData(true)
@@ -89,37 +80,26 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
 
   return (
     <div>
-      <Formik
-        enableReinitialize={true}
-        initialValues={keywordValue}
-        onSubmit={handleSearchKeyword}
-      >
-        {({ handleSubmit, values }) => (
-          <Form>
-            <div className="flex w-full">
-              <Field
-                name="keyword"
-                component={Input}
-                value={values.keyword}
-                placeholder="맛집 이름을 입력해 주세요"
-                className="w-full"
-              />
-              {markerInfo && (
-                <div className="p-2 text-green-500">
-                  <CheckIcon className=" h-6 w-6" />
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={() => handleSubmit()}
-                className="ml-2 w-10 rounded-md bg-blue-500 px-2 text-white"
-              >
-                <SearchIcon className="h-6 w-6" />
-              </button>
-            </div>
-          </Form>
+      <div className="flex w-full">
+        <Input
+          name="keyword"
+          placeholder="맛집 이름을 입력해 주세요"
+          className="w-full"
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        {markerInfo && (
+          <div className="p-2 text-green-500">
+            <CheckIcon className=" h-6 w-6" />
+          </div>
         )}
-      </Formik>
+        <button
+          type="button"
+          onClick={() => handleSearchKeyword()}
+          className="ml-2 w-10 rounded-md bg-blue-500 px-2 text-white"
+        >
+          <SearchIcon className="h-6 w-6" />
+        </button>
+      </div>
 
       <div className={` relative mt-2  w-full`}>
         <div

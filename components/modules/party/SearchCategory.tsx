@@ -1,7 +1,6 @@
-import { listCategory } from 'api/keyword/category'
 import { useQuery } from 'react-query'
-import { PaginatedResult } from 'type/api'
-import { Category } from 'type/lunch'
+import { listCategory } from '@/api'
+import { PaginatedResult, Category } from '@/type'
 
 type SearchCategoryProps = {
   setCategory: Function

@@ -9,9 +9,9 @@ export type InputSize = 'medium' | 'large'
 export type InputType = 'text' | 'email' | 'password'
 
 export type InputProps = {
-  id: string
+  id?: string
   name: string
-  label: string
+  label?: string
   type?: InputType
   size?: InputSize
   className?: string
