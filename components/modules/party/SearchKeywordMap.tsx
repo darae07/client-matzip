@@ -13,6 +13,7 @@ type SearchKeywordMapProps = {
   keyword: string | null
 }
 const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
+  const [tempKeyword, setTempKeyword] = useState('')
   const [markers, setMarkers] = useState<Marker[]>([])
   const [map, setMap] = useState<any>()
   const [noData, setNoData] = useState(true)
@@ -37,7 +38,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
 
       const location = myTeam.data && myTeam.data.location
       ps.keywordSearch(
-        `${location} ${keyword}`,
+        `${location} ${tempKeyword}`,
         (data, status, _pagination) => {
           if (status === kakao.maps.services.Status.ZERO_RESULT)
             return setNoData(true)
@@ -85,7 +86,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
           name="keyword"
           placeholder="맛집 이름을 입력해 주세요"
           className="w-full"
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={(e) => setTempKeyword(e.target.value)}
         />
         {markerInfo && (
           <div className="p-2 text-green-500">
