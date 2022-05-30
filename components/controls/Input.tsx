@@ -42,8 +42,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         id={id}
-        ref={ref}
         name={name}
+        ref={ref}
         type={type}
         aria-label={label}
         className={classNames([
