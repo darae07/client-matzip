@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import { useRouter } from 'next/router'
 import { useQueryClient } from 'react-query'
-import { Field, Formik, Form } from 'formik'
 import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import {
   Team,
@@ -15,7 +15,7 @@ import { teamCodeReg } from '@/constants/validation'
 import { findTeamByCode, joinTeam } from '@/api/team'
 import { useAppDispatch, useMutationHandleError } from '@/utils/hooks'
 import { setUserTeamProfile, openToast } from '@/store/modules'
-import { Input, Modal } from '@/components'
+import { Form, FormInput, Modal } from '@/components'
 
 const teamValues = {
   code: '',
@@ -94,32 +94,25 @@ const FindTeamModal = () => {
             <p className="mb-4 text-sm text-gray-700">
               동료에게 공유받은 입장코드를 입력해주세요
             </p>
-            <Formik
-              enableReinitialize={true}
-              initialValues={teamValues}
-              validationSchema={findTeamSchema}
-              onSubmit={(values) => handleFindTeam(values)}
+
+            <Form<FindTeamValue>
+              onSubmit={handleFindTeam}
+              options={{
+                defaultValues: teamValues,
+                resolver: yupResolver(findTeamSchema),
+                mode: 'onBlur',
+              }}
             >
-              {({ handleSubmit, values }) => (
-                <Form>
-                  <Field
-                    name="code"
-                    component={Input}
-                    value={values.code}
-                    placeholder="입장코드"
-                  />
-                  <div className="mb-2.5"></div>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    onSubmit={() => handleSubmit()}
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  >
-                    회사 찾기
-                  </button>
-                </Form>
-              )}
-            </Formik>
+              <FormInput<FindTeamValue> name="code" placeholder="입장코드" />
+              <div className="mb-2.5"></div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              >
+                회사 찾기
+              </button>
+            </Form>
           </div>
         )}
         {!!data && (
@@ -132,34 +125,28 @@ const FindTeamModal = () => {
               <p className="font-bold">{data.name}</p>
               <p>{data.location}</p>
               <p>{data.title}</p>
-              <Formik
-                enableReinitialize={true}
-                initialValues={joinTeamValue}
-                validationSchema={joinTeamSchema}
-                onSubmit={(values) =>
-                  handleJoinTeam({ ...values, team: data.id })
-                }
+
+              <Form<CreateMembershipValue>
+                onSubmit={handleJoinTeam}
+                options={{
+                  defaultValues: joinTeamValue,
+                  resolver: yupResolver(joinTeamSchema),
+                  mode: 'onBlur',
+                }}
               >
-                {({ handleSubmit, values }) => (
-                  <Form>
-                    <Field
-                      name="member_name"
-                      component={Input}
-                      value={values.member_name}
-                      placeholder="이름"
-                    />
-                    <div className="mb-2.5"></div>
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      onSubmit={() => handleSubmit()}
-                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    >
-                      합류하기
-                    </button>
-                  </Form>
-                )}
-              </Formik>
+                <FormInput<CreateMembershipValue>
+                  name="member_name"
+                  placeholder="이름"
+                  className="mb-2.5"
+                />
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                >
+                  합류하기
+                </button>
+              </Form>
             </div>
           </div>
         )}

@@ -1,9 +1,8 @@
 import React, { FC } from 'react'
-import { Field, Formik, Form } from 'formik'
-import { Input } from '@/components'
+import { Form, FormInput, LoadingSpinner } from '@/components'
 import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useAppDispatch, useAppSelector } from '@/utils/hooks'
-import { LoadingSpinner } from '@/components'
 import { signUP, SignUpValuesType } from '@/api/auth/signUp'
 import { passwordReg } from '@/constants/validation'
 
@@ -42,57 +41,43 @@ export const SignUpForm: FC = () => {
 
   return (
     <div>
-      <Formik
-        enableReinitialize={true}
-        initialValues={signUpValues}
-        validationSchema={signUpFormSchema}
-        onSubmit={(values) => {
-          handleSignUp(values)
+      <Form<SignUpValuesType>
+        onSubmit={handleSignUp}
+        options={{
+          resolver: yupResolver(signUpFormSchema),
+          defaultValues: signUpValues,
+          mode: 'onBlur',
         }}
       >
-        {({ handleSubmit, values }) => (
-          <Form>
-            <Field
-              name="email"
-              component={Input}
-              value={values.email}
-              placeholder="이메일 주소"
+        <FormInput<SignUpValuesType> name="email" placeholder="이메일 주소" />
+        <div className="mb-2.5"></div>
+        <FormInput<SignUpValuesType>
+          name="password1"
+          type="password"
+          placeholder="비밀번호"
+        />
+        <div className="mb-2.5"></div>
+        <FormInput<SignUpValuesType>
+          name="password2"
+          type="password"
+          placeholder="비밀번호 확인"
+        />
+        <button
+          type="submit"
+          className="mt-2.5 w-full items-center justify-center rounded-md border  bg-sky-600 py-2 px-2 font-semibold text-white hover:bg-sky-700 md:text-sm"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <LoadingSpinner
+              width="24"
+              height="16"
+              className="mr-3 inline h-4 w-4 text-white"
             />
-            <div className="mb-2.5"></div>
-            <Field
-              name="password1"
-              type="password"
-              component={Input}
-              value={values.password1}
-              placeholder="비밀번호"
-            />
-            <div className="mb-2.5"></div>
-            <Field
-              name="password2"
-              type="password"
-              component={Input}
-              value={values.password2}
-              placeholder="비밀번호 확인"
-            />
-            <button
-              type="submit"
-              onSubmit={() => handleSubmit()}
-              className="mt-2.5 w-full items-center justify-center rounded-md border  bg-sky-600 py-2 px-2 font-semibold text-white hover:bg-sky-700 md:text-sm"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <LoadingSpinner
-                  width="24"
-                  height="16"
-                  className="mr-3 inline h-4 w-4 text-white"
-                />
-              ) : (
-                '회원가입'
-              )}
-            </button>
-          </Form>
-        )}
-      </Formik>
+          ) : (
+            '회원가입'
+          )}
+        </button>
+      </Form>
     </div>
   )
 }
