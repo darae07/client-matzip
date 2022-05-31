@@ -16,7 +16,7 @@ import {
 import { openToast } from '@/store/modules/ui/toast'
 import { User } from 'type/user'
 
-export interface LoginValuesType {
+export type LoginValuesType = {
   email: string
   password: string
 }

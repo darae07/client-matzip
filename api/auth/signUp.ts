@@ -4,7 +4,7 @@ import { userLoginStart } from '@/store/modules/auth/user'
 import { loginSuccess, loginFail } from './login'
 import serverErrorMessage from '@/constants/serverResponseErrorMessages'
 
-export interface SignUpValuesType {
+export type SignUpValuesType = {
   email: string
   password1: string
   password2: string

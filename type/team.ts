@@ -5,7 +5,7 @@ export interface CreateTeamValue {
   location: string
 }
 
-export interface FindTeamValue {
+export type FindTeamValue = {
   code: string
 }
 
