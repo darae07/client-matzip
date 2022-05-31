@@ -1,10 +1,9 @@
 import { ReactElement, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { NextPageWithLayout, ApiResponseData, Party } from '@/type'
 import { useAppDispatch, useMutationHandleError } from '@/utils/hooks'
-import { FormInput, WhiteRoundedCard, HomeLayout } from '@/components'
+import { Form, FormInput, WhiteRoundedCard, HomeLayout } from '@/components'
 import { SearchKeywordMap, SearchCategory } from '@/components/modules'
 import { openToast } from '@/store/modules'
 import { createParty } from '@/api'
@@ -17,22 +16,12 @@ type PartyCreateValue = {
 const PartyCreate: NextPageWithLayout = () => {
   const createPartySchema = Yup.object().shape({
     name: Yup.string().required('제목을 입력해 주세요'),
-    description: Yup.string().required('내용을 입력해 주세요'),
   })
 
   const [keyword, setKeyword] = useState(null)
   const [category, setCategory] = useState(null)
 
   const dispatch = useAppDispatch()
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<PartyCreateValue>({
-    resolver: yupResolver(createPartySchema),
-    mode: 'onBlur',
-  })
 
   const handelCreateParty = (values: PartyCreateValue) => {
     console.log('submit')
@@ -66,11 +55,15 @@ const PartyCreate: NextPageWithLayout = () => {
           동료들과 오늘 먹고 싶은 점심 메뉴를 등록해 보세요.
         </p>
         <div>
-          <form onSubmit={handleSubmit(handelCreateParty)}>
+          <Form<PartyCreateValue>
+            onSubmit={handelCreateParty}
+            options={{
+              resolver: yupResolver(createPartySchema),
+              mode: 'onBlur',
+            }}
+          >
             <FormInput<PartyCreateValue>
               name="name"
-              register={register}
-              errors={errors}
               placeholder="게시글 제목을 입력해 주세요"
             />
             <div className="mt-2.5"></div>
@@ -81,8 +74,6 @@ const PartyCreate: NextPageWithLayout = () => {
               name="description"
               className="my-2.5 h-20"
               placeholder="설명을 입력해 주세요"
-              register={register}
-              errors={errors}
             />
 
             <button
@@ -92,7 +83,7 @@ const PartyCreate: NextPageWithLayout = () => {
             >
               등록하기
             </button>
-          </form>
+          </Form>
         </div>
       </WhiteRoundedCard>
     </div>
