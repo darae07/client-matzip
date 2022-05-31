@@ -1,7 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { ConfirmModal } from './ConfirmModal'
-import { Portal, confirmModalRootId, createRootContainer } from '../portal'
+import { Portal, confirmModalRootId, createRootContainer } from '@/components'
 
 // https://github.com/serrexlabs/react-confirm-box
 
