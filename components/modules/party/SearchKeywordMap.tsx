@@ -28,6 +28,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
     () => retrieveTeam<Team>(teamId),
     {
       enabled: !!teamId,
+      staleTime: 1000 * 60 * 60,
     },
   )
 

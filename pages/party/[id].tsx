@@ -26,7 +26,6 @@ import { joinParty, outParty, retrieveParty, retrieveTeam } from '@/api'
 const PartyDetail: NextPageWithLayout = () => {
   const { query } = useRouter()
   const { id } = query
-  const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
 
   const { data, error, isLoading } = useQuery(
@@ -44,6 +43,7 @@ const PartyDetail: NextPageWithLayout = () => {
     () => retrieveTeam<Team>(teamId),
     {
       enabled: !!teamId,
+      staleTime: 1000 * 60 * 60,
     },
   )
 

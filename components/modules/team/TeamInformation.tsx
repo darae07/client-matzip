@@ -16,6 +16,7 @@ const TeamInformation: FC = () => {
     () => retrieveTeam<Team>(teamId),
     {
       enabled: !!teamId,
+      staleTime: 1000 * 60 * 60,
     },
   )
 
