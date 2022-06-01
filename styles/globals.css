@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.input-error {
+  @apply border-red-600 transition-colors hover:border-red-600 focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50;
+}
 /* z-index rule
  0-9 페이지 레이어
  10-14 헤더, 스티키 영역
