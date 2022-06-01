@@ -2,7 +2,7 @@ import { ReactElement, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { NextPageWithLayout, ApiResponseData, Party } from '@/type'
-import { useAppDispatch, useMutationHandleError } from '@/utils/hooks'
+import { useMutationHandleError } from '@/utils/hooks'
 import {
   Form,
   FormInput,
@@ -11,7 +11,6 @@ import {
   openToast,
 } from '@/components'
 import { SearchKeywordMap, SearchCategory } from '@/components/modules'
-import {} from '@/store/modules'
 import { createParty } from '@/api'
 
 type PartyCreateValue = {
@@ -27,12 +26,11 @@ const PartyCreate: NextPageWithLayout = () => {
   const [keyword, setKeyword] = useState(null)
   const [category, setCategory] = useState(null)
 
-  const dispatch = useAppDispatch()
-
   const handelCreateParty = (values: PartyCreateValue) => {
-    console.log('submit')
     if (!keyword) {
-      openToast('맛집 이름을 입력해 주세요')
+      openToast('지도에서 맛집을 선택해 주세요')
+      const keywordInput = document.getElementById('keyword')
+      keywordInput?.classList.add('input-error')
       return
     }
     if (!category) {
@@ -82,13 +80,12 @@ const PartyCreate: NextPageWithLayout = () => {
               placeholder="설명을 입력해 주세요"
             />
 
-            <button
+            <input
               type="submit"
               disabled={isLoading}
               className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            >
-              등록하기
-            </button>
+              value="등록하기"
+            />
           </Form>
         </div>
       </WhiteRoundedCard>

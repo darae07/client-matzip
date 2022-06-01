@@ -32,6 +32,10 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
   )
 
   const handleSearchKeyword = () => {
+    const keywordInput = document.getElementById('keyword')
+    if (keywordInput) {
+      handleFocus(keywordInput)
+    }
     if (map) {
       setMarkerInfo(undefined)
       const ps = new kakao.maps.services.Places()
@@ -77,16 +81,29 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
   const updateKeyword = (marker: Marker) => {
     setKeyword(marker.content)
     setMarkerInfo(marker)
+    const keywordInput = document.getElementById('keyword')
+    if (keywordInput) {
+      handleFocus(keywordInput)
+    }
+  }
+
+  const handleFocus = (target: any) => {
+    const classList = target.classList
+    if (classList.contains('input-error')) {
+      classList.remove('input-error')
+    }
   }
 
   return (
     <div>
       <div className="flex w-full">
         <Input
+          id="keyword"
           name="keyword"
           placeholder="맛집 이름을 입력해 주세요"
           className="w-full"
           onChange={(e) => setTempKeyword(e.target.value)}
+          onFocus={(e) => handleFocus(e.target)}
         />
         {markerInfo && (
           <div className="p-2 text-green-500">
@@ -104,7 +121,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
 
       <div className={` relative mt-2  w-full`}>
         <div
-          className={`absolute z-10 h-36 w-full bg-white text-sm text-gray-500 ${
+          className={`absolute z-10 h-52 w-full bg-white text-sm text-gray-500 ${
             !noData && 'hidden'
           }`}
         >
@@ -117,7 +134,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
         )}
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }}
-          style={{ width: '100%', height: '9rem' }}
+          style={{ width: '100%', height: '13rem' }}
           onCreate={setMap}
         >
           {markers.map((marker: Marker) => (
