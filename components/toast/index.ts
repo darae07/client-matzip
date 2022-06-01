@@ -1,40 +1,36 @@
+import _ from 'lodash'
 import React from 'react'
-import { createRoot, Root } from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import { Toast } from './toast'
 import { Portal, toastRootId, createRootContainer } from '@/components'
 
-let root: Root
-let systemCreated = false
 export interface OpenToastOptionProps {}
 export const openToast = (
   message: string,
   disappearTime: number = 2000,
   options?: OpenToastOptionProps,
 ) => {
-  let mount = document.getElementById(toastRootId)
+  const RANDOM_STR = _.random(1, true).toString(36).substring(2, 11)
+  const TOAST_RANDOM_ROOT_ID = `${toastRootId}_${RANDOM_STR}`
+  let mount = document.getElementById(TOAST_RANDOM_ROOT_ID)
   if (!mount) {
-    mount = createRootContainer(toastRootId)
+    mount = createRootContainer(TOAST_RANDOM_ROOT_ID)
   }
 
   if (mount) {
-    if (!root || !systemCreated) {
-      root = createRoot(mount)
-      systemCreated = true
-    }
+    const root = createRoot(mount)
 
     const ToastEl = React.createElement(Toast, { message, options })
     const PortalEl = React.createElement(
       Portal,
-      { rootId: toastRootId },
+      { rootId: TOAST_RANDOM_ROOT_ID },
       ToastEl,
     )
     root.render(PortalEl)
 
     const timer = setTimeout(() => {
-      if (root) {
-        root.unmount()
-        systemCreated = false
-      }
+      mount?.parentNode?.removeChild(mount)
+      root.unmount()
     }, disappearTime)
   }
 }

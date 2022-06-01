@@ -4,7 +4,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { wrapper } from 'store'
 import { persistStore } from 'redux-persist'
 import { injectStore, setupAxiosInterceptors } from 'api'
-import { Toast } from 'components/toast/toast'
 import { AppPropsWithLayout } from 'type/ui'
 import { ReactNode, useEffect, useState } from 'react'
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query'
@@ -59,7 +58,6 @@ export default wrapper.withRedux(
         <PersistGate persistor={persistor} loading={null}>
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
-              <Toast />
               <ErrorBoundary
                 FallbackComponent={ErrorFallback}
                 onReset={() => {}}
