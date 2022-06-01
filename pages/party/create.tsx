@@ -3,9 +3,15 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { NextPageWithLayout, ApiResponseData, Party } from '@/type'
 import { useAppDispatch, useMutationHandleError } from '@/utils/hooks'
-import { Form, FormInput, WhiteRoundedCard, HomeLayout } from '@/components'
+import {
+  Form,
+  FormInput,
+  WhiteRoundedCard,
+  HomeLayout,
+  openToast,
+} from '@/components'
 import { SearchKeywordMap, SearchCategory } from '@/components/modules'
-import { openToast } from '@/store/modules'
+import {} from '@/store/modules'
 import { createParty } from '@/api'
 
 type PartyCreateValue = {
@@ -26,11 +32,11 @@ const PartyCreate: NextPageWithLayout = () => {
   const handelCreateParty = (values: PartyCreateValue) => {
     console.log('submit')
     if (!keyword) {
-      dispatch(openToast('맛집 이름을 입력해 주세요'))
+      openToast('맛집 이름을 입력해 주세요')
       return
     }
     if (!category) {
-      dispatch(openToast('카테고리를 선택해 주세요'))
+      openToast('카테고리를 선택해 주세요')
       return
     }
     mutate({ ...values, keyword, category })
@@ -41,7 +47,7 @@ const PartyCreate: NextPageWithLayout = () => {
     {
       onSuccess: (data: ApiResponseData<Party>) => {
         const { message, result } = data
-        dispatch(openToast(message || '오늘의 메뉴를 등록했습니다.'))
+        openToast(message || '오늘의 메뉴를 등록했습니다.')
       },
     },
     '오늘의 메뉴를 등록할 수 없습니다.',

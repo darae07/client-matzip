@@ -1,9 +1,7 @@
-import { anonymousInstance } from 'api/setupAxios'
-import httpRequest from 'constants/httpRequest'
 import { Dispatch } from 'react'
 import { GoogleLoginResponse } from 'react-google-login'
-import { catchError, userLoginStart } from 'store/modules/auth/user'
-import { openToast } from 'store/modules/ui/toast'
+import { anonymousInstance } from '@/api/setupAxios'
+import { userLoginStart } from '@/store/modules'
 import { loginSuccess, loginFail } from './login'
 
 export const kakaoLogin =

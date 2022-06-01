@@ -14,8 +14,8 @@ import {
 import { teamCodeReg } from '@/constants/validation'
 import { findTeamByCode, joinTeam } from '@/api/team'
 import { useAppDispatch, useMutationHandleError } from '@/utils/hooks'
-import { setUserTeamProfile, openToast } from '@/store/modules'
-import { Form, FormInput, Modal } from '@/components'
+import { setUserTeamProfile } from '@/store/modules'
+import { Form, FormInput, Modal, openToast } from '@/components'
 
 const teamValues = {
   code: '',
@@ -74,7 +74,7 @@ const FindTeamModal = () => {
     {
       onSuccess: (data: ApiResponseData<TeamMember>) => {
         const { message, result } = data
-        dispatch(openToast(message || '회사에 가입했습니다.'))
+        openToast(message || '회사에 가입했습니다.')
         dispatch(setUserTeamProfile(result))
       },
     },
