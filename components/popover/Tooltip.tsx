@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { createPopper } from '@popperjs/core'
 
 interface TooltipProps {
   children: React.ReactChild
@@ -6,33 +7,46 @@ interface TooltipProps {
 }
 
 const Tooltip = ({ children, tooltipText }: TooltipProps) => {
+  const btnRef = useRef<HTMLDivElement>(null)
   const tipRef = useRef<HTMLDivElement>(null)
+
   function handleMouseEnter() {
-    if (tipRef.current) {
+    if (tipRef.current && btnRef.current) {
+      createPopper(btnRef.current, tipRef.current, {
+        placement: 'bottom',
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 8],
+            },
+          },
+        ],
+      })
       tipRef.current.style.opacity = '1'
-      tipRef.current.style.marginTop = '0px'
     }
   }
   function handleMouseLeave() {
     if (tipRef.current) {
       tipRef.current.style.opacity = '0'
-      tipRef.current.style.marginTop = '10px'
     }
   }
   return (
     <div
+      ref={btnRef}
       className="relative flex w-fit items-center"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className="whitespace-no-wrap absolute right-0 flex items-center rounded-lg bg-gray-700 px-4 py-3 text-xs text-white transition-all duration-150"
-        style={{ bottom: '-200%', opacity: 0, minWidth: '80px' }}
+        className="absolute top-3 flex items-center rounded-lg bg-gray-700 px-4 py-3 text-xs text-white"
+        style={{ opacity: 0, minWidth: '80px' }}
         ref={tipRef}
       >
         <div
-          className="absolute h-2.5 w-2.5 bg-gray-700"
-          style={{ right: '10px', top: '-5px', transform: 'rotate(45deg)' }}
+          id="arrow"
+          className="absolute left-1/2  -top-1 h-2.5 w-2.5 bg-gray-700"
+          style={{ transform: 'rotate(45deg)' }}
         />
         {tooltipText}
       </div>
