@@ -19,56 +19,53 @@ declare global {
   }
 }
 
-export default wrapper.withRedux(
-  ({ Component, pageProps }: AppPropsWithLayout) => {
-    const store = useStore()
-    const persistor = persistStore(store)
-    const router = useRouter()
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const store = useStore()
+  const persistor = persistStore(store)
+  const router = useRouter()
 
-    injectStore(store)
-    useEffect(() => {
-      setupAxiosInterceptors(store, router)
-    }, [])
+  injectStore(store)
+  useEffect(() => {
+    setupAxiosInterceptors(store, router)
+  }, [])
 
-    const getLayout = Component.getLayout ?? ((page: ReactNode) => page)
-    const [queryClient] = useState(
-      () =>
-        new QueryClient({
-          defaultOptions: {
-            mutations: {
-              // useErrorBoundary: true,
-            },
-            queries: {
-              cacheTime: 1000 * 60 * 60 * 2, // 2 hours
-            },
+  const getLayout = Component.getLayout ?? ((page: ReactNode) => page)
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          mutations: {
+            // useErrorBoundary: true,
           },
-        }),
-    )
+          queries: {
+            cacheTime: 1000 * 60 * 60 * 2, // 2 hours
+          },
+        },
+      }),
+  )
 
-    const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
+  const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
 
-    return (
-      <>
-        <Script
-          id="kakao-sdk"
-          type="text/javascript"
-          strategy="beforeInteractive"
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&autoload=false&libraries=services`}
-        />
-        <PersistGate persistor={persistor} loading={null}>
-          <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydratedState}>
-              <ErrorBoundary
-                FallbackComponent={ErrorFallback}
-                onReset={() => {}}
-              >
-                {getLayout(<Component {...pageProps} />)}
-              </ErrorBoundary>
-              <ReactQueryDevtools />
-            </Hydrate>
-          </QueryClientProvider>
-        </PersistGate>
-      </>
-    )
-  },
-)
+  return (
+    <>
+      <Script
+        id="kakao-sdk"
+        type="text/javascript"
+        strategy="beforeInteractive"
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&autoload=false&libraries=services`}
+      />
+      <PersistGate persistor={persistor} loading={null}>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => {}}>
+              {getLayout(<Component {...pageProps} />)}
+            </ErrorBoundary>
+            <ReactQueryDevtools />
+          </Hydrate>
+        </QueryClientProvider>
+      </PersistGate>
+    </>
+  )
+}
+
+export default wrapper.withRedux(App)
