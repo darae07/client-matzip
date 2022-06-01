@@ -44,6 +44,9 @@ const PartyPage: NextPageWithLayout = () => {
   }
   return (
     <div>
+      <WhiteRoundedCard className="mb-4">
+        🍱 함께 먹고 싶은 메뉴가 있나요? 동료들이 오늘 먹고 싶은 메뉴에요.
+      </WhiteRoundedCard>
       <CategoryFilter className="mb-4" />
 
       <ul className="grid gap-4 md:grid-cols-3">
@@ -64,6 +67,9 @@ const PartyPage: NextPageWithLayout = () => {
                     <span className="text-blue-500">
                       #{party.keyword?.name}
                     </span>
+                    <p className="mt-3 overflow-hidden text-ellipsis text-sm text-gray-600">
+                      {party.description}
+                    </p>
                   </div>
                 </Link>
                 <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
