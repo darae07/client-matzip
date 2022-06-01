@@ -22,7 +22,7 @@ const setupAxiosInterceptors = (store: any, router: any) => {
         }
         return config
       } catch (error: any) {
-        router.push('/login')
+        router.push(`/login/?returnPath=${router.asPath}`)
         openToast(error.message)
         return Promise.reject({ response: { data: { error } } })
       }

@@ -35,12 +35,17 @@ const Login: NextPageWithLayout = () => {
     dispatch(logout())
   }
 
-  const user = useAppSelector((state) => state.user)
+  const { user } = useAppSelector((state) => state.user)
   const router = useRouter()
 
   useEffect(() => {
-    if (user.user) {
-      router.back()
+    console.log(user)
+    if (user) {
+      if (router.query.returnPath) {
+        router.push(`${router.query.returnPath}`)
+      } else {
+        router.push('home')
+      }
     }
   }, [user, router])
 
