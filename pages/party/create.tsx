@@ -13,6 +13,7 @@ import {
 } from '@/components'
 import { SearchKeywordMap, SearchCategory } from '@/components/modules'
 import { createParty } from '@/api'
+import { useRouter } from 'next/router'
 
 type PartyCreateValue = {
   name: string
@@ -41,12 +42,15 @@ const PartyCreate: NextPageWithLayout = () => {
     mutate({ ...values, keyword, category })
   }
 
+  const router = useRouter()
+
   const { mutate, isLoading } = useMutationHandleError(
     createParty,
     {
       onSuccess: (data: ApiResponseData<Party>) => {
         const { message, result } = data
         openToast(message || '오늘의 메뉴를 등록했습니다.')
+        router.push('/party')
       },
     },
     '오늘의 메뉴를 등록할 수 없습니다.',
