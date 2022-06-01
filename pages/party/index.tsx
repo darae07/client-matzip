@@ -52,7 +52,7 @@ const PartyPage: NextPageWithLayout = () => {
             {group.results.map((party: Party) => (
               <ListItem key={party.id}>
                 <Link href={`/party/${party.id}`} scroll={false} key={party.id}>
-                  <React.Fragment>
+                  <div>
                     <div className="mb-1 flex items-center">
                       <CategoryName
                         category={party.keyword?.category}
@@ -64,17 +64,16 @@ const PartyPage: NextPageWithLayout = () => {
                     <span className="text-blue-500">
                       #{party.keyword?.name}
                     </span>
-
-                    <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
-                      {party.membership.map((membership) => (
-                        <UserAvatarTooltip
-                          user={membership.team_member}
-                          key={membership.id}
-                        />
-                      ))}
-                    </div>
-                  </React.Fragment>
+                  </div>
                 </Link>
+                <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
+                  {party.membership.map((membership) => (
+                    <UserAvatarTooltip
+                      user={membership.team_member}
+                      key={membership.id}
+                    />
+                  ))}
+                </div>
               </ListItem>
             ))}
           </React.Fragment>

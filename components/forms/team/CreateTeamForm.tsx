@@ -1,17 +1,14 @@
-import { FC } from 'react'
-import { Field, Formik, Form } from 'formik'
-import { Input } from '@/components'
-import * as Yup from 'yup'
-import { locationDongReg } from '@/constants/validation'
-import { CreateTeam, CreateTeamValue } from '@/type/team'
-import { useQueryClient } from 'react-query'
-import { createTeam } from '@/api/team'
-import { ApiResponseData } from '@/type/api'
-import { openToast } from '@/store/modules/ui/toast'
-import { useAppDispatch } from '@/utils/hooks'
-import { setUserTeamProfile } from '@/store/modules/auth/user'
 import _ from 'lodash'
-import { useMutationHandleError } from '@/utils/hooks'
+import { FC } from 'react'
+import { useQueryClient } from 'react-query'
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Form, FormInput } from '@/components'
+import { locationDongReg } from '@/constants/validation'
+import { CreateTeam, CreateTeamValue, ApiResponseData } from '@/type'
+import { createTeam } from '@/api/team'
+import { openToast, setUserTeamProfile } from '@/store/modules'
+import { useAppDispatch, useMutationHandleError } from '@/utils/hooks'
 
 const teamValues: CreateTeamValue = {
   name: '',
@@ -53,39 +50,26 @@ export const CreateTeamForm: FC = () => {
 
   return (
     <div>
-      <Formik
-        enableReinitialize={true}
-        initialValues={teamValues}
-        validationSchema={teamFormSchema}
-        onSubmit={(values) => handleCreateTeam(values)}
+      <Form<CreateTeamValue>
+        onSubmit={handleCreateTeam}
+        options={{
+          resolver: yupResolver(teamFormSchema),
+          defaultValues: teamValues,
+          mode: 'onBlur',
+        }}
       >
-        {({ handleSubmit, values }) => (
-          <Form>
-            <Field
-              name="name"
-              component={Input}
-              value={values.name}
-              placeholder="회사명"
-            />
-            <div className="mb-2.5"></div>
-            <Field
-              name="location"
-              component={Input}
-              value={values.location}
-              placeholder="위치"
-            />
-            <div className="mb-2.5"></div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              onSubmit={() => handleSubmit()}
-              className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-            >
-              생성하기
-            </button>
-          </Form>
-        )}
-      </Formik>
+        <FormInput<CreateTeamValue> name="name" placeholder="회사명" />
+        <div className="mb-2.5"></div>
+        <FormInput<CreateTeamValue> name="location" placeholder="위치" />
+        <div className="mb-2.5"></div>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        >
+          생성하기
+        </button>
+      </Form>
     </div>
   )
 }

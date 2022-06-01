@@ -1,27 +1,19 @@
-import { Field, Formik, Form } from 'formik'
-import { Input } from 'components'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
 import { SearchIcon, CheckIcon } from '@heroicons/react/outline'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
-import { useState } from 'react'
-import { Marker } from 'type/lunch'
+
+import { Input } from '@/components'
+import { Marker, Team } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
-import { useQuery } from 'react-query'
-import { retrieveTeam } from 'api/team'
-import { Team } from 'type/team'
-
-const keywordValue = {
-  keyword: '',
-}
-
-type Keyword = {
-  keyword: string
-}
+import { retrieveTeam } from '@/api'
 
 type SearchKeywordMapProps = {
   setKeyword: Function
   keyword: string | null
 }
 const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
+  const [tempKeyword, setTempKeyword] = useState('')
   const [markers, setMarkers] = useState<Marker[]>([])
   const [map, setMap] = useState<any>()
   const [noData, setNoData] = useState(true)
@@ -36,17 +28,22 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
     () => retrieveTeam<Team>(teamId),
     {
       enabled: !!teamId,
+      staleTime: 1000 * 60 * 60,
     },
   )
 
-  const handleSearchKeyword = (values: Keyword) => {
+  const handleSearchKeyword = () => {
+    const keywordInput = document.getElementById('keyword')
+    if (keywordInput) {
+      handleFocus(keywordInput)
+    }
     if (map) {
       setMarkerInfo(undefined)
       const ps = new kakao.maps.services.Places()
 
       const location = myTeam.data && myTeam.data.location
       ps.keywordSearch(
-        `${location} ${values.keyword}`,
+        `${location} ${tempKeyword}`,
         (data, status, _pagination) => {
           if (status === kakao.maps.services.Status.ZERO_RESULT)
             return setNoData(true)
@@ -85,45 +82,47 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
   const updateKeyword = (marker: Marker) => {
     setKeyword(marker.content)
     setMarkerInfo(marker)
+    const keywordInput = document.getElementById('keyword')
+    if (keywordInput) {
+      handleFocus(keywordInput)
+    }
+  }
+
+  const handleFocus = (target: any) => {
+    const classList = target.classList
+    if (classList.contains('input-error')) {
+      classList.remove('input-error')
+    }
   }
 
   return (
     <div>
-      <Formik
-        enableReinitialize={true}
-        initialValues={keywordValue}
-        onSubmit={handleSearchKeyword}
-      >
-        {({ handleSubmit, values }) => (
-          <Form>
-            <div className="flex w-full">
-              <Field
-                name="keyword"
-                component={Input}
-                value={values.keyword}
-                placeholder="맛집 이름을 입력해 주세요"
-                className="w-full"
-              />
-              {markerInfo && (
-                <div className="p-2 text-green-500">
-                  <CheckIcon className=" h-6 w-6" />
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={() => handleSubmit()}
-                className="ml-2 w-10 rounded-md bg-blue-500 px-2 text-white"
-              >
-                <SearchIcon className="h-6 w-6" />
-              </button>
-            </div>
-          </Form>
+      <div className="flex w-full">
+        <Input
+          id="keyword"
+          name="keyword"
+          placeholder="맛집 이름을 입력해 주세요"
+          className="w-full"
+          onChange={(e) => setTempKeyword(e.target.value)}
+          onFocus={(e) => handleFocus(e.target)}
+        />
+        {markerInfo && (
+          <div className="p-2 text-green-500">
+            <CheckIcon className=" h-6 w-6" />
+          </div>
         )}
-      </Formik>
+        <button
+          type="button"
+          onClick={() => handleSearchKeyword()}
+          className="ml-2 w-10 rounded-md bg-blue-500 px-2 text-white"
+        >
+          <SearchIcon className="h-6 w-6" />
+        </button>
+      </div>
 
       <div className={` relative mt-2  w-full`}>
         <div
-          className={`absolute z-10 h-36 w-full bg-white text-sm text-gray-500 ${
+          className={`absolute z-10 h-52 w-full bg-white text-sm text-gray-500 ${
             !noData && 'hidden'
           }`}
         >
@@ -136,7 +135,7 @@ const SearchKeywordMap = ({ setKeyword, keyword }: SearchKeywordMapProps) => {
         )}
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }}
-          style={{ width: '100%', height: '9rem' }}
+          style={{ width: '100%', height: '13rem' }}
           onCreate={setMap}
         >
           {markers.map((marker: Marker) => (

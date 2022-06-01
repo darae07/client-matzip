@@ -7,6 +7,7 @@ type Props = {
 }
 export const defaultModalRootId = 'modal-root'
 export const confirmModalRootId = 'confirm-modal-root'
+export const toastRootId = 'toast-root'
 
 export const createRootContainer = (rootId: string): HTMLElement => {
   const rootMount = document.createElement('div')

@@ -9,7 +9,7 @@ type UserAvatarProps = {
 
 export const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
   return (
-    <div>
+    <div className="h-6 w-6">
       {user.image ? (
         <Image
           width={24}

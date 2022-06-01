@@ -1,4 +1,5 @@
 import React, { FC, HTMLAttributes } from 'react'
+import classNames from 'classnames'
 import LoadingSpinnerIcon from '@/public/icon/loading_spinner.svg'
 
 interface IconProps extends HTMLAttributes<HTMLDivElement> {
@@ -16,7 +17,7 @@ export const LoadingSpinner: FC<IconProps> = ({
     <LoadingSpinnerIcon
       width={width}
       height={height}
-      className="animate-spin"
+      className={classNames(['animate-spin', className])}
       role={role}
     />
   )

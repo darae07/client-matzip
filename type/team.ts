@@ -1,11 +1,11 @@
 import { TeamMember } from './user'
 
-export interface CreateTeamValue {
+export type CreateTeamValue = {
   name: string
   location: string
 }
 
-export interface FindTeamValue {
+export type FindTeamValue = {
   code: string
 }
 
@@ -23,7 +23,7 @@ export interface CreateTeam extends Team {
   team_profile: TeamMember
 }
 
-export interface CreateMembershipValue {
+export type CreateMembershipValue = {
   team: number
   member_name: string
 }

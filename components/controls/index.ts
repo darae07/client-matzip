@@ -1,1 +1,2 @@
-export { Input } from './forms/Input'
+export * from './forms'
+export * from './Input'
