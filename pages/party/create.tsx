@@ -6,6 +6,7 @@ import { useMutationHandleError } from '@/utils/hooks'
 import {
   Form,
   FormInput,
+  FormTextarea,
   WhiteRoundedCard,
   HomeLayout,
   openToast,
@@ -74,7 +75,7 @@ const PartyCreate: NextPageWithLayout = () => {
             <SearchKeywordMap setKeyword={setKeyword} keyword={keyword} />
             <div className="mt-4"></div>
             <SearchCategory setCategory={setCategory} category={category} />
-            <FormInput<PartyCreateValue>
+            <FormTextarea<PartyCreateValue>
               name="description"
               className="my-2.5 h-20"
               placeholder="설명을 입력해 주세요"
