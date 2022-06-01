@@ -19,6 +19,7 @@ const SearchCategory = ({ category, setCategory }: SearchCategoryProps) => {
         {data.results.map((cat) => (
           <button
             key={cat.id}
+            type="button"
             className={`${
               category === cat.id ? 'bg-blue-300 text-white' : 'text-blue-500'
             } mr-1 mb-2 rounded border border-blue-300 p-2 text-sm font-medium sm:mb-0`}
