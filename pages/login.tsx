@@ -39,7 +39,6 @@ const Login: NextPageWithLayout = () => {
   const router = useRouter()
 
   useEffect(() => {
-    console.log(user)
     if (user) {
       if (router.query.returnPath) {
         router.push(`${router.query.returnPath}`)
