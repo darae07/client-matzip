@@ -8,7 +8,7 @@ import {
   UserAvatarTooltip,
   openToast,
 } from '@/components'
-import { CategoryName, KakaoMap } from '@/components/modules'
+import { CategoryName, KakaoMap, ReviewModal } from '@/components/modules'
 import {
   NextPageWithLayout,
   ApiResponseData,
@@ -100,6 +100,9 @@ const PartyDetail: NextPageWithLayout = () => {
     outMutation.mutate(myMembership?.id)
   }
 
+  const [isReviewModalOpen, setReviewModalOpen] = useState(false)
+  const openReviewModal = () => setReviewModalOpen(true)
+
   if (data)
     return (
       <div>
@@ -144,7 +147,15 @@ const PartyDetail: NextPageWithLayout = () => {
                   >
                     나가기
                   </button>
-                  <button className="ml-2 rounded bg-orange-600 p-2 px-3 text-sm text-white">
+                  <ReviewModal
+                    isOpen={isReviewModalOpen}
+                    setOpen={setReviewModalOpen}
+                    domain="party"
+                  />
+                  <button
+                    onClick={openReviewModal}
+                    className="ml-2 rounded bg-pink-500 p-2 px-3 text-sm text-white"
+                  >
                     먹었어요
                   </button>
                 </div>
