@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { ReactElement, useState, Fragment } from 'react'
+import React, { ReactElement, useState, Fragment, useLayoutEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useInfiniteQuery } from 'react-query'
@@ -19,6 +19,7 @@ import {
 } from '@/components'
 import { PlusIcon, LightBulbIcon } from '@heroicons/react/outline'
 import { HeartIcon } from '@heroicons/react/solid'
+import { moveToScrollPosition, storeScrollPositionAndMoveToTop } from '@/utils'
 
 const PartyPage: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user)
@@ -49,6 +50,13 @@ const PartyPage: NextPageWithLayout = () => {
   const createParty = () => {
     router.push('/party/create')
   }
+
+  useLayoutEffect(() => {
+    moveToScrollPosition()
+    return () => {
+      storeScrollPositionAndMoveToTop()
+    }
+  }, [])
 
   if (!team_profile) {
     return (
@@ -85,11 +93,12 @@ const PartyPage: NextPageWithLayout = () => {
         </div>
       </WhiteRoundedCard>
 
-      {isLoading ? (
-        <div className="mt-10 flex w-full justify-center">
+      {isLoading && (
+        <div className="mt-10 mb-5 flex w-full justify-center">
           <LoadingSpinner width={30} height={30} />
         </div>
-      ) : data?.pages && data.pages[0].count ? (
+      )}
+      {data?.pages && data.pages[0].count ? (
         <Fragment>
           <ul className="grid gap-4 md:grid-cols-3">
             {data.pages.map((group, i) => (
