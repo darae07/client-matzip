@@ -27,6 +27,7 @@
       "@/constants": ["constants"],
       "@/store": ["store"],
       "@/api": ["api"],
+      "@/utils": ["utils"],
       "@/type": ["type/index.ts"]
     },
     "types": ["kakao.maps.d.ts"]
