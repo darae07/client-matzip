@@ -14,6 +14,8 @@ import {
   HomeLayout,
   InfiniteScroll,
   LoadingSpinner,
+  SamllLikeButton,
+  SmallBlueButton,
 } from '@/components'
 import { PlusIcon, LightBulbIcon } from '@heroicons/react/outline'
 import { HeartIcon } from '@heroicons/react/solid'
@@ -73,15 +75,12 @@ const PartyPage: NextPageWithLayout = () => {
             <SearchCategory setCategory={setCategory} category={category} />
           </div>
           <div className="flex justify-between ">
-            <button className="my-auto ml-4 mr-2 max-h-10 rounded-lg border border-blue-200 p-1.5">
-              <HeartIcon className="h-4 w-4 text-blue-500" />
-            </button>
-            <button
-              onClick={createParty}
-              className="my-auto max-h-10 rounded-lg bg-blue-500 p-1.5"
-            >
-              <PlusIcon className="h-4 w-4 text-white" />
-            </button>
+            <SamllLikeButton className="my-auto ml-4 mr-2">
+              <HeartIcon className="h-4 w-4" />
+            </SamllLikeButton>
+            <SmallBlueButton onClick={createParty} className="my-auto ">
+              <PlusIcon className="h-4 w-4" />
+            </SmallBlueButton>
           </div>
         </div>
       </WhiteRoundedCard>
@@ -114,7 +113,7 @@ const PartyPage: NextPageWithLayout = () => {
                         <span className="text-blue-500">
                           #{party.keyword?.name}
                         </span>
-                        <p className="mt-3 overflow-hidden text-ellipsis text-sm text-gray-600">
+                        <p className="mt-3 max-h-14 overflow-hidden text-ellipsis text-sm text-gray-600">
                           {party.description}
                         </p>
                       </div>

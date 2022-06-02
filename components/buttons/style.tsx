@@ -11,3 +11,10 @@ ${(props) =>
     props.color === 'blue' &&
     tw`bg-blue-500 text-white shadow hover:shadow-lg active:bg-blue-600`}
 `
+export const SamllLikeButton = styled.button`
+  ${tw`max-h-10 rounded-lg border border-blue-200 p-1.5 text-blue-500`}
+`
+
+export const SmallBlueButton = styled.button`
+  ${tw`max-h-10 rounded-lg bg-blue-500 p-1.5 text-white`}
+`
