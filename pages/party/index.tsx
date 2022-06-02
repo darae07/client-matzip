@@ -93,18 +93,17 @@ const PartyPage: NextPageWithLayout = () => {
         </div>
       </WhiteRoundedCard>
 
-      {isLoading && (
+      {isLoading ? (
         <div className="mt-10 mb-5 flex w-full justify-center">
           <LoadingSpinner width={30} height={30} />
         </div>
-      )}
-      {data?.pages && data.pages[0].count ? (
+      ) : data?.pages && data.pages[0].count ? (
         <Fragment>
           <ul className="grid gap-4 md:grid-cols-3">
             {data.pages.map((group, i) => (
               <React.Fragment key={i}>
                 {group.results.map((party: Party) => (
-                  <ListItem key={party.id}>
+                  <ListItem key={party.id} isPreviousData={isFetching}>
                     <Link
                       href={`/party/${party.id}`}
                       scroll={false}
