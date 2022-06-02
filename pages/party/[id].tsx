@@ -16,12 +16,9 @@ import {
   Team,
   PartyMembership,
 } from '@/type'
-import {
-  useAppSelector,
-  useMutationHandleError,
-  useAppDispatch,
-} from '@/utils/hooks'
+import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
 import { joinParty, outParty, retrieveParty, retrieveTeam } from '@/api'
+import { calculatePercent } from '@/utils'
 
 const PartyDetail: NextPageWithLayout = () => {
   const { query } = useRouter()
@@ -114,12 +111,20 @@ const PartyDetail: NextPageWithLayout = () => {
 
           <span className="text-blue-500">#{data.keyword.name}</span>
           <div className="mt-1 text-sm">
-            <p>키워드 인기도</p>
-            <p>동료들이 검색한 횟수: {data.keyword.hit_count}</p>
+            <p>맛집 인기도</p>
+            <p>오늘의 메뉴에 등록된 횟수: {data.keyword.hit_count}</p>
             <p>동료들이 식사한 횟수: {data.keyword.eat_count}</p>
+            <p>
+              맛있다 비율:
+              {calculatePercent(
+                data.keyword.good_count,
+                data.keyword.eat_count,
+              )}
+              %
+            </p>
           </div>
 
-          <div className="mt-2 text-sm">{data.description}</div>
+          <div className="mt-4 text-sm">{data.description}</div>
 
           <div className="my-4 flex justify-between border border-white border-y-gray-200 py-3">
             <div className="flex -space-x-1">
@@ -132,12 +137,17 @@ const PartyDetail: NextPageWithLayout = () => {
             </div>
             <div>
               {!!myMembership ? (
-                <button
-                  onClick={() => handleOutParty()}
-                  className="rounded bg-blue-600 p-2 px-3 text-sm text-white"
-                >
-                  나가기
-                </button>
+                <div>
+                  <button
+                    onClick={() => handleOutParty()}
+                    className="rounded bg-blue-600 p-2 px-3 text-sm text-white"
+                  >
+                    나가기
+                  </button>
+                  <button className="ml-2 rounded bg-orange-600 p-2 px-3 text-sm text-white">
+                    먹었어요
+                  </button>
+                </div>
               ) : (
                 <button
                   onClick={() => handleJoinParty()}
