@@ -4,7 +4,7 @@ import { PaginatedResult, Category } from '@/type'
 
 type SearchCategoryProps = {
   setCategory: Function
-  category: number | null
+  category?: number
 }
 
 const SearchCategory = ({ category, setCategory }: SearchCategoryProps) => {

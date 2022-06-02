@@ -11,7 +11,7 @@ const CategoryFilter: FC<HTMLAttributes<HTMLDivElement>> = (props) => {
     router.push('/party/create')
   }
 
-  const [category, setCategory] = useState(null)
+  const [category, setCategory] = useState()
 
   return (
     <WhiteRoundedCard className={props.className}>

@@ -26,7 +26,7 @@ const PartyCreate: NextPageWithLayout = () => {
   })
 
   const [keyword, setKeyword] = useState(null)
-  const [category, setCategory] = useState(null)
+  const [category, setCategory] = useState()
 
   const handelCreateParty = (values: PartyCreateValue) => {
     if (!keyword) {

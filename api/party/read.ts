@@ -2,9 +2,18 @@ import { authorizedInstance } from '@/api/setupAxios'
 import { ApiResponse } from '@/type/api'
 import { isValidId } from '@/type/validation'
 
-export const listParty = async <ResultT>(page: number = 1) => {
+export const listParty = async <ResultT>(
+  page: number = 1,
+  category?: number,
+) => {
   const { data: response }: ApiResponse<ResultT> = await authorizedInstance.get(
-    `group/party/?page=${page}`,
+    `group/party/`,
+    {
+      params: {
+        category,
+        page,
+      },
+    },
   )
   return response.result
 }
