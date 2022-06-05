@@ -8,7 +8,7 @@ export const Modal = ({ children }: LayoutProps) => {
 }
 
 const ModalBackground = styled.div`
-  ${tw`fixed inset-0 z-[21] px-4 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none`}
+  ${tw`fixed inset-0 z-[21] px-4 flex items-center justify-center overflow-y-hidden overflow-x-hidden outline-none focus:outline-none`}
 `
 interface ContentProps {
   size?: 'small' | 'medium' | 'large'
@@ -30,7 +30,7 @@ const ModalTitle = styled.h3`
   ${tw`text-lg font-medium leading-6 text-gray-900`}
 `
 const ModalBody = styled.div`
-  ${tw`relative flex-auto text-sm text-gray-600`}
+  ${tw`relative flex-auto text-sm text-gray-600 overflow-y-auto`}
 `
 const ModalFooter = styled.div`
   ${tw`flex items-center justify-end rounded-b pt-3`}
