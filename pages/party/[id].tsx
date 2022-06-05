@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { ReactElement, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import { useQuery, useQueryClient } from 'react-query'
 import {
   WhiteRoundedCard,
@@ -8,7 +9,12 @@ import {
   UserAvatarTooltip,
   openToast,
 } from '@/components'
-import { CategoryName, KakaoMap, ReviewModal } from '@/components/modules'
+import {
+  CategoryName,
+  KakaoMap,
+  ReviewModal,
+  KeywordName,
+} from '@/components/modules'
 import {
   NextPageWithLayout,
   ApiResponseData,
@@ -107,12 +113,33 @@ const PartyDetail: NextPageWithLayout = () => {
     return (
       <div>
         <WhiteRoundedCard className="mb-4">
-          <div className="mb-1 flex items-center">
+          {!_.isEmpty(data.reviews) && (
+            <div className="mb-2 flex overflow-x-auto">
+              {data.reviews.map((review) =>
+                review.images?.map((image) => (
+                  <div className="mr-1 shrink-0" key={image.id}>
+                    <Image
+                      src={image.image}
+                      alt={data.keyword.category?.name}
+                      width={120}
+                      height={120}
+                      className="rounded-lg"
+                    />
+                  </div>
+                )),
+              )}
+            </div>
+          )}
+          <p className="mb-2 text-2xl font-bold">{data.name}</p>
+
+          <div className="mb-4 flex items-center">
             <CategoryName category={data.keyword.category} className="mr-2" />
-            <p className="text-lg font-bold">{data.name}</p>
+            <KeywordName
+              className="font-bold text-blue-500"
+              keyword={data.keyword}
+            />
           </div>
 
-          <span className="text-blue-500">#{data.keyword.name}</span>
           <div className="mt-1 text-sm">
             <p>맛집 인기도</p>
             <p>오늘의 메뉴에 등록된 횟수: {data.keyword.hit_count}</p>
@@ -152,12 +179,14 @@ const PartyDetail: NextPageWithLayout = () => {
                     setOpen={setReviewModalOpen}
                     domain="party"
                   />
-                  <button
-                    onClick={openReviewModal}
-                    className="ml-2 rounded bg-pink-500 p-2 px-3 text-sm text-white"
-                  >
-                    먹었어요
-                  </button>
+                  {!data.eat && (
+                    <button
+                      onClick={openReviewModal}
+                      className="ml-2 rounded bg-pink-500 p-2 px-3 text-sm text-white"
+                    >
+                      먹었어요
+                    </button>
+                  )}
                 </div>
               ) : (
                 <button
