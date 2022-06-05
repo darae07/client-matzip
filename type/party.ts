@@ -1,4 +1,5 @@
 import { Keyword } from './lunch'
+import { Review } from './review'
 import { TeamMember } from './user'
 
 export type Party = {
@@ -11,6 +12,7 @@ export type Party = {
   closed_at?: string
   eat: boolean
   team: number
+  reviews: Review[]
 }
 
 export type PartyMembership = {
