@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { Modal, GoodButton, Form, FormInput } from '@/components'
+import { Modal, GoodButton, Form, FormInput, FormFileInput } from '@/components'
 
 interface ReviewModalProps {
   isOpen: boolean
@@ -10,14 +10,22 @@ interface ReviewModalProps {
 }
 type ReviewCreateValue = {
   content: string
-  image: File
+  image: []
 }
+
+const reviewValues: ReviewCreateValue = {
+  content: '',
+  image: [],
+}
+
 export const ReviewModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
   const closeModal = () => setOpen(false)
   const [isGood, setIsGood] = useState(false)
 
   const createReviewSchema = Yup.object().shape({})
-  const handleCreateReview = (values: ReviewCreateValue) => {}
+  const handleCreateReview = (values: ReviewCreateValue) => {
+    console.log(values)
+  }
 
   return (
     <Modal handleClose={closeModal} isOpen={isOpen} title="식사는 어떠셨나요?">
@@ -31,19 +39,32 @@ export const ReviewModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
             onSubmit={handleCreateReview}
             options={{
               resolver: yupResolver(createReviewSchema),
-              mode: 'onBlur',
+              defaultValues: reviewValues,
             }}
           >
             <FormInput<ReviewCreateValue>
               name="content"
               placeholder="코멘트를 남겨주세요"
             />
+            <FormFileInput<ReviewCreateValue>
+              name="image"
+              accept={{
+                'image/jpeg': ['.jpeg', '.png', '.jpg'],
+              }}
+              mode="append"
+              className="mt-3"
+            />
+            <input type="submit" id="submitForm" className="hidden" />
           </Form>
         </div>
+
         <div className="mt-4 w-full">
-          <button className="w-full rounded bg-pink-500 p-2 px-3 text-white">
+          <label
+            htmlFor="submitForm"
+            className="block w-full rounded bg-pink-500 p-2 px-3 text-center text-white"
+          >
             먹었어요
-          </button>
+          </label>
         </div>
       </div>
     </Modal>
