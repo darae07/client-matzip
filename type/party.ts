@@ -35,3 +35,8 @@ export type joinPartyValue = {
   party: number
   invite_reason?: string
 }
+
+export type ReviewCreateValue = {
+  content: string
+  image: []
+}
