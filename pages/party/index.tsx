@@ -103,7 +103,10 @@ const PartyPage: NextPageWithLayout = () => {
             {data.pages.map((group, i) => (
               <React.Fragment key={i}>
                 {group.results.map((party: Party) => (
-                  <ListItem key={party.id} isPreviousData={isFetching}>
+                  <ListItem
+                    key={party.id}
+                    isPreviousData={isFetching && !isFetchingNextPage}
+                  >
                     <Link
                       href={`/party/${party.id}`}
                       scroll={false}
