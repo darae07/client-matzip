@@ -134,10 +134,7 @@ const PartyDetail: NextPageWithLayout = () => {
 
           <div className="mb-4 flex items-center">
             <CategoryName category={data.keyword.category} className="mr-2" />
-            <KeywordName
-              className="font-bold text-blue-500"
-              keyword={data.keyword}
-            />
+            <KeywordName keyword={data.keyword} />
           </div>
 
           <div className="mt-1 text-sm">

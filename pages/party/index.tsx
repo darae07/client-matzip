@@ -3,10 +3,10 @@ import React, { ReactElement, useState, Fragment, useLayoutEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useInfiniteQuery } from 'react-query'
-import { NextPageWithLayout, PaginatedResult, Party } from '@/type'
+import { NextPageWithLayout, PaginatedResult, PartyList } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
 import { listParty } from '@/api'
-import { CategoryName, SearchCategory } from '@/components/modules'
+import { CategoryName, KeywordName, SearchCategory } from '@/components/modules'
 import {
   ListItem,
   UserAvatarTooltip,
@@ -35,7 +35,7 @@ const PartyPage: NextPageWithLayout = () => {
     isFetchingNextPage,
     isLoading,
     isFetching,
-  } = useInfiniteQuery<PaginatedResult<Party>>(
+  } = useInfiniteQuery<PaginatedResult<PartyList>>(
     ['party', category],
     ({ pageParam = 1 }) => listParty(pageParam, category),
     {
@@ -102,10 +102,15 @@ const PartyPage: NextPageWithLayout = () => {
           <ul className="grid gap-4 md:grid-cols-3">
             {data.pages.map((group, i) => (
               <React.Fragment key={i}>
-                {group.results.map((party: Party) => (
+                {group.results.map((party: PartyList) => (
                   <ListItem
                     key={party.id}
                     isPreviousData={isFetching && !isFetchingNextPage}
+                    thumbnailProps={{
+                      src: party.image?.image,
+                      alt: party.keyword?.category?.name,
+                      href: `/party/${party.id}`,
+                    }}
                   >
                     <Link
                       href={`/party/${party.id}`}
@@ -113,17 +118,17 @@ const PartyPage: NextPageWithLayout = () => {
                       key={party.id}
                     >
                       <div>
+                        <p className="mb-2 text-xl font-bold font-bold">
+                          {party.name}
+                        </p>
                         <div className="mb-1 flex items-center">
                           <CategoryName
                             category={party.keyword?.category}
                             className="mr-2"
                           />
-                          <p className="text-lg font-bold">{party.name}</p>
+                          <KeywordName keyword={party.keyword} />
                         </div>
 
-                        <span className="text-blue-500">
-                          #{party.keyword?.name}
-                        </span>
                         <p className="mt-3 max-h-14 overflow-hidden text-ellipsis text-sm text-gray-600">
                           {party.description}
                         </p>
