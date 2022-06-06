@@ -112,36 +112,41 @@ const PartyPage: NextPageWithLayout = () => {
                       href: `/party/${party.id}`,
                     }}
                   >
-                    <Link
-                      href={`/party/${party.id}`}
-                      scroll={false}
-                      key={party.id}
+                    <WhiteRoundedCard
+                      className="h-full"
+                      flatTop={!!party.image?.image}
                     >
-                      <div>
-                        <p className="mb-2 text-xl font-bold font-bold">
-                          {party.name}
-                        </p>
-                        <div className="mb-1 flex items-center">
-                          <CategoryName
-                            category={party.keyword?.category}
-                            className="mr-2"
-                          />
-                          <KeywordName keyword={party.keyword} />
-                        </div>
+                      <Link
+                        href={`/party/${party.id}`}
+                        scroll={false}
+                        key={party.id}
+                      >
+                        <div>
+                          <p className="mb-2 text-xl font-bold font-bold">
+                            {party.name}
+                          </p>
+                          <div className="mb-1 flex items-center">
+                            <CategoryName
+                              category={party.keyword?.category}
+                              className="mr-2"
+                            />
+                            <KeywordName keyword={party.keyword} />
+                          </div>
 
-                        <p className="mt-3 max-h-14 overflow-hidden text-ellipsis text-sm text-gray-600">
-                          {party.description}
-                        </p>
+                          <p className="mt-3 max-h-14 overflow-hidden text-ellipsis text-sm text-gray-600">
+                            {party.description}
+                          </p>
+                        </div>
+                      </Link>
+                      <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
+                        {party.membership.map((membership) => (
+                          <UserAvatarTooltip
+                            user={membership.team_member}
+                            key={membership.id}
+                          />
+                        ))}
                       </div>
-                    </Link>
-                    <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
-                      {party.membership.map((membership) => (
-                        <UserAvatarTooltip
-                          user={membership.team_member}
-                          key={membership.id}
-                        />
-                      ))}
-                    </div>
+                    </WhiteRoundedCard>
                   </ListItem>
                 ))}
               </React.Fragment>

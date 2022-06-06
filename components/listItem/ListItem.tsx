@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react'
 import { LiHTMLAttributes } from 'react'
-import { WhiteRoundedCard } from '@/components'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -32,9 +31,7 @@ export const ListItem = ({
         <Thumbnail {...thumbnailProps} />
       </Link>
     )}
-    <WhiteRoundedCard className="h-full" flatTop={!!thumbnailProps?.src}>
-      {children}
-    </WhiteRoundedCard>
+    {children}
   </li>
 )
 
