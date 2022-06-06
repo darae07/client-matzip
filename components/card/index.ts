@@ -1,1 +1,1 @@
-export { WhiteRoundedCard } from './styledCard'
+export * from './styledCard'

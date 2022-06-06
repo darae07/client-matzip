@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { ReactElement, useState, useEffect } from 'react'
+import React, { ReactElement, useState, useEffect, Fragment } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
@@ -8,6 +8,11 @@ import {
   HomeLayout,
   UserAvatarTooltip,
   openToast,
+  LoadingSpinner,
+  InfiniteScroll,
+  ListItem,
+  YLineCard,
+  UserAvatar,
 } from '@/components'
 import {
   CategoryName,
@@ -23,6 +28,7 @@ import {
   PartyMembership,
   PaginatedResult,
   Review,
+  ReviewImage,
 } from '@/type'
 import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
 import {
@@ -33,6 +39,7 @@ import {
   retrieveTeam,
 } from '@/api'
 import { calculatePercent } from '@/utils'
+import { EmojiHappyIcon } from '@heroicons/react/outline'
 
 const PartyDetail: NextPageWithLayout = () => {
   const { query } = useRouter()
@@ -128,6 +135,7 @@ const PartyDetail: NextPageWithLayout = () => {
       cacheTime: 1000 * 60 * 60,
     },
   )
+  const reviewData = review.data
 
   if (data)
     return (
@@ -224,6 +232,63 @@ const PartyDetail: NextPageWithLayout = () => {
               keyword={data.keyword.name}
             />
           </WhiteRoundedCard>
+        )}
+
+        {review.isLoading ? (
+          <div className="mt-10 mb-5 flex w-full justify-center">
+            <LoadingSpinner width={30} height={30} />
+          </div>
+        ) : (
+          reviewData?.pages && (
+            <WhiteRoundedCard className="mt-4">
+              <ul>
+                {reviewData.pages.map((group, i) => (
+                  <Fragment key={i}>
+                    {group.results.map((item: Review) => (
+                      <ListItem
+                        key={item.id}
+                        isPreviousData={
+                          review.isFetching && !review.isFetchingNextPage
+                        }
+                      >
+                        <YLineCard>
+                          <div className="flex">
+                            <UserAvatar user={item.team_member} />
+                            <span className="ml-1">
+                              {item.team_member.member_name}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-sm text-gray-500">
+                            {item.created_at}
+                          </p>
+                          <p className="my-4">{item.content}</p>
+
+                          <div className="flex">
+                            {item.images?.map((image: ReviewImage) => (
+                              <div className="mr-2" key={image.id}>
+                                <Image
+                                  src={image.image}
+                                  alt={data.keyword.category?.name}
+                                  width={120}
+                                  height={120}
+                                  className="rounded-lg"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </YLineCard>
+                      </ListItem>
+                    ))}
+                  </Fragment>
+                ))}
+              </ul>
+              <InfiniteScroll
+                fetchNextPage={review.fetchNextPage}
+                isFetchingNextPage={review.isFetchingNextPage}
+                hasNextPage={review.hasNextPage}
+              />
+            </WhiteRoundedCard>
+          )
         )}
       </div>
     )

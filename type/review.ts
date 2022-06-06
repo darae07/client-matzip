@@ -7,7 +7,7 @@ export type Review = {
   keword: number
   created_at: string
   modified_at: string
-  tema_member: TeamMember
+  team_member: TeamMember
 }
 
 export type ReviewImage = {
