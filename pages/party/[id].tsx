@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { ReactElement, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { useQuery, useQueryClient } from 'react-query'
+import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import {
   WhiteRoundedCard,
   HomeLayout,
@@ -21,9 +21,17 @@ import {
   Party,
   Team,
   PartyMembership,
+  PaginatedResult,
+  Review,
 } from '@/type'
 import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
-import { joinParty, outParty, retrieveParty, retrieveTeam } from '@/api'
+import {
+  joinParty,
+  listReview,
+  outParty,
+  retrieveParty,
+  retrieveTeam,
+} from '@/api'
 import { calculatePercent } from '@/utils'
 
 const PartyDetail: NextPageWithLayout = () => {
@@ -108,6 +116,18 @@ const PartyDetail: NextPageWithLayout = () => {
 
   const [isEatModalOpen, setEatModalOpen] = useState(false)
   const openEatModal = () => setEatModalOpen(true)
+
+  const keyword = data?.keyword.id
+  const review = useInfiniteQuery<PaginatedResult<Review>>(
+    ['review', keyword],
+    ({ pageParam = 1 }) => listReview(pageParam, keyword),
+    {
+      enabled: !!keyword,
+      keepPreviousData: true,
+      getNextPageParam: (lastPage, pages) => lastPage.next,
+      cacheTime: 1000 * 60 * 60,
+    },
+  )
 
   if (data)
     return (
