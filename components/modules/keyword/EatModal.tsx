@@ -27,7 +27,7 @@ const reviewValues: ReviewCreateValue = {
   image: [],
 }
 
-export const ReviewModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
+export const EatModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
   const closeModal = () => setOpen(false)
   const [isGood, setIsGood] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)

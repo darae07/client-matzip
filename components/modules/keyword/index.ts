@@ -1,3 +1,3 @@
 export * from './KakaoMap'
-export * from './ReviewModal'
+export * from './EatModal'
 export * from './Keyword'

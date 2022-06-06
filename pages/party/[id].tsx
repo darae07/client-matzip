@@ -12,7 +12,7 @@ import {
 import {
   CategoryName,
   KakaoMap,
-  ReviewModal,
+  EatModal,
   KeywordName,
 } from '@/components/modules'
 import {
@@ -106,8 +106,8 @@ const PartyDetail: NextPageWithLayout = () => {
     outMutation.mutate(myMembership?.id)
   }
 
-  const [isReviewModalOpen, setReviewModalOpen] = useState(false)
-  const openReviewModal = () => setReviewModalOpen(true)
+  const [isEatModalOpen, setEatModalOpen] = useState(false)
+  const openEatModal = () => setEatModalOpen(true)
 
   if (data)
     return (
@@ -171,14 +171,14 @@ const PartyDetail: NextPageWithLayout = () => {
                   >
                     나가기
                   </button>
-                  <ReviewModal
-                    isOpen={isReviewModalOpen}
-                    setOpen={setReviewModalOpen}
+                  <EatModal
+                    isOpen={isEatModalOpen}
+                    setOpen={setEatModalOpen}
                     domain="party"
                   />
                   {!data.eat && (
                     <button
-                      onClick={openReviewModal}
+                      onClick={openEatModal}
                       className="ml-2 rounded bg-pink-500 p-2 px-3 text-sm text-white"
                     >
                       먹었어요
