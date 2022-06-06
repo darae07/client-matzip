@@ -1,5 +1,5 @@
 import { Keyword } from './lunch'
-import { Review } from './review'
+import { Review, ReviewImage } from './review'
 import { TeamMember } from './user'
 
 export type Party = {
@@ -14,6 +14,10 @@ export type Party = {
   team: number
   reviews: Review[]
 }
+
+export type PartyList = {
+  image?: ReviewImage
+} & Party
 
 export type PartyMembership = {
   id: number
