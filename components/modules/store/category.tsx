@@ -7,6 +7,7 @@ type CategoryProps = {
   className?: string
 }
 export const CategoryName = ({ category, ...props }: CategoryProps) => {
+  if (!category) return <></>
   return <BlueBox className={props.className}>{category?.name}</BlueBox>
 }
 
