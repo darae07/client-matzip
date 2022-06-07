@@ -38,7 +38,7 @@ import {
   retrieveParty,
   retrieveTeam,
 } from '@/api'
-import { calculatePercent } from '@/utils'
+import { calculatePercent, printDateTimeForToday } from '@/utils'
 import { EmojiHappyIcon } from '@heroicons/react/outline'
 
 const PartyDetail: NextPageWithLayout = () => {
@@ -241,6 +241,12 @@ const PartyDetail: NextPageWithLayout = () => {
         ) : (
           reviewData?.pages && (
             <WhiteRoundedCard className="mt-4">
+              <p className="mb-5 text-xl">
+                이 맛집을 추천한 동료들
+                <span className="ml-1 text-gray-500">
+                  ({reviewData.pages[0]?.count})
+                </span>
+              </p>
               <ul>
                 {reviewData.pages.map((group, i) => (
                   <Fragment key={i}>
@@ -259,7 +265,7 @@ const PartyDetail: NextPageWithLayout = () => {
                             </span>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">
-                            {item.created_at}
+                            {printDateTimeForToday(item.created_at)}
                           </p>
                           <p className="my-4">{item.content}</p>
 
