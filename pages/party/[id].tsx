@@ -19,6 +19,7 @@ import {
   KakaoMap,
   EatModal,
   KeywordName,
+  ReviewDetailModal,
 } from '@/components/modules'
 import {
   NextPageWithLayout,
@@ -39,7 +40,6 @@ import {
   retrieveTeam,
 } from '@/api'
 import { calculatePercent, printDateTimeForToday } from '@/utils'
-import { EmojiHappyIcon } from '@heroicons/react/outline'
 
 const PartyDetail: NextPageWithLayout = () => {
   const { query } = useRouter()
@@ -136,6 +136,12 @@ const PartyDetail: NextPageWithLayout = () => {
     },
   )
   const reviewData = review.data
+  const [isOpenReviewDetailModal, setOpenReviewDetailModal] = useState(false)
+  const [reviewImageId, setReviewImageId] = useState<number>()
+  const handleSelectReviewImage = (id: number) => {
+    setReviewImageId(id)
+    setOpenReviewDetailModal(true)
+  }
 
   if (data)
     return (
@@ -271,7 +277,13 @@ const PartyDetail: NextPageWithLayout = () => {
 
                           <div className="flex">
                             {item.images?.map((image: ReviewImage) => (
-                              <div className="mr-2" key={image.id}>
+                              <div
+                                className="mr-2"
+                                key={image.id}
+                                onClick={() => {
+                                  handleSelectReviewImage(image.id)
+                                }}
+                              >
                                 <Image
                                   src={image.image}
                                   alt={data.keyword.category?.name}
@@ -293,6 +305,14 @@ const PartyDetail: NextPageWithLayout = () => {
                 isFetchingNextPage={review.isFetchingNextPage}
                 hasNextPage={review.hasNextPage}
               />
+              {reviewImageId && (
+                <ReviewDetailModal
+                  reviewImageId={reviewImageId}
+                  keyword={keyword}
+                  isOpen={isOpenReviewDetailModal}
+                  setIsOpen={setOpenReviewDetailModal}
+                />
+              )}
             </WhiteRoundedCard>
           )
         )}
