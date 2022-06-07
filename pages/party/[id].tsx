@@ -151,7 +151,13 @@ const PartyDetail: NextPageWithLayout = () => {
             <div className="mb-2 flex overflow-x-auto">
               {data.reviews.map((review) =>
                 review.images?.map((image) => (
-                  <div className="mr-1 shrink-0" key={image.id}>
+                  <div
+                    className="mr-1 shrink-0 hover:cursor-pointer"
+                    key={image.id}
+                    onClick={() => {
+                      handleSelectReviewImage(image.id)
+                    }}
+                  >
                     <Image
                       src={image.image}
                       alt={data.keyword.category?.name}
