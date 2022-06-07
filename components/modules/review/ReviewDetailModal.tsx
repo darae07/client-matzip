@@ -73,7 +73,11 @@ export const ReviewDetailModal = ({
       setCurrentReviewImageId(nextImage.id)
       return
     }
-    if (currentReivew.id === lastReview?.id && hasNextPage) {
+    if (
+      currentReivew.id === lastReview?.id &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
       fetchNextPage()
       return
     }
