@@ -48,7 +48,7 @@ const Tooltip = ({ children, tooltipText }: TooltipProps) => {
           className="absolute left-1/2  -top-1 h-2.5 w-2.5 bg-gray-700"
           style={{ transform: 'rotate(45deg)' }}
         />
-        {tooltipText}
+        <div className="w-fit whitespace-pre">{tooltipText}</div>
       </div>
       {children}
     </div>
