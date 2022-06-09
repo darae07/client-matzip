@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { HTMLAttributes, useRef } from 'react'
 import { createPopper } from '@popperjs/core'
 
-interface TooltipProps {
+interface TooltipProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactChild
   tooltipText?: string
 }
@@ -54,4 +54,4 @@ const Tooltip = ({ children, tooltipText }: TooltipProps) => {
     </div>
   )
 }
-export default Tooltip
+export { Tooltip }
