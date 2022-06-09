@@ -1,8 +1,9 @@
 import { Dispatch } from '@reduxjs/toolkit'
 import { anonymousInstance } from '@/api/setupAxios'
-import { userLoginStart } from '@/store/modules/auth/user'
+import { userLoginEnd, userLoginStart } from '@/store/modules/auth/user'
 import { loginSuccess, loginFail } from './login'
 import serverErrorMessage from '@/constants/serverResponseErrorMessages'
+import _ from 'lodash'
 
 export type SignUpValuesType = {
   email: string
@@ -38,9 +39,14 @@ export const signUP =
           ) {
             dispatch(loginFail('사용중인 이메일 입니다.'))
           }
+        } else {
+          const feedback = _.join(_.flattenDeep(Object.values(message)), ', ')
+          dispatch(loginFail(feedback))
         }
       } else {
         dispatch(loginFail('회원가입에 실패했습니다.'))
       }
+    } finally {
+      dispatch(userLoginEnd())
     }
   }
