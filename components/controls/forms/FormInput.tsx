@@ -9,6 +9,7 @@ import {
   RegisterOptions,
   DeepMap,
   FieldError,
+  useFormContext,
 } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import classNames from 'classnames'
@@ -18,6 +19,7 @@ export type FormInputProps<TFormValues> = {
   rules?: RegisterOptions
   register?: UseFormRegister<TFormValues>
   errors?: Partial<DeepMap<TFormValues, FieldError>>
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any
 } & Omit<Omit<InputProps, 'name'>, 'ref'>
 
 export const FormInput = <TFomValues extends Record<string, unknown>>({
@@ -26,10 +28,14 @@ export const FormInput = <TFomValues extends Record<string, unknown>>({
   register,
   rules,
   errors,
+  onChange,
   ...props
 }: FormInputProps<TFomValues>): JSX.Element => {
   const errorMessages = _.get(errors, name)
   const hasError = !!(errors && errorMessages)
+  const { setValue } = useFormContext()
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    onChange && setValue(name, onChange(e))
 
   return (
     <div className={className} aria-live="polite">
@@ -41,6 +47,7 @@ export const FormInput = <TFomValues extends Record<string, unknown>>({
         })}
         {...props}
         {...(register && register(name, rules))}
+        onChange={handleOnChange}
       />
       <ErrorMessage
         errors={errors}
