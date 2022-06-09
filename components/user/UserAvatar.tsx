@@ -37,7 +37,13 @@ export const UserAvatar: FC<UserAvatarProps> = ({
           alt="user-image"
         />
       ) : (
-        <div className="flex h-6 w-6 cursor-default items-center justify-center rounded-full border border-gray-300 bg-white text-center text-xs">
+        <div
+          className={classNames(
+            'flex cursor-default items-center justify-center border border-gray-300 bg-white text-center',
+            { 'h-6 w-6 rounded-full text-xs': size === 'small' },
+            { 'h-36 w-36 rounded-lg text-xl': size === 'large' },
+          )}
+        >
           {user.member_name && user.member_name[0]}
         </div>
       )}
