@@ -67,7 +67,7 @@ const FindTeamModal = () => {
   })
 
   const handleJoinTeam = (values: CreateMembershipValue) => {
-    joinMutation.mutate(values)
+    joinMutation.mutate({ ...values, team: data?.id })
   }
   const joinMutation = useMutationHandleError<TeamMember>(
     joinTeam,
@@ -76,6 +76,7 @@ const FindTeamModal = () => {
         const { message, result } = data
         openToast(message || '회사에 가입했습니다.')
         dispatch(setUserTeamProfile(result))
+        closeModal()
       },
     },
     '회사에 가입할 수 없습니다.',
