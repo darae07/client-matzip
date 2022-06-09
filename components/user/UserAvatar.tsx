@@ -1,21 +1,39 @@
-import { FC } from 'react'
+import { FC, HTMLAttributes, useState } from 'react'
 import { TeamMember } from '@/type/user'
 import Image from 'next/image'
-import Tooltip from '@/components/popover/Tooltip'
+import { Tooltip, UserDetailModal } from '@/components'
+import classNames from 'classnames'
 
-type UserAvatarProps = {
+interface UserAvatarProps extends HTMLAttributes<HTMLDivElement> {
   user: TeamMember
+  size?: 'small' | 'medium' | 'large'
+  className?: string
 }
 
-export const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
+export const UserAvatar: FC<UserAvatarProps> = ({
+  user,
+  size = 'small',
+  className,
+  onClick,
+}) => {
   return (
-    <div className="h-6 w-6">
+    <div
+      className={classNames(
+        { 'h-6 w-6': size === 'small' },
+        { 'h-36 w-36': size === 'large' },
+        'relative',
+        className,
+      )}
+      onClick={onClick}
+    >
       {user.image ? (
         <Image
-          width={24}
-          height={24}
+          layout="fill"
           src={user.image}
-          className="h-6 w-6 rounded-full"
+          className={classNames(
+            { 'rounded-full': size === 'small' },
+            { 'rounded-lg': size === 'large' },
+          )}
           alt="user-image"
         />
       ) : (
@@ -28,9 +46,18 @@ export const UserAvatar: FC<UserAvatarProps> = ({ user }) => {
 }
 
 export const UserAvatarTooltip: FC<UserAvatarProps> = ({ user }) => {
+  const [isDetailModalOpen, setDetailModalOpen] = useState(false)
+
   return (
-    <Tooltip tooltipText={user.member_name || ''}>
-      <UserAvatar user={user} />
-    </Tooltip>
+    <>
+      <Tooltip tooltipText={user.member_name || ''}>
+        <UserAvatar user={user} onClick={() => setDetailModalOpen(true)} />
+      </Tooltip>
+      <UserDetailModal
+        user={user}
+        isOpen={isDetailModalOpen}
+        setIsOpen={setDetailModalOpen}
+      />
+    </>
   )
 }
