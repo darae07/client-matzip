@@ -82,6 +82,10 @@ const FindTeamModal = () => {
   )
 
   const data: Team | undefined = queryClient.getQueryData(['foundTeam'])
+
+  const handleUpperCase = (e: React.ChangeEvent<HTMLInputElement>) =>
+    e.currentTarget.value.toUpperCase()
+
   return (
     <Modal
       handleClose={closeModal}
@@ -103,7 +107,11 @@ const FindTeamModal = () => {
                 mode: 'onBlur',
               }}
             >
-              <FormInput<FindTeamValue> name="code" placeholder="입장코드" />
+              <FormInput<FindTeamValue>
+                name="code"
+                placeholder="입장코드"
+                onChange={handleUpperCase}
+              />
               <div className="mb-2.5"></div>
               <button
                 type="submit"
