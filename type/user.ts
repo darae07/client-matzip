@@ -30,3 +30,7 @@ export interface TeamMember {
   title: string | null
   user: number
 }
+
+export type TeamMemberDetail = {
+  user: User
+} & Omit<TeamMember, 'user'>
