@@ -39,3 +39,5 @@ yarn-error.log*
 
 #test
 /__tests__/__snapshots__/*
+# Local Netlify folder
+.netlify
