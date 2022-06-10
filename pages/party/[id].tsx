@@ -211,7 +211,10 @@ const PartyDetail: NextPageWithLayout = () => {
               ))}
               <PlusButton onClick={openSearchModal} />
               <Modal handleClose={closeSearchModal} isOpen={isSearchModalOpen}>
-                <SearchAndSelectUser selectAction={userSelectAction} />
+                <SearchAndSelectUser
+                  selectAction={userSelectAction}
+                  party={Number(id)}
+                />
               </Modal>
             </div>
             <div>

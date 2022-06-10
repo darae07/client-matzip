@@ -1,11 +1,12 @@
-import { HTMLAttributes, useState } from 'react'
-import { Form, FormInput } from '@/components'
+import { Fragment, HTMLAttributes, useState } from 'react'
+import { Form, FormInput, ListItem, InfiniteScroll } from '@/components'
 import { UnpackNestedValue } from 'react-hook-form'
 import { useInfiniteQuery } from 'react-query'
 import { PaginatedResult, TeamMember } from '@/type'
 import { searchTeamMember } from '@/api'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { UserAvatar } from './UserAvatar'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   selectAction: Function
@@ -51,6 +52,7 @@ export const SearchAndSelectUser = ({
 
   return (
     <div>
+      <p className="mb-4 text-2xl font-bold text-black">멤버 찾기</p>
       <Form<SearchUserValues>
         onSubmit={handleSetSearchKeyword}
         options={{
@@ -65,6 +67,34 @@ export const SearchAndSelectUser = ({
           placeholder="멤버 찾기"
         />
       </Form>
+
+      {data && (
+        <div className="mt-2">
+          <ul className="h-80 overflow-y-auto">
+            {data.pages.map((group, i) => (
+              <Fragment key={i}>
+                {group.results.map((item: TeamMember) => (
+                  <ListItem key={item.id}>
+                    <div className="py-4 px-2 hover:cursor-pointer hover:bg-gray-100">
+                      <div className="flex items-center">
+                        <UserAvatar user={item} />
+                        <span className="text-md ml-2 font-medium text-black">
+                          {item.member_name}
+                        </span>
+                      </div>
+                    </div>
+                  </ListItem>
+                ))}
+              </Fragment>
+            ))}
+          </ul>
+          <InfiniteScroll
+            fetchNextPage={fetchNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            hasNextPage={hasNextPage}
+          />
+        </div>
+      )}
     </div>
   )
 }
