@@ -13,6 +13,9 @@ import {
   ListItem,
   YLineCard,
   UserAvatar,
+  PlusButton,
+  Modal,
+  SearchAndSelectUser,
 } from '@/components'
 import {
   CategoryName,
@@ -143,6 +146,11 @@ const PartyDetail: NextPageWithLayout = () => {
     setOpenReviewDetailModal(true)
   }
 
+  const [isSearchModalOpen, setSearchModalOpen] = useState(false)
+  const openSearchModal = () => setSearchModalOpen(true)
+  const closeSearchModal = () => setSearchModalOpen(false)
+  const userSelectAction = () => {}
+
   if (data)
     return (
       <div>
@@ -201,6 +209,10 @@ const PartyDetail: NextPageWithLayout = () => {
                   key={membership.id}
                 />
               ))}
+              <PlusButton onClick={openSearchModal} />
+              <Modal handleClose={closeSearchModal} isOpen={isSearchModalOpen}>
+                <SearchAndSelectUser selectAction={userSelectAction} />
+              </Modal>
             </div>
             <div>
               {!!myMembership ? (
