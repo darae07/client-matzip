@@ -1,18 +1,19 @@
 import React from 'react'
 import { Portal, defaultModalRootId } from '../portal'
-import { Modal as StyledModal } from '../style'
-export interface ModalProps {
+import { ContentSize, Modal as StyledModal } from '../style'
+export type ModalProps = {
   isOpen: boolean
   children?: React.ReactChild
   handleClose: Function
   title?: string
-}
+} & ContentSize
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   children,
   handleClose,
   title,
+  size = 'medium',
 }) => {
   if (!isOpen) return null
 
@@ -20,7 +21,7 @@ export const Modal: React.FC<ModalProps> = ({
     <Portal rootId={defaultModalRootId}>
       <StyledModal>
         <StyledModal.Background role="modal">
-          <StyledModal.Container>
+          <StyledModal.Container size={size}>
             <StyledModal.Header>
               {title && <StyledModal.Title>{title}</StyledModal.Title>}
               <StyledModal.CloseButton

@@ -8,17 +8,19 @@ export const Modal = ({ children }: LayoutProps) => {
 }
 
 const ModalBackground = styled.div`
-  ${tw`fixed inset-0 z-[21] px-4 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none`}
+  ${tw`fixed inset-0 z-[21] px-4 flex items-center justify-center overflow-y-hidden overflow-x-hidden outline-none focus:outline-none`}
 `
-interface ContentProps {
+export interface ContentSize {
   size?: 'small' | 'medium' | 'large'
 }
-const ModalContainer = styled.div<ContentProps>`
-  ${tw`relative my-8 max-w-screen-md bg-white rounded-2xl p-6`}
+const ModalContainer = styled.div<ContentSize>`
+  ${tw`relative my-8  bg-white rounded-2xl p-6`}
   ${(props) =>
     props.size === 'small'
       ? tw`w-full sm:max-w-[50%] lg:max-w-[30%]`
-      : tw`mx-auto w-full`}
+      : props.size === 'large'
+      ? tw`mx-auto w-full max-w-screen-xl`
+      : tw`mx-auto w-full max-w-screen-md`}
 `
 const ModalContent = styled.div`
   ${tw`relative flex w-full flex-col rounded-lg border-0 bg-white shadow-xl outline-none focus:outline-none`}
@@ -30,7 +32,7 @@ const ModalTitle = styled.h3`
   ${tw`text-lg font-medium leading-6 text-gray-900`}
 `
 const ModalBody = styled.div`
-  ${tw`relative flex-auto text-sm text-gray-600`}
+  ${tw`relative flex-auto text-sm text-gray-600 overflow-y-auto`}
 `
 const ModalFooter = styled.div`
   ${tw`flex items-center justify-end rounded-b pt-3`}

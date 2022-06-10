@@ -1,9 +1,18 @@
 import { authorizedInstance } from '@/api/setupAxios'
 import { ApiResponse } from '@/type/api'
 
-export const listCategory = async <ResultT>() => {
+export const listReview = async <ResultT>(
+  page: number = 1,
+  keyword?: number,
+) => {
   const { data: response }: ApiResponse<ResultT> = await authorizedInstance.get(
-    'store/category/',
+    'review/review/',
+    {
+      params: {
+        keyword,
+        page,
+      },
+    },
   )
   return response.result
 }

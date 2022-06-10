@@ -1,4 +1,5 @@
 import { Keyword } from './lunch'
+import { Review, ReviewImage } from './review'
 import { TeamMember } from './user'
 
 export type Party = {
@@ -11,6 +12,20 @@ export type Party = {
   closed_at?: string
   eat: boolean
   team: number
+  reviews: Review[]
+}
+
+export type PartyList = {
+  image?: ReviewImage
+} & Party
+
+export interface PartyMembershipStatus {
+  1: 'ALLOWED'
+  2: 'WAITING'
+  3: 'DENIED'
+  ALLOWED: 1
+  WAITING: 2
+  DENIED: 3
 }
 
 export type PartyMembership = {
@@ -33,5 +48,16 @@ export type CreatePartyValue = {
 
 export type joinPartyValue = {
   party: number
+  invite_reason?: string
+}
+
+export type ReviewCreateValue = {
+  content: string
+  image: []
+}
+
+export type InvitePartyValue = {
+  party: number
+  receiver: number
   invite_reason?: string
 }

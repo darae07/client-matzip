@@ -14,6 +14,7 @@ import {
 import { SearchKeywordMap, SearchCategory } from '@/components/modules'
 import { createParty } from '@/api'
 import { useRouter } from 'next/router'
+import classNames from 'classnames'
 
 type PartyCreateValue = {
   name: string
@@ -26,7 +27,7 @@ const PartyCreate: NextPageWithLayout = () => {
   })
 
   const [keyword, setKeyword] = useState(null)
-  const [category, setCategory] = useState(null)
+  const [category, setCategory] = useState()
 
   const handelCreateParty = (values: PartyCreateValue) => {
     if (!keyword) {
@@ -82,13 +83,18 @@ const PartyCreate: NextPageWithLayout = () => {
             <FormTextarea<PartyCreateValue>
               name="description"
               className="my-2.5 h-20"
-              placeholder="설명을 입력해 주세요"
+              placeholder="동료들이 함께 식사할 수 있도록 설명을 입력해 주세요.(ex 점심시간에 정문앞에서 봐요)"
             />
 
             <input
               type="submit"
               disabled={isLoading}
-              className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className={classNames(
+                'inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:cursor-pointer hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+                {
+                  'bg-gray-400 text-white': isLoading,
+                },
+              )}
               value="등록하기"
             />
           </Form>

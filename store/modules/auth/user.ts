@@ -39,6 +39,9 @@ export const userSlice = createSlice({
         state.user.team_profile = action.payload
       }
     },
+    userLoginEnd: (state) => {
+      state.isLoading = false
+    },
   },
 })
 
@@ -48,5 +51,6 @@ export const {
   catchError,
   userLoginStart,
   setUserTeamProfile,
+  userLoginEnd,
 } = userSlice.actions
 export default userSlice.reducer

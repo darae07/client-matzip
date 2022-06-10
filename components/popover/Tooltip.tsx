@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { HTMLAttributes, useRef } from 'react'
 import { createPopper } from '@popperjs/core'
 
-interface TooltipProps {
+interface TooltipProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactChild
   tooltipText?: string
 }
@@ -34,7 +34,7 @@ const Tooltip = ({ children, tooltipText }: TooltipProps) => {
   return (
     <div
       ref={btnRef}
-      className="relative flex w-fit items-center"
+      className="relative flex h-fit w-fit items-center"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -48,10 +48,10 @@ const Tooltip = ({ children, tooltipText }: TooltipProps) => {
           className="absolute left-1/2  -top-1 h-2.5 w-2.5 bg-gray-700"
           style={{ transform: 'rotate(45deg)' }}
         />
-        {tooltipText}
+        <div className="w-fit whitespace-pre">{tooltipText}</div>
       </div>
       {children}
     </div>
   )
 }
-export default Tooltip
+export { Tooltip }

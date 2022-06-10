@@ -3,6 +3,7 @@ export type Keyword = {
   name: string
   hit_count: number
   eat_count: number
+  good_count: number
   team: number
   category?: Category
 }

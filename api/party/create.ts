@@ -1,6 +1,5 @@
-import { authorizedInstance } from 'api/setupAxios'
-import { ApiResponse } from 'type/api'
-import { CreatePartyValue } from 'type/party'
+import { authorizedInstance } from '@/api/setupAxios'
+import { ApiResponse, CreatePartyValue } from '@/type'
 
 export const createParty = async <ResultT>(data: CreatePartyValue) => {
   const { data: response }: ApiResponse<ResultT> =

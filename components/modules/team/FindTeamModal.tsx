@@ -67,7 +67,7 @@ const FindTeamModal = () => {
   })
 
   const handleJoinTeam = (values: CreateMembershipValue) => {
-    joinMutation.mutate(values)
+    joinMutation.mutate({ ...values, team: data?.id })
   }
   const joinMutation = useMutationHandleError<TeamMember>(
     joinTeam,
@@ -76,12 +76,17 @@ const FindTeamModal = () => {
         const { message, result } = data
         openToast(message || '회사에 가입했습니다.')
         dispatch(setUserTeamProfile(result))
+        closeModal()
       },
     },
     '회사에 가입할 수 없습니다.',
   )
 
   const data: Team | undefined = queryClient.getQueryData(['foundTeam'])
+
+  const handleUpperCase = (e: React.ChangeEvent<HTMLInputElement>) =>
+    e.currentTarget.value.toUpperCase()
+
   return (
     <Modal
       handleClose={closeModal}
@@ -103,7 +108,11 @@ const FindTeamModal = () => {
                 mode: 'onBlur',
               }}
             >
-              <FormInput<FindTeamValue> name="code" placeholder="입장코드" />
+              <FormInput<FindTeamValue>
+                name="code"
+                placeholder="입장코드"
+                onChange={handleUpperCase}
+              />
               <div className="mb-2.5"></div>
               <button
                 type="submit"

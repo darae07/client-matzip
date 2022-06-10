@@ -16,7 +16,7 @@ export const InfiniteScroll = ({
   useEffect(() => {
     if (!hasNextPage) return
     if (inView && !isFetchingNextPage) fetchNextPage()
-  }, [inView, hasNextPage])
+  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage])
 
   return (
     <div role="infiniteScroll" ref={ref}>
