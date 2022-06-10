@@ -19,6 +19,15 @@ export type PartyList = {
   image?: ReviewImage
 } & Party
 
+export interface PartyMembershipStatus {
+  1: 'ALLOWED'
+  2: 'WAITING'
+  3: 'DENIED'
+  ALLOWED: 1
+  WAITING: 2
+  DENIED: 3
+}
+
 export type PartyMembership = {
   id: number
   team_member: TeamMember
@@ -45,4 +54,10 @@ export type joinPartyValue = {
 export type ReviewCreateValue = {
   content: string
   image: []
+}
+
+export type InvitePartyValue = {
+  party: number
+  receiver: number
+  invite_reason?: string
 }
