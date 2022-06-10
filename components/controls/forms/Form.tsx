@@ -1,10 +1,10 @@
+import _ from 'lodash'
 import React, { useEffect } from 'react'
 import {
   useForm,
   UseFormProps,
   SubmitHandler,
   FormProvider,
-  UnpackNestedValue,
 } from 'react-hook-form'
 
 type FormProps<TFomValues> = {
@@ -20,8 +20,9 @@ export const Form = <TFomValues extends Record<string, unknown>>({
   autoSubmit = false,
 }: FormProps<TFomValues>) => {
   const methods = useForm<TFomValues>(options)
-  const handleAutoSubmit = (data: UnpackNestedValue<TFomValues>) =>
-    onSubmit(data)
+  const handleAutoSubmit = _.debounce(onSubmit, 250, {
+    maxWait: 500,
+  })
   const values = methods.watch()
 
   useEffect(() => {
