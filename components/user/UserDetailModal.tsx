@@ -19,7 +19,7 @@ export const UserDetailModal = ({
   const { data, error, isLoading } = useQuery(
     ['teamMemberProfile', user.id],
     () => retrieveTeamMember<TeamMemberDetail>(user.id),
-    { enabled: !!user.id },
+    { enabled: !!user.id, refetchOnWindowFocus: false, refetchOnMount: false },
   )
 
   return (
