@@ -36,6 +36,7 @@ import {
 } from '@/type'
 import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
 import {
+  inviteParty,
   joinParty,
   listReview,
   outParty,
@@ -149,7 +150,24 @@ const PartyDetail: NextPageWithLayout = () => {
   const [isSearchModalOpen, setSearchModalOpen] = useState(false)
   const openSearchModal = () => setSearchModalOpen(true)
   const closeSearchModal = () => setSearchModalOpen(false)
-  const userSelectAction = () => {}
+
+  const inviteMutation = useMutationHandleError(
+    inviteParty,
+    {
+      onSuccess: (response: ApiResponseData<PartyMembership>) => {
+        const { message, result } = response
+        openToast(message || '초대 메시지를 보냈습니다.')
+      },
+    },
+    '초대할 수 없습니다.',
+  )
+  const userSelectAction = (receiverId: number) => {
+    const data = {
+      party: id,
+      receiver: receiverId,
+    }
+    inviteMutation.mutate(data)
+  }
 
   if (data)
     return (
@@ -207,9 +225,10 @@ const PartyDetail: NextPageWithLayout = () => {
                 <UserAvatarTooltip
                   user={membership.team_member}
                   key={membership.id}
+                  membership={membership}
                 />
               ))}
-              <PlusButton onClick={openSearchModal} />
+              {!!myMembership && <PlusButton onClick={openSearchModal} />}
               <Modal handleClose={closeSearchModal} isOpen={isSearchModalOpen}>
                 <SearchAndSelectUser
                   selectAction={userSelectAction}

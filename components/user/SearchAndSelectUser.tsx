@@ -50,9 +50,11 @@ export const SearchAndSelectUser = ({
     member_name: Yup.string(),
   })
 
+  const handleSelectUser = (id: number) => selectAction(id)
+
   return (
     <div>
-      <p className="mb-4 text-2xl font-bold text-black">멤버 찾기</p>
+      <p className="mb-4 text-2xl font-bold text-black">멤버 초대하기</p>
       <Form<SearchUserValues>
         onSubmit={handleSetSearchKeyword}
         options={{
@@ -75,7 +77,10 @@ export const SearchAndSelectUser = ({
               <Fragment key={i}>
                 {group.results.map((item: TeamMember) => (
                   <ListItem key={item.id}>
-                    <div className="py-4 px-2 hover:cursor-pointer hover:bg-gray-100">
+                    <div
+                      onClick={() => handleSelectUser(item.id)}
+                      className="py-4 px-2 hover:cursor-pointer hover:bg-gray-100"
+                    >
                       <div className="flex items-center">
                         <UserAvatar user={item} />
                         <span className="text-md ml-2 font-medium text-black">
