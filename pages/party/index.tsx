@@ -120,6 +120,7 @@ const PartyPage: NextPageWithLayout = () => {
                         href={`/party/${party.id}`}
                         scroll={false}
                         key={party.id}
+                        passHref
                       >
                         <div>
                           <p className="mb-2 text-xl font-bold font-bold">

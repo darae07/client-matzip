@@ -58,3 +58,6 @@ const Thumbnail = forwardRef<HTMLDivElement, ThumbnailProps>(
     )
   },
 )
+
+ListItem.displayName = 'listItem'
+Thumbnail.displayName = 'thumbnail'

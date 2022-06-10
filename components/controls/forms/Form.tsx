@@ -29,7 +29,7 @@ export const Form = <TFomValues extends Record<string, unknown>>({
     if (autoSubmit) {
       handleAutoSubmit(values)
     }
-  }, [values])
+  }, [values, autoSubmit, handleAutoSubmit])
 
   return (
     <FormProvider<TFomValues> {...methods}>
