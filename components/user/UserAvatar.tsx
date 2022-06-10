@@ -1,5 +1,5 @@
 import { FC, HTMLAttributes, useState } from 'react'
-import { TeamMember } from '@/type/user'
+import { TeamMember, PartyMembership, PartyMembershipStatus } from '@/type'
 import Image from 'next/image'
 import { Tooltip, UserDetailModal } from '@/components'
 import classNames from 'classnames'
@@ -8,12 +8,14 @@ interface UserAvatarProps extends HTMLAttributes<HTMLDivElement> {
   user: TeamMember
   size?: 'small' | 'medium' | 'large'
   className?: string
+  membership?: PartyMembership
 }
 
 export const UserAvatar: FC<UserAvatarProps> = ({
   user,
   size = 'small',
   className,
+  membership,
   onClick,
 }) => {
   return (
@@ -21,6 +23,7 @@ export const UserAvatar: FC<UserAvatarProps> = ({
       className={classNames(
         { 'h-6 w-6': size === 'small' },
         { 'h-36 w-36': size === 'large' },
+        { 'opacity-50': membership?.status === 2 },
         'relative',
         className,
       )}
@@ -51,13 +54,25 @@ export const UserAvatar: FC<UserAvatarProps> = ({
   )
 }
 
-export const UserAvatarTooltip: FC<UserAvatarProps> = ({ user }) => {
+export const UserAvatarTooltip: FC<UserAvatarProps> = ({
+  user,
+  membership,
+}) => {
   const [isDetailModalOpen, setDetailModalOpen] = useState(false)
 
   return (
     <>
-      <Tooltip tooltipText={user.member_name || ''}>
-        <UserAvatar user={user} onClick={() => setDetailModalOpen(true)} />
+      <Tooltip
+        tooltipText={
+          `${membership?.status === 2 ? '초대중 ' : ''}${user.member_name}` ||
+          ''
+        }
+      >
+        <UserAvatar
+          user={user}
+          membership={membership}
+          onClick={() => setDetailModalOpen(true)}
+        />
       </Tooltip>
       <UserDetailModal
         user={user}

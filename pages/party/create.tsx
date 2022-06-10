@@ -14,6 +14,7 @@ import {
 import { SearchKeywordMap, SearchCategory } from '@/components/modules'
 import { createParty } from '@/api'
 import { useRouter } from 'next/router'
+import classNames from 'classnames'
 
 type PartyCreateValue = {
   name: string
@@ -88,7 +89,12 @@ const PartyCreate: NextPageWithLayout = () => {
             <input
               type="submit"
               disabled={isLoading}
-              className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              className={classNames(
+                'inline-flex w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:cursor-pointer hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+                {
+                  'bg-gray-400 text-white': isLoading,
+                },
+              )}
               value="등록하기"
             />
           </Form>

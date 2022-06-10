@@ -143,6 +143,7 @@ const PartyPage: NextPageWithLayout = () => {
                           <UserAvatarTooltip
                             user={membership.team_member}
                             key={membership.id}
+                            membership={membership}
                           />
                         ))}
                       </div>
