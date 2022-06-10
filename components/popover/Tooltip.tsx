@@ -34,7 +34,7 @@ const Tooltip = ({ children, tooltipText }: TooltipProps) => {
   return (
     <div
       ref={btnRef}
-      className="relative flex w-fit items-center"
+      className="relative flex h-fit w-fit items-center"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
