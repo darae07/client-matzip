@@ -17,7 +17,7 @@ export const UserDetailModal = ({
   const closeModal = () => setIsOpen(false)
 
   const { data, error, isLoading } = useQuery(
-    ['teamMemberProfile', user.id],
+    ['teamMemberProfile'],
     () => retrieveTeamMember<TeamMemberDetail>(user.id),
     { enabled: !!user.id, refetchOnWindowFocus: false, refetchOnMount: false },
   )
