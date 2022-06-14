@@ -8,6 +8,7 @@ import React, {
   useEffect,
 } from 'react'
 import classNames from 'classnames'
+import { CloseButton } from '@/components'
 
 interface PopoverContextValue {
   isOpen: boolean
@@ -121,10 +122,21 @@ const Panel = ({ children, className }: PopoverPanelProps) => {
     <div
       ref={popoverDropdownRef}
       className={classNames(
-        'absolute block w-screen min-w-[12rem] bg-white',
+        'absolute block w-[97vw] min-w-[12rem] bg-white',
         className,
       )}
     >
+      {isOpen && (
+        <CloseButton
+          className={classNames(
+            className,
+            'absolute right-3 z-[29] p-5 pl-10 text-gray-400 sm:hidden',
+          )}
+          name="close"
+          onClick={() => handleClose()}
+        />
+      )}
+
       {isOpen && children}
     </div>
   )
