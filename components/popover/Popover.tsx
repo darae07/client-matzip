@@ -5,6 +5,7 @@ import React, {
   useState,
   HTMLAttributes,
   createRef,
+  useEffect,
 } from 'react'
 import classNames from 'classnames'
 
@@ -38,7 +39,7 @@ const usePopoverContext = () => {
 }
 
 interface PopoverProps extends HTMLAttributes<HTMLDivElement> {
-  children: React.ReactChild
+  children: React.ReactNode
   tooltipText?: string
 }
 export const Popover = ({ children }: PopoverProps) => {
@@ -96,8 +97,25 @@ interface PopoverPanelProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactChild
 }
 const Panel = ({ children, className }: PopoverPanelProps) => {
-  const { isOpen, handleOpen, handleClose, popoverDropdownRef } =
+  const { isOpen, handleClose, popoverDropdownRef, btnDropdownRef } =
     usePopoverContext()
+
+  useEffect(() => {
+    const handleClickOutside = (e: any) => {
+      if (
+        popoverDropdownRef.current &&
+        !popoverDropdownRef?.current?.contains(e.target) &&
+        btnDropdownRef.current &&
+        !btnDropdownRef?.current?.contains(e.target)
+      ) {
+        handleClose()
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [popoverDropdownRef])
 
   return (
     <div
