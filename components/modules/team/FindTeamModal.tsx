@@ -3,19 +3,10 @@ import { useRouter } from 'next/router'
 import { useQueryClient } from 'react-query'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-
-import {
-  Team,
-  FindTeamValue,
-  CreateMembershipValue,
-  ApiResponseData,
-  TeamMember,
-} from '@/type'
+import { Team, FindTeamValue, CreateMembershipValue } from '@/type'
 import { teamCodeReg } from '@/constants/validation'
-import { findTeamByCode, joinTeam } from '@/api/team'
-import { useAppDispatch, useMutationHandleError } from '@/utils/hooks'
-import { setUserTeamProfile } from '@/store/modules'
-import { Form, FormInput, Modal, openToast } from '@/components'
+import { Form, FormInput, Modal } from '@/components'
+import { useFindTeamMutation, useJoinTeamMutation } from '@/queries'
 
 const teamValues = {
   code: '',
@@ -44,20 +35,9 @@ const FindTeamModal = () => {
     mutate(values)
   }
 
-  const dispatch = useAppDispatch()
   const queryClient = useQueryClient()
 
-  const { mutate, isLoading } = useMutationHandleError(
-    findTeamByCode,
-    {
-      onSuccess: (data: ApiResponseData<Team>) => {
-        const { message, result } = data
-        // dispatch(openToast(message || '회사를 찾았습니다.'))
-        queryClient.setQueryData(['foundTeam'], result)
-      },
-    },
-    '회사를 찾을 수 없습니다.',
-  )
+  const { mutate, isLoading } = useFindTeamMutation()
 
   const joinTeamSchema = Yup.object().shape({
     member_name: Yup.string()
@@ -69,18 +49,7 @@ const FindTeamModal = () => {
   const handleJoinTeam = (values: CreateMembershipValue) => {
     joinMutation.mutate({ ...values, team: data?.id })
   }
-  const joinMutation = useMutationHandleError<TeamMember>(
-    joinTeam,
-    {
-      onSuccess: (data: ApiResponseData<TeamMember>) => {
-        const { message, result } = data
-        openToast(message || '회사에 가입했습니다.')
-        dispatch(setUserTeamProfile(result))
-        closeModal()
-      },
-    },
-    '회사에 가입할 수 없습니다.',
-  )
+  const joinMutation = useJoinTeamMutation(closeModal)
 
   const data: Team | undefined = queryClient.getQueryData(['foundTeam'])
 
