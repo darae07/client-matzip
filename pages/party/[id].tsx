@@ -16,6 +16,7 @@ import {
   PlusButton,
   Modal,
   SearchAndSelectUser,
+  Button,
 } from '@/components'
 import {
   CategoryName,
@@ -241,33 +242,39 @@ const PartyDetail: NextPageWithLayout = () => {
             <div>
               {!!myMembership ? (
                 <div>
-                  <button
+                  <Button
                     onClick={() => handleOutParty()}
-                    className="rounded bg-blue-600 p-2 px-3 text-sm text-white"
+                    size="small"
+                    color="blue"
+                    disabled={outMutation.isLoading}
                   >
                     나가기
-                  </button>
+                  </Button>
                   <EatModal
                     isOpen={isEatModalOpen}
                     setOpen={setEatModalOpen}
                     domain="party"
                   />
                   {!data.eat && (
-                    <button
+                    <Button
                       onClick={openEatModal}
-                      className="ml-2 rounded bg-pink-500 p-2 px-3 text-sm text-white"
+                      className="ml-2"
+                      size="small"
+                      color="pink"
                     >
                       먹었어요
-                    </button>
+                    </Button>
                   )}
                 </div>
               ) : (
-                <button
+                <Button
                   onClick={() => handleJoinParty()}
-                  className="rounded bg-blue-600 p-2 px-3 text-sm text-white"
+                  size="small"
+                  color="blue"
+                  disabled={joinMutation.isLoading}
                 >
                   같이갈래요
-                </button>
+                </Button>
               )}
             </div>
           </div>
