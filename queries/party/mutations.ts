@@ -1,4 +1,11 @@
-import { inviteParty, joinParty, outParty } from '@/api'
+import {
+  acceptInviteParty,
+  cancelInviteParty,
+  inviteParty,
+  joinParty,
+  outParty,
+  refuseInviteParty,
+} from '@/api'
 import { openToast } from '@/components'
 import { ApiResponseData, Party, PartyMembership, TeamMember } from '@/type'
 import { useMutationHandleError } from '@/utils/hooks'
@@ -68,3 +75,51 @@ export const useInvitePartyMutation = () =>
     },
     '초대할 수 없습니다.',
   )
+
+export const useAcceptInvitePartyMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutationHandleError(
+    acceptInviteParty,
+    {
+      onSuccess: (response: ApiResponseData<PartyMembership>) => {
+        const { message, result } = response
+        openToast(message || '초대를 수락했습니다.')
+        queryClient.invalidateQueries('myPartyInvite')
+        queryClient.invalidateQueries('partyItem')
+      },
+    },
+    '초대를 수락할 수 없습니다.',
+  )
+}
+
+export const useRefuseInvitePartyMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutationHandleError(
+    refuseInviteParty,
+    {
+      onSuccess: (response: ApiResponseData<PartyMembership>) => {
+        const { message, result } = response
+        openToast(message || '초대를 거절했습니다.')
+        queryClient.invalidateQueries('myPartyInvite')
+        queryClient.invalidateQueries('partyItem')
+      },
+    },
+    '초대를 거절할 수 없습니다.',
+  )
+}
+
+export const useCancelInvitePartyMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutationHandleError(
+    cancelInviteParty,
+    {
+      onSuccess: (response: ApiResponseData<PartyMembership>) => {
+        const { message, result } = response
+        openToast(message || '초대 요청을 취소했습니다.')
+        queryClient.invalidateQueries('myPartyInvite')
+        queryClient.invalidateQueries('partyItem')
+      },
+    },
+    '요청을 취소할 수 없습니다.',
+  )
+}

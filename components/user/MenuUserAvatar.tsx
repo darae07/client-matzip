@@ -11,15 +11,14 @@ import {
   Popover,
 } from '@/components'
 import { useAppDispatch } from '@/utils/hooks'
+import { logout } from '@/api'
+import { PartyMembership } from '@/type'
 import {
-  acceptInviteParty,
-  cancelInviteParty,
-  logout,
-  myInviteList,
-  refuseInviteParty,
-} from '@/api'
-import { useInfiniteQuery, useQueryClient } from 'react-query'
-import { ApiResponseData, PaginatedResult, PartyMembership } from '@/type'
+  useAcceptInvitePartyMutation,
+  useCancelInvitePartyMutation,
+  useMyPartyInvitedQuery,
+  useRefuseInvitePartyMutation,
+} from '@/queries'
 
 const MenuUserAvatar: FC = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)
@@ -29,60 +28,20 @@ const MenuUserAvatar: FC = () => {
     dispatch(logout())
   }
 
-  const { data, hasNextPage } = useInfiniteQuery<
-    PaginatedResult<PartyMembership>
-  >(['myPartyInvite'], ({ pageParam = 1 }) => myInviteList(pageParam), {
-    enabled: !!user?.team_profile,
-    keepPreviousData: true,
-    cacheTime: 1000 * 60 * 60,
-  })
+  const { data, hasNextPage } = useMyPartyInvitedQuery()
 
-  const queryClient = useQueryClient()
-  const acceptMutation = useMutationHandleError(
-    acceptInviteParty,
-    {
-      onSuccess: (response: ApiResponseData<PartyMembership>) => {
-        const { message, result } = response
-        openToast(message || '초대를 수락했습니다.')
-        queryClient.invalidateQueries('myPartyInvite')
-        queryClient.invalidateQueries('partyItem')
-      },
-    },
-    '초대를 수락할 수 없습니다.',
-  )
+  const acceptMutation = useAcceptInvitePartyMutation()
 
   const handleAccept = (id: number) => {
     acceptMutation.mutate(id)
   }
 
-  const refuseMutation = useMutationHandleError(
-    refuseInviteParty,
-    {
-      onSuccess: (response: ApiResponseData<PartyMembership>) => {
-        const { message, result } = response
-        openToast(message || '초대를 거절했습니다.')
-        queryClient.invalidateQueries('myPartyInvite')
-        queryClient.invalidateQueries('partyItem')
-      },
-    },
-    '초대를 거절할 수 없습니다.',
-  )
+  const refuseMutation = useRefuseInvitePartyMutation()
   const handleRefuse = (id: number) => {
     refuseMutation.mutate(id)
   }
 
-  const cancelMutation = useMutationHandleError(
-    cancelInviteParty,
-    {
-      onSuccess: (response: ApiResponseData<PartyMembership>) => {
-        const { message, result } = response
-        openToast(message || '초대 요청을 취소했습니다.')
-        queryClient.invalidateQueries('myPartyInvite')
-        queryClient.invalidateQueries('partyItem')
-      },
-    },
-    '요청을 취소할 수 없습니다.',
-  )
+  const cancelMutation = useCancelInvitePartyMutation()
   const handleCancel = (id: number) => {
     cancelMutation.mutate(id)
   }
