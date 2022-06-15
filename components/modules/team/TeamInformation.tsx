@@ -1,9 +1,7 @@
-import { retrieveTeam } from 'api/team'
 import { WhiteRoundedCard } from 'components/card/styledCard'
 import { useAppSelector } from '@/utils/hooks'
 import { FC, useEffect } from 'react'
-import { useMutation, useQuery } from 'react-query'
-import { Team } from 'type/team'
+import { useMyTeamQuery } from '@/queries'
 
 const TeamInformation: FC = () => {
   const user = useAppSelector((state) => state.user)
@@ -11,14 +9,7 @@ const TeamInformation: FC = () => {
   const teamId = team_profile?.team
 
   useEffect(() => {})
-  const { data, error, isLoading } = useQuery(
-    ['myTeam', teamId],
-    () => retrieveTeam<Team>(teamId),
-    {
-      enabled: !!teamId,
-      staleTime: 1000 * 60 * 60,
-    },
-  )
+  const { data, error, isLoading } = useMyTeamQuery(teamId)
 
   if (data)
     return (

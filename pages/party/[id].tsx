@@ -2,12 +2,11 @@ import _ from 'lodash'
 import React, { ReactElement, useState, useEffect, Fragment } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import {
   WhiteRoundedCard,
   HomeLayout,
   UserAvatarTooltip,
-  openToast,
   LoadingSpinner,
   InfiniteScroll,
   ListItem,
@@ -16,6 +15,7 @@ import {
   PlusButton,
   Modal,
   SearchAndSelectUser,
+  Button,
 } from '@/components'
 import {
   CategoryName,
@@ -26,48 +26,33 @@ import {
 } from '@/components/modules'
 import {
   NextPageWithLayout,
-  ApiResponseData,
-  Party,
-  Team,
   PartyMembership,
-  PaginatedResult,
   Review,
   ReviewImage,
 } from '@/type'
-import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
-import {
-  inviteParty,
-  joinParty,
-  listReview,
-  outParty,
-  retrieveParty,
-  retrieveTeam,
-} from '@/api'
+import { useAppSelector } from '@/utils/hooks'
 import { calculatePercent, printDateTimeForToday } from '@/utils'
+import {
+  useInvitePartyMutation,
+  useJoinPartyMutation,
+  useMyTeamQuery,
+  useOutPartyMutation,
+  usePartyItemQuery,
+  useReviewQuery,
+} from '@/queries'
 
 const PartyDetail: NextPageWithLayout = () => {
   const { query } = useRouter()
   const { id } = query
   const queryClient = useQueryClient()
 
-  const { data, error, isLoading } = useQuery(
-    ['partyItem', id],
-    () => retrieveParty<Party>(id),
-    { enabled: !!id },
-  )
+  const { data, error, isLoading } = usePartyItemQuery(id)
 
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
   const teamId = team_profile?.team
 
-  const myTeam = useQuery(
-    ['myTeam', teamId],
-    () => retrieveTeam<Team>(teamId),
-    {
-      enabled: !!teamId,
-      staleTime: 1000 * 60 * 60,
-    },
-  )
+  const myTeam = useMyTeamQuery(teamId)
 
   const [myMembership, setMyMembership] = useState<PartyMembership>()
   useEffect(() => {
@@ -79,47 +64,14 @@ const PartyDetail: NextPageWithLayout = () => {
     }
   }, [data, team_profile])
 
-  const joinMutation = useMutationHandleError(
-    joinParty,
-    {
-      onSuccess: (response: ApiResponseData<PartyMembership>) => {
-        const { message, result } = response
-        openToast(message || '참여 완료')
-        setMyMembership(result)
-        const membership = data ? data.membership : []
-        const updatedParty = { ...data, membership: [...membership, result] }
-        queryClient.setQueryData(['partyItem', id], updatedParty)
-        queryClient.setQueriesData(['party', { id: id }], updatedParty)
-      },
-    },
-    '참여할 수 없습니다.',
-  )
+  const joinMutation = useJoinPartyMutation(setMyMembership, id, data)
 
   const handleJoinParty = () => {
     const data = { party: Number(id) }
     joinMutation.mutate(data)
   }
 
-  const outMutation = useMutationHandleError(
-    outParty,
-    {
-      onSuccess: (response: ApiResponseData<any>) => {
-        const { message, result } = response
-        openToast(message || '나가기 완료')
-        const membership = data ? data.membership : []
-        const updatedParty = {
-          ...data,
-          membership: _.filter(membership, (e) => {
-            return e.team_member.id !== team_profile?.id
-          }),
-        }
-        setMyMembership(undefined)
-        queryClient.setQueryData(['partyItem', id], updatedParty)
-        queryClient.setQueriesData(['party', { id: id }], updatedParty)
-      },
-    },
-    '에러가 발생했습니다.',
-  )
+  const outMutation = useOutPartyMutation(setMyMembership, id, data)
 
   const handleOutParty = () => {
     outMutation.mutate(myMembership?.id)
@@ -129,16 +81,7 @@ const PartyDetail: NextPageWithLayout = () => {
   const openEatModal = () => setEatModalOpen(true)
 
   const keyword = data?.keyword.id
-  const review = useInfiniteQuery<PaginatedResult<Review>>(
-    ['review', keyword],
-    ({ pageParam = 1 }) => listReview(pageParam, keyword),
-    {
-      enabled: !!keyword,
-      keepPreviousData: true,
-      getNextPageParam: (lastPage, pages) => lastPage.next,
-      cacheTime: 1000 * 60 * 60,
-    },
-  )
+  const review = useReviewQuery(keyword)
   const reviewData = review.data
   const [isOpenReviewDetailModal, setOpenReviewDetailModal] = useState(false)
   const [reviewImageId, setReviewImageId] = useState<number>()
@@ -151,22 +94,15 @@ const PartyDetail: NextPageWithLayout = () => {
   const openSearchModal = () => setSearchModalOpen(true)
   const closeSearchModal = () => setSearchModalOpen(false)
 
-  const inviteMutation = useMutationHandleError(
-    inviteParty,
-    {
-      onSuccess: (response: ApiResponseData<PartyMembership>) => {
-        const { message, result } = response
-        openToast(message || '초대 메시지를 보냈습니다.')
-      },
-    },
-    '초대할 수 없습니다.',
-  )
+  const inviteMutation = useInvitePartyMutation()
+
   const userSelectAction = (receiverId: number) => {
     const data = {
       party: id,
       receiver: receiverId,
     }
     inviteMutation.mutate(data)
+    queryClient.invalidateQueries('member')
   }
 
   if (data)
@@ -233,39 +169,46 @@ const PartyDetail: NextPageWithLayout = () => {
                 <SearchAndSelectUser
                   selectAction={userSelectAction}
                   party={Number(id)}
+                  mutatonState={inviteMutation}
                 />
               </Modal>
             </div>
             <div>
               {!!myMembership ? (
                 <div>
-                  <button
+                  <Button
                     onClick={() => handleOutParty()}
-                    className="rounded bg-blue-600 p-2 px-3 text-sm text-white"
+                    size="small"
+                    color="blue"
+                    disabled={outMutation.isLoading}
                   >
                     나가기
-                  </button>
+                  </Button>
                   <EatModal
                     isOpen={isEatModalOpen}
                     setOpen={setEatModalOpen}
                     domain="party"
                   />
                   {!data.eat && (
-                    <button
+                    <Button
                       onClick={openEatModal}
-                      className="ml-2 rounded bg-pink-500 p-2 px-3 text-sm text-white"
+                      className="ml-2"
+                      size="small"
+                      color="pink"
                     >
                       먹었어요
-                    </button>
+                    </Button>
                   )}
                 </div>
               ) : (
-                <button
+                <Button
                   onClick={() => handleJoinParty()}
-                  className="rounded bg-blue-600 p-2 px-3 text-sm text-white"
+                  size="small"
+                  color="blue"
+                  disabled={joinMutation.isLoading}
                 >
                   같이갈래요
-                </button>
+                </Button>
               )}
             </div>
           </div>

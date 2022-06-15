@@ -20,6 +20,7 @@ import {
 import { PlusIcon, LightBulbIcon } from '@heroicons/react/outline'
 import { HeartIcon } from '@heroicons/react/solid'
 import { moveToScrollPosition, storeScrollPositionAndMoveToTop } from '@/utils'
+import { usePartyQuery } from '@/queries'
 
 const PartyPage: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user)
@@ -35,16 +36,7 @@ const PartyPage: NextPageWithLayout = () => {
     isFetchingNextPage,
     isLoading,
     isFetching,
-  } = useInfiniteQuery<PaginatedResult<PartyList>>(
-    ['party', category],
-    ({ pageParam = 1 }) => listParty(pageParam, category),
-    {
-      enabled: !!team_profile,
-      keepPreviousData: true,
-      getNextPageParam: (lastPage, pages) => lastPage.next,
-      cacheTime: 1000 * 60 * 60,
-    },
-  )
+  } = usePartyQuery(category)
 
   const router = useRouter()
   const createParty = () => {

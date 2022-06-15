@@ -1,7 +1,8 @@
 import { LayoutProps } from '@/type'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-import { XIcon } from '@heroicons/react/outline'
+import classNames from 'classnames'
+import { CloseButton as CloseBtn } from '@/components'
 
 export const Modal = ({ children }: LayoutProps) => {
   return <div>{children}</div>
@@ -51,14 +52,14 @@ interface CloseButtonProps {
 
 const CloseButton = ({ className, name, onClick }: CloseButtonProps) => {
   return (
-    <ModalCloseButton
-      aria-label="close"
-      className={className}
+    <CloseBtn
+      className={classNames(
+        className,
+        'absolute right-6 top-6 z-[29] text-gray-400',
+      )}
       name={name}
       onClick={onClick}
-    >
-      <XIcon className="h-6 w-6" />
-    </ModalCloseButton>
+    />
   )
 }
 Modal.Background = ModalBackground
