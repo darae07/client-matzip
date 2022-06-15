@@ -1,12 +1,15 @@
+import { ButtonHTMLAttributes } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: 'red' | 'blue' | 'pink'
   size?: 'small' | 'medium'
   disabled?: boolean
 }
-export const Button = styled.button<ButtonProps>`
+export const Button = styled.button.attrs((props) => ({
+  type: props.type || 'button',
+}))<ButtonProps>`
   ${tw`hover:shadow rounded text-sm text-white font-bold uppercase outline-none transition-all duration-150 ease-linear focus:outline-none`}
   ${(props) => props.color === 'red' && tw`text-red-500`}
   ${(props) => props.color === 'blue' && tw`bg-blue-500 active:bg-blue-600`}
