@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import { Fragment, HTMLAttributes, useState } from 'react'
 import { ListItem, InfiniteScroll, Input } from '@/components'
-import { useInfiniteQuery, UseMutationResult } from 'react-query'
-import { PaginatedResult, TeamMember } from '@/type'
-import { searchTeamMember } from '@/api'
+import { UseMutationResult } from 'react-query'
+import { TeamMember } from '@/type'
 import { UserAvatar } from './UserAvatar'
 import classNames from 'classnames'
+import { useSearchMemberQuery } from '@/queries'
 import { LoadingSpinner } from '../skeletons'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -32,15 +32,7 @@ export const SearchAndSelectUser = ({
     isFetchingNextPage,
     isLoading,
     isFetching,
-  } = useInfiniteQuery<PaginatedResult<TeamMember>>(
-    ['member', search, party],
-    ({ pageParam = 1 }) => searchTeamMember(pageParam, search, party),
-    {
-      keepPreviousData: true,
-      getNextPageParam: (lastPage) => lastPage.next,
-      cacheTime: 1000 * 60 * 60,
-    },
-  )
+  } = useSearchMemberQuery(search, party)
 
   const handleSelectUser = (id: number) => selectAction(id)
 
