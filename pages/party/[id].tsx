@@ -7,7 +7,6 @@ import {
   WhiteRoundedCard,
   HomeLayout,
   UserAvatarTooltip,
-  openToast,
   LoadingSpinner,
   InfiniteScroll,
   ListItem,
@@ -27,7 +26,6 @@ import {
 } from '@/components/modules'
 import {
   NextPageWithLayout,
-  ApiResponseData,
   Party,
   Team,
   PartyMembership,
@@ -35,27 +33,22 @@ import {
   Review,
   ReviewImage,
 } from '@/type'
-import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
-import {
-  inviteParty,
-  joinParty,
-  listReview,
-  outParty,
-  retrieveParty,
-  retrieveTeam,
-} from '@/api'
+import { useAppSelector } from '@/utils/hooks'
+import { listReview, retrieveTeam } from '@/api'
 import { calculatePercent, printDateTimeForToday } from '@/utils'
+import {
+  useInvitePartyMutation,
+  useJoinPartyMutation,
+  useOutPartyMutation,
+  usePartyItemQuery,
+} from '@/queries'
 
 const PartyDetail: NextPageWithLayout = () => {
   const { query } = useRouter()
   const { id } = query
   const queryClient = useQueryClient()
 
-  const { data, error, isLoading } = useQuery(
-    ['partyItem', id],
-    () => retrieveParty<Party>(id),
-    { enabled: !!id },
-  )
+  const { data, error, isLoading } = usePartyItemQuery(id)
 
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
@@ -80,46 +73,18 @@ const PartyDetail: NextPageWithLayout = () => {
     }
   }, [data, team_profile])
 
-  const joinMutation = useMutationHandleError(
-    joinParty,
-    {
-      onSuccess: (response: ApiResponseData<PartyMembership>) => {
-        const { message, result } = response
-        openToast(message || '참여 완료')
-        setMyMembership(result)
-        const membership = data ? data.membership : []
-        const updatedParty = { ...data, membership: [...membership, result] }
-        queryClient.setQueryData(['partyItem', id], updatedParty)
-        queryClient.setQueriesData(['party', { id: id }], updatedParty)
-      },
-    },
-    '참여할 수 없습니다.',
-  )
+  const joinMutation = useJoinPartyMutation(setMyMembership, id, data)
 
   const handleJoinParty = () => {
     const data = { party: Number(id) }
     joinMutation.mutate(data)
   }
 
-  const outMutation = useMutationHandleError(
-    outParty,
-    {
-      onSuccess: (response: ApiResponseData<any>) => {
-        const { message, result } = response
-        openToast(message || '나가기 완료')
-        const membership = data ? data.membership : []
-        const updatedParty = {
-          ...data,
-          membership: _.filter(membership, (e) => {
-            return e.team_member.id !== team_profile?.id
-          }),
-        }
-        setMyMembership(undefined)
-        queryClient.setQueryData(['partyItem', id], updatedParty)
-        queryClient.setQueriesData(['party', { id: id }], updatedParty)
-      },
-    },
-    '에러가 발생했습니다.',
+  const outMutation = useOutPartyMutation(
+    setMyMembership,
+    id,
+    data,
+    team_profile,
   )
 
   const handleOutParty = () => {
@@ -152,16 +117,8 @@ const PartyDetail: NextPageWithLayout = () => {
   const openSearchModal = () => setSearchModalOpen(true)
   const closeSearchModal = () => setSearchModalOpen(false)
 
-  const inviteMutation = useMutationHandleError(
-    inviteParty,
-    {
-      onSuccess: (response: ApiResponseData<PartyMembership>) => {
-        const { message, result } = response
-        openToast(message || '초대 메시지를 보냈습니다.')
-      },
-    },
-    '초대할 수 없습니다.',
-  )
+  const inviteMutation = useInvitePartyMutation()
+
   const userSelectAction = (receiverId: number) => {
     const data = {
       party: id,
