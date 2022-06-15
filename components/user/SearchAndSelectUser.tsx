@@ -6,6 +6,7 @@ import { PaginatedResult, TeamMember } from '@/type'
 import { searchTeamMember } from '@/api'
 import { UserAvatar } from './UserAvatar'
 import classNames from 'classnames'
+import { LoadingSpinner } from '../skeletons'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   selectAction: Function
@@ -44,14 +45,21 @@ export const SearchAndSelectUser = ({
   const handleSelectUser = (id: number) => selectAction(id)
 
   return (
-    <div>
+    <div className="h-fit">
       <p className="mb-4 text-2xl font-bold text-black">멤버 초대하기</p>
 
       <Input
         name="member_name"
+        className={classNames({ 'animate-pulse': isLoading })}
         placeholder="멤버 찾기"
         onChange={handleSearchField}
       />
+
+      {isLoading && (
+        <div className="flex h-10 w-full items-center justify-center p-3">
+          <LoadingSpinner />
+        </div>
+      )}
 
       {data && (
         <div className="mt-2">
