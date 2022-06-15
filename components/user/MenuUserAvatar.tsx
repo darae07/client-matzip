@@ -1,4 +1,4 @@
-import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
+import { useAppSelector } from '@/utils/hooks'
 import { FC, Fragment } from 'react'
 import { UserCircleIcon, KeyIcon, LogoutIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
