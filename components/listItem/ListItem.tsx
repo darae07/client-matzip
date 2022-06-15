@@ -24,7 +24,7 @@ export const ListItem = ({
 }: Props) => (
   <li
     {...props}
-    className={classNames('flex flex-col', { 'opacity-50': isPreviousData })}
+    className={classNames('flex flex-col', { 'animate-pulse': isPreviousData })}
   >
     {thumbnailProps?.src && (
       <Link href={thumbnailProps.href} passHref>
