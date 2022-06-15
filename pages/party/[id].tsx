@@ -167,6 +167,7 @@ const PartyDetail: NextPageWithLayout = () => {
       receiver: receiverId,
     }
     inviteMutation.mutate(data)
+    queryClient.invalidateQueries('member')
   }
 
   if (data)
@@ -233,6 +234,7 @@ const PartyDetail: NextPageWithLayout = () => {
                 <SearchAndSelectUser
                   selectAction={userSelectAction}
                   party={Number(id)}
+                  mutatonState={inviteMutation}
                 />
               </Modal>
             </div>

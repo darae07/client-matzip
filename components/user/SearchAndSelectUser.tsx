@@ -1,16 +1,18 @@
 import { Fragment, HTMLAttributes, useState } from 'react'
 import { Form, FormInput, ListItem, InfiniteScroll } from '@/components'
 import { UnpackNestedValue } from 'react-hook-form'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery, UseMutationResult } from 'react-query'
 import { PaginatedResult, TeamMember } from '@/type'
 import { searchTeamMember } from '@/api'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { UserAvatar } from './UserAvatar'
+import classNames from 'classnames'
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   selectAction: Function
   party?: number
+  mutatonState?: UseMutationResult
 }
 
 type SearchUserValues = {
@@ -24,6 +26,7 @@ const searchUserValues: SearchUserValues = {
 export const SearchAndSelectUser = ({
   selectAction,
   party,
+  mutatonState,
 }: Props): JSX.Element => {
   const [search, setSearch] = useState<string>()
   const handleSetSearchKeyword = (data: UnpackNestedValue<SearchUserValues>) =>
@@ -79,7 +82,12 @@ export const SearchAndSelectUser = ({
                   <ListItem key={item.id}>
                     <div
                       onClick={() => handleSelectUser(item.id)}
-                      className="py-4 px-2 hover:cursor-pointer hover:bg-gray-100"
+                      className={classNames(
+                        'py-4 px-2 hover:cursor-pointer hover:bg-gray-100',
+                        {
+                          'animate-pulse bg-gray-50': mutatonState?.isLoading,
+                        },
+                      )}
                     >
                       <div className="flex items-center">
                         <UserAvatar user={item} />
