@@ -105,7 +105,7 @@ const MenuUserAvatar: FC = () => {
             )}
           </Popover.Button>
 
-          <Popover.Panel className="absolute right-0 z-20 mt-1 sm:w-[14rem] sm:px-0 ">
+          <Popover.Panel className="sm:w-[14rem] ">
             <PopoverContainer>
               {user.team_profile ? (
                 <PopoverItem href="/">

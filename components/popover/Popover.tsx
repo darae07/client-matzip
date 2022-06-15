@@ -65,7 +65,7 @@ export const Popover = ({ children }: PopoverProps) => {
     popoverDropdownRef,
   }
   return (
-    <div className=" relative">
+    <div className="absolute sm:relative">
       <PopoverContext.Provider value={contextValue}>
         {children}
       </PopoverContext.Provider>
