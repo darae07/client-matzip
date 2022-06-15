@@ -9,12 +9,12 @@ import {
   FormTextarea,
   FormFileInput,
 } from '@/components'
-import { ApiResponseData, Party, ReviewCreateValue } from '@/type'
+import { ReviewCreateValue } from '@/type'
 import classNames from 'classnames'
-import { useMutationHandleError } from '@/utils/hooks'
-import { closeParty, closePartyWithReview } from '@/api'
-import { openToast } from '@/components/toast'
-import { useQueryClient } from 'react-query'
+import {
+  useClosePartyMutation,
+  useClosePartyWithReviewMutation,
+} from '@/queries'
 
 interface ReviewModalProps {
   isOpen: boolean
@@ -50,36 +50,10 @@ export const EatModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
     }
   }
 
-  const queryClient = useQueryClient()
-  const closePartyMutation = useMutationHandleError(
-    closeParty,
-    {
-      onSuccess: (data: ApiResponseData<Party>) => {
-        const { message, result } = data
-        openToast(message || '식사 완료 기록을 생성했습니다.')
-        queryClient.invalidateQueries('partyItem')
-        closeModal()
-      },
-      onSettled: (data: ApiResponseData<Party>) => {
-        setIsSubmitting(false)
-      },
-    },
-    '식사 완료 기록을 생성할 수 없습니다.',
-  )
-  const closePartyWithReviewMutation = useMutationHandleError(
-    closePartyWithReview,
-    {
-      onSuccess: (data: ApiResponseData<Party>) => {
-        const { message, result } = data
-        openToast(message || '식사 리뷰를 등록했습니다.')
-        queryClient.invalidateQueries('partyItem')
-        closeModal()
-      },
-      onSettled: (data: ApiResponseData<Party>) => {
-        setIsSubmitting(false)
-      },
-    },
-    '식사 리뷰를 등록할 수 없습니다.',
+  const closePartyMutation = useClosePartyMutation(closeModal, setIsSubmitting)
+  const closePartyWithReviewMutation = useClosePartyWithReviewMutation(
+    closeModal,
+    setIsSubmitting,
   )
 
   return (

@@ -1,6 +1,8 @@
 import {
   acceptInviteParty,
   cancelInviteParty,
+  closeParty,
+  closePartyWithReview,
   inviteParty,
   joinParty,
   outParty,
@@ -122,5 +124,51 @@ export const useCancelInvitePartyMutation = () => {
       },
     },
     '요청을 취소할 수 없습니다.',
+  )
+}
+
+export const useClosePartyMutation = (
+  closeModal: Function,
+  setIsSubmitting: Function,
+) => {
+  const queryClient = useQueryClient()
+
+  return useMutationHandleError(
+    closeParty,
+    {
+      onSuccess: (data: ApiResponseData<Party>) => {
+        const { message, result } = data
+        openToast(message || '식사 완료 기록을 생성했습니다.')
+        queryClient.invalidateQueries('partyItem')
+        closeModal()
+      },
+      onSettled: (data: ApiResponseData<Party>) => {
+        setIsSubmitting(false)
+      },
+    },
+    '식사 완료 기록을 생성할 수 없습니다.',
+  )
+}
+
+export const useClosePartyWithReviewMutation = (
+  closeModal: Function,
+  setIsSubmitting: Function,
+) => {
+  const queryClient = useQueryClient()
+
+  return useMutationHandleError(
+    closePartyWithReview,
+    {
+      onSuccess: (data: ApiResponseData<Party>) => {
+        const { message, result } = data
+        openToast(message || '식사 리뷰를 등록했습니다.')
+        queryClient.invalidateQueries('partyItem')
+        closeModal()
+      },
+      onSettled: (data: ApiResponseData<Party>) => {
+        setIsSubmitting(false)
+      },
+    },
+    '식사 리뷰를 등록할 수 없습니다.',
   )
 }
