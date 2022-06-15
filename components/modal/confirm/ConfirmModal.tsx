@@ -35,7 +35,12 @@ export const ConfirmModal: React.FC<ModalProps> = ({
           </Modal.Header>
           <Modal.Body>{options?.children}</Modal.Body>
           <Modal.Footer>
-            <Button type="button" onClick={onCancel} color="red">
+            <Button
+              type="button"
+              onClick={onCancel}
+              color="red"
+              className="mr-2"
+            >
               취소
             </Button>
             <Button type="button" onClick={onConfirm} color="blue">
