@@ -8,7 +8,7 @@ import {
 } from '@/api'
 import { openToast } from '@/components'
 import { ApiResponseData, Party, PartyMembership, TeamMember } from '@/type'
-import { useMutationHandleError } from '@/utils/hooks'
+import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
 import _ from 'lodash'
 import { useQueryClient } from 'react-query'
 
@@ -39,9 +39,10 @@ export const useOutPartyMutation = (
   setMyMembership: Function,
   id?: string | string[],
   party?: Party | void,
-  team_profile?: TeamMember | null,
 ) => {
   const queryClient = useQueryClient()
+  const { isLoading, user } = useAppSelector((state) => state.user)
+
   return useMutationHandleError(
     outParty,
     {
@@ -52,7 +53,7 @@ export const useOutPartyMutation = (
         const updatedParty = {
           ...party,
           membership: _.filter(membership, (e) => {
-            return e.team_member.id !== team_profile?.id
+            return e.team_member.id !== user?.team_profile?.id
           }),
         }
         setMyMembership(undefined)

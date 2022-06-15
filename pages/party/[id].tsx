@@ -71,12 +71,7 @@ const PartyDetail: NextPageWithLayout = () => {
     joinMutation.mutate(data)
   }
 
-  const outMutation = useOutPartyMutation(
-    setMyMembership,
-    id,
-    data,
-    team_profile,
-  )
+  const outMutation = useOutPartyMutation(setMyMembership, id, data)
 
   const handleOutParty = () => {
     outMutation.mutate(myMembership?.id)

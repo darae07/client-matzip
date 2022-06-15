@@ -36,7 +36,7 @@ const PartyPage: NextPageWithLayout = () => {
     isFetchingNextPage,
     isLoading,
     isFetching,
-  } = usePartyQuery(category, team_profile)
+  } = usePartyQuery(category)
 
   const router = useRouter()
   const createParty = () => {
