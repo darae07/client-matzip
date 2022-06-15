@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { ReactElement, useState, useEffect, Fragment } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import {
   WhiteRoundedCard,
   HomeLayout,
@@ -26,21 +26,19 @@ import {
 } from '@/components/modules'
 import {
   NextPageWithLayout,
-  Party,
-  Team,
   PartyMembership,
-  PaginatedResult,
   Review,
   ReviewImage,
 } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
-import { listReview, retrieveTeam } from '@/api'
 import { calculatePercent, printDateTimeForToday } from '@/utils'
 import {
   useInvitePartyMutation,
   useJoinPartyMutation,
+  useMyTeamQuery,
   useOutPartyMutation,
   usePartyItemQuery,
+  useReviewQuery,
 } from '@/queries'
 
 const PartyDetail: NextPageWithLayout = () => {
@@ -54,14 +52,7 @@ const PartyDetail: NextPageWithLayout = () => {
   const team_profile = user.user?.team_profile
   const teamId = team_profile?.team
 
-  const myTeam = useQuery(
-    ['myTeam', teamId],
-    () => retrieveTeam<Team>(teamId),
-    {
-      enabled: !!teamId,
-      staleTime: 1000 * 60 * 60,
-    },
-  )
+  const myTeam = useMyTeamQuery(teamId)
 
   const [myMembership, setMyMembership] = useState<PartyMembership>()
   useEffect(() => {
@@ -95,16 +86,7 @@ const PartyDetail: NextPageWithLayout = () => {
   const openEatModal = () => setEatModalOpen(true)
 
   const keyword = data?.keyword.id
-  const review = useInfiniteQuery<PaginatedResult<Review>>(
-    ['review', keyword],
-    ({ pageParam = 1 }) => listReview(pageParam, keyword),
-    {
-      enabled: !!keyword,
-      keepPreviousData: true,
-      getNextPageParam: (lastPage, pages) => lastPage.next,
-      cacheTime: 1000 * 60 * 60,
-    },
-  )
+  const review = useReviewQuery(keyword)
   const reviewData = review.data
   const [isOpenReviewDetailModal, setOpenReviewDetailModal] = useState(false)
   const [reviewImageId, setReviewImageId] = useState<number>()
