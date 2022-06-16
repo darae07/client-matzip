@@ -20,10 +20,10 @@ export const kakaoLogin =
       if (success) {
         dispatch(loginSuccess(result))
       } else {
-        dispatch(loginFail(message || '로그인에 실패했습니다.'))
+        dispatch(loginFail(message || '카카오 인증에 실패했습니다.'))
       }
     } catch {
-      dispatch(loginFail('로그인에 실패했습니다.'))
+      dispatch(loginFail('카카오 인증에 실패했습니다.'))
     }
   }
 
@@ -43,9 +43,9 @@ export const googleLogin =
       if (success) {
         dispatch(loginSuccess(result))
       } else {
-        dispatch(loginFail(message || '로그인에 실패했습니다.'))
+        dispatch(loginFail(message || '구글 인증에 실패했습니다.'))
       }
     } catch {
-      dispatch(loginFail('로그인에 실패했습니다.'))
+      dispatch(loginFail('구글 인증에 실패했습니다.'))
     }
   }
