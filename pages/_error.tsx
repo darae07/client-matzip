@@ -6,11 +6,12 @@ interface ErrorComponentProps {
 
 const Error = ({ statusCode }: ErrorComponentProps): JSX.Element => {
   return (
-    <p>
-      {statusCode
-        ? `An error ${statusCode} occurred on server`
-        : 'An error occurred on client'}
-    </p>
+    <div className="container mx-auto flex h-screen w-fit items-center">
+      <div className="text-center">
+        <h2 className="text-7xl font-black text-blue-400">{statusCode}</h2>
+        <h1 className="mt-5 text-2xl">에러가 발생했습니다.</h1>
+      </div>
+    </div>
   )
 }
 

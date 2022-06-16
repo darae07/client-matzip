@@ -65,7 +65,7 @@ export const Popover = ({ children }: PopoverProps) => {
     popoverDropdownRef,
   }
   return (
-    <div className="absolute sm:relative">
+    <div className="relative">
       <PopoverContext.Provider value={contextValue}>
         {children}
       </PopoverContext.Provider>
@@ -122,7 +122,7 @@ const Panel = ({ children, className }: PopoverPanelProps) => {
     <div
       ref={popoverDropdownRef}
       className={classNames(
-        'absolute block w-[97vw] min-w-[12rem] bg-white',
+        'absolute z-[20] block w-[97vw] min-w-[12rem] bg-white',
         className,
       )}
     >
