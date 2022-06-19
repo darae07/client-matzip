@@ -34,8 +34,10 @@ export const FormInput = <TFomValues extends Record<string, unknown>>({
   const errorMessages = _.get(errors, name)
   const hasError = !!(errors && errorMessages)
   const { setValue } = useFormContext()
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    onChange && setValue(name, onChange(e))
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const trimedValue = (onChange ? onChange(e) : e.currentTarget.value).trim()
+    setValue(name, trimedValue)
+  }
 
   return (
     <div className={className} aria-live="polite">
