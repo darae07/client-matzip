@@ -3,6 +3,7 @@ import { HomeLayout, UserAvatar, WhiteRoundedCard } from '@/components'
 import { NextPageWithLayout } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
 import { useRouter } from 'next/router'
+import { PencilIcon } from '@heroicons/react/outline'
 
 const ProfilePage: NextPageWithLayout = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)
@@ -16,7 +17,15 @@ const ProfilePage: NextPageWithLayout = () => {
   return (
     <div>
       {user?.team_profile && (
-        <WhiteRoundedCard className="mb-4">
+        <WhiteRoundedCard className="relative mb-4">
+          <button
+            type="button"
+            onClick={() => router.push('/profile/edit')}
+            className="borer-gray-400 absolute top-6 right-7 flex items-center rounded-xl border p-2 text-sm text-gray-500"
+          >
+            <PencilIcon className="mr-1 h-5 w-5" />
+            <span>수정</span>
+          </button>
           <div className="sm:flex">
             <UserAvatar user={user.team_profile} size="large" />
             <div className="mt-4 sm:ml-4 sm:mt-0">
