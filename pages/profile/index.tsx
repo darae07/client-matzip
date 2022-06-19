@@ -1,10 +1,17 @@
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 import { HomeLayout, UserAvatar, WhiteRoundedCard } from '@/components'
 import { NextPageWithLayout } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
+import { useRouter } from 'next/router'
 
 const ProfilePage: NextPageWithLayout = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)
+  const router = useRouter()
+  useEffect(() => {
+    if (!user) {
+      router.back()
+    }
+  }, [user])
 
   return (
     <div>
