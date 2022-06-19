@@ -7,7 +7,6 @@ import {
   PopoverContainer,
   PopoverItem,
   UserAvatar,
-  openToast,
   Popover,
 } from '@/components'
 import { useAppDispatch } from '@/utils/hooks'
@@ -67,7 +66,7 @@ const MenuUserAvatar: FC = () => {
           <Popover.Panel className="sm:w-[14rem] ">
             <PopoverContainer>
               {user.team_profile ? (
-                <PopoverItem href="/">
+                <PopoverItem href="/profile">
                   <UserCircleIcon className="h-4 w-4" />
                   <div className="ml-4">
                     <p className="font-semibold">
