@@ -3,12 +3,7 @@ import { FC, Fragment } from 'react'
 import { UserCircleIcon, KeyIcon, LogoutIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
 import Image from 'next/image'
-import {
-  PopoverContainer,
-  PopoverItem,
-  UserAvatar,
-  Popover,
-} from '@/components'
+import { PopoverContainer, UserAvatar, Popover } from '@/components'
 import { useAppDispatch } from '@/utils/hooks'
 import { logout } from '@/api'
 import { PartyMembership } from '@/type'
@@ -66,7 +61,7 @@ const MenuUserAvatar: FC = () => {
           <Popover.Panel className="sm:w-[14rem] ">
             <PopoverContainer>
               {user.team_profile ? (
-                <PopoverItem href="/profile">
+                <Popover.Item href="/profile">
                   <UserCircleIcon className="h-4 w-4" />
                   <div className="ml-4">
                     <p className="font-semibold">
@@ -74,14 +69,14 @@ const MenuUserAvatar: FC = () => {
                     </p>
                     <p className="text-sm font-medium ">내 프로필 보기</p>
                   </div>
-                </PopoverItem>
+                </Popover.Item>
               ) : (
-                <PopoverItem href="/team">
+                <Popover.Item href="/team">
                   <UserCircleIcon className="h-4 w-4" />
                   <div className="ml-4">
                     <p className="text-sm font-medium ">계정에 회사 연동하기</p>
                   </div>
-                </PopoverItem>
+                </Popover.Item>
               )}
               {data && (
                 <div>
@@ -93,7 +88,7 @@ const MenuUserAvatar: FC = () => {
                   {data.pages.map((group, i) => (
                     <Fragment key={i}>
                       {group.results.map((membership: PartyMembership) => (
-                        <PopoverItem key={membership.id}>
+                        <Popover.Item key={membership.id}>
                           <div className="flex w-full items-center justify-between">
                             <div className="flex items-center">
                               <UserAvatar user={membership.team_member} />
@@ -133,7 +128,7 @@ const MenuUserAvatar: FC = () => {
                               )}
                             </div>
                           </div>
-                        </PopoverItem>
+                        </Popover.Item>
                       ))}
                     </Fragment>
                   ))}
@@ -141,18 +136,18 @@ const MenuUserAvatar: FC = () => {
               )}
 
               <div className="w-full border border-b-gray-50"></div>
-              <PopoverItem href="/">
+              <Popover.Item href="/">
                 <KeyIcon className="h-4 w-4" />
                 <div className="ml-4">
                   <p className="text-sm font-medium ">계정 설정</p>
                 </div>
-              </PopoverItem>
-              <PopoverItem onClick={handleLogout}>
+              </Popover.Item>
+              <Popover.Item onClick={handleLogout}>
                 <LogoutIcon className="h-4 w-4 text-red-500" />
                 <div className="ml-4 hover:cursor-pointer">
                   <p className="text-sm font-medium text-red-500">로그아웃</p>
                 </div>
-              </PopoverItem>
+              </Popover.Item>
             </PopoverContainer>
           </Popover.Panel>
         </Popover>
