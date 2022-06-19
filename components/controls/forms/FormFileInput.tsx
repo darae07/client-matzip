@@ -46,6 +46,8 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
 }: FormFileInputProps<TFormValues>): JSX.Element => {
   const { watch, setValue } = useFormContext()
   const files = watch(name)
+  const defaultFile = typeof watch(name) === 'string' && watch(name)
+  const updatedFile = Array.isArray(files) && files[0]
 
   const onDrop = useCallback(
     (droppedFiles) => {
@@ -80,28 +82,62 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
 
   return (
     <div className={className}>
-      <div className="grid grid-cols-2 gap-1 sm:grid-cols-4">
-        {!!files.length && (
-          <Fragment>
-            {files.map((file: File) => (
-              <div key={file.name} className="h-28 w-28 rounded-lg">
-                <Image
-                  src={URL.createObjectURL(file)}
-                  alt={file.name}
-                  width={120}
-                  height={120}
-                  className="rounded-lg"
-                />
+      {mode === 'append' && (
+        <div className="grid grid-cols-2 gap-1 sm:grid-cols-4">
+          {Array.isArray(files) && (
+            <Fragment>
+              {files.map((file: File) => (
+                <div key={file.name} className="h-28 w-28 rounded-lg">
+                  <Image
+                    src={URL.createObjectURL(file)}
+                    alt={file.name}
+                    width={120}
+                    height={120}
+                    className="rounded-lg"
+                  />
+                </div>
+              ))}
+            </Fragment>
+          )}
+
+          <label htmlFor={name} {...getRootProps()}>
+            <div className="flex h-28 w-fit w-28 rounded-lg border bg-gray-100 hover:cursor-pointer">
+              <PhotographIcon className="mx-auto my-auto h-8 w-8 " />
+            </div>
+          </label>
+        </div>
+      )}
+      {mode === 'update' && (
+        <div>
+          <div className="relative h-28 w-28 rounded-lg ">
+            <label htmlFor={name} {...getRootProps()}>
+              <div className="absolute left-9 top-9 z-10 flex h-10 w-10 rounded-lg border bg-gray-100 hover:cursor-pointer">
+                <PhotographIcon className="mx-auto my-auto h-8 w-8" />
               </div>
-            ))}
-          </Fragment>
-        )}
-        <label htmlFor={name} {...getRootProps()}>
-          <div className="flex h-28 w-fit w-28 rounded-lg border bg-gray-100 hover:cursor-pointer">
-            <PhotographIcon className="mx-auto my-auto h-8 w-8 " />
+              <Image
+                src={
+                  defaultFile
+                    ? defaultFile
+                    : updatedFile
+                    ? URL.createObjectURL(updatedFile)
+                    : ''
+                }
+                alt={
+                  defaultFile
+                    ? defaultFile
+                    : updatedFile
+                    ? updatedFile.name
+                    : ''
+                }
+                width={120}
+                height={120}
+                className="rounded-lg"
+              />
+            </label>
           </div>
-        </label>
-      </div>
+        </div>
+      )}
+
       <input
         id={name}
         type={type}
