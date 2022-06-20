@@ -15,3 +15,9 @@ export type ReviewImage = {
   image: string
   review: number
 }
+
+export enum ReviewScore {
+  BAD = 1,
+  SOSO = 3,
+  GOOD = 5,
+}
