@@ -1,3 +1,4 @@
+import { Keyword } from './lunch'
 import { TeamMember } from './user'
 
 export type Review = {
@@ -10,6 +11,10 @@ export type Review = {
   team_member: TeamMember
   score: ReviewScore
 }
+
+export type MyReview = {
+  keyword: Keyword
+} & Review
 
 export type ReviewImage = {
   id: number

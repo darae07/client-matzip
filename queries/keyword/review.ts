@@ -1,5 +1,5 @@
 import { listReview, myReview } from '@/api/keyword'
-import { PaginatedResult, Review } from '@/type'
+import { MyReview, PaginatedResult, Review } from '@/type'
 import { useInfiniteQuery } from 'react-query'
 
 export const useReviewQuery = (keyword?: number) =>
@@ -15,7 +15,7 @@ export const useReviewQuery = (keyword?: number) =>
   )
 
 export const useMyReviewQuery = () =>
-  useInfiniteQuery<PaginatedResult<Review>>(
+  useInfiniteQuery<PaginatedResult<MyReview>>(
     ['myReview'],
     ({ pageParam = 1 }) => myReview(pageParam),
     {
