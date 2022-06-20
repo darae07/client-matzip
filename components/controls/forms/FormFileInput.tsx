@@ -14,7 +14,8 @@ import {
 } from 'react-hook-form'
 import Image from 'next/image'
 import { useDropzone, Accept } from 'react-dropzone'
-import { PhotographIcon } from '@heroicons/react/outline'
+import { PhotographIcon, XIcon } from '@heroicons/react/outline'
+import { Button } from '@/components'
 
 type FileInputProps = {
   id?: string
@@ -80,6 +81,12 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
     accept,
   })
 
+  const handleDeleteFile = (file: File) => {
+    let newFiles = files.slice()
+    newFiles.splice(files.indexOf(file), 1)
+    setValue(name, newFiles)
+  }
+
   return (
     <div className={className}>
       {mode === 'append' && (
@@ -87,7 +94,17 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
           {Array.isArray(files) && (
             <Fragment>
               {files.map((file: File) => (
-                <div key={file.name} className="h-28 w-28 rounded-lg">
+                <div key={file.name} className="relative h-28 w-28 rounded-lg">
+                  <span className="absolute right-0 z-10">
+                    <Button
+                      color="white"
+                      size="xsmall"
+                      onClick={() => handleDeleteFile(file)}
+                    >
+                      <XIcon className="h-3 w-3" />
+                    </Button>
+                  </span>
+
                   <Image
                     src={URL.createObjectURL(file)}
                     alt={file.name}
