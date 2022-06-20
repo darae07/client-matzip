@@ -1,44 +1,29 @@
 import _ from 'lodash'
 import { useEffect, useState } from 'react'
-import { Modal, UserAvatar } from '@/components'
-import { useInfiniteQuery } from 'react-query'
-import { listReview } from '@/api'
+import { LoadingSpinner, Modal, UserAvatar } from '@/components'
+import { UseInfiniteQueryResult } from 'react-query'
 import { PaginatedResult, Review } from '@/type'
 import Image from 'next/image'
 import { printDateTimeForToday } from '@/utils/value'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
+import { KeywordScoreIcon } from '../keyword'
 
 interface Props {
   reviewImageId?: number
-  keyword?: number
   isOpen: boolean
   setIsOpen: Function
+  reviews: UseInfiniteQueryResult<PaginatedResult<Review>, unknown>
 }
 export const ReviewDetailModal = ({
   reviewImageId,
-  keyword,
   isOpen,
   setIsOpen,
+  reviews,
 }: Props) => {
   const closeModal = () => setIsOpen(false)
 
-  const {
-    data,
-    isLoading,
-    isFetchingNextPage,
-    hasNextPage,
-    hasPreviousPage,
-    fetchNextPage,
-  } = useInfiniteQuery<PaginatedResult<Review>>(
-    ['review', keyword],
-    ({ pageParam = 1 }) => listReview(pageParam, keyword),
-    {
-      enabled: !!keyword,
-      keepPreviousData: true,
-      getNextPageParam: (listPage, pages) => listPage.next,
-      cacheTime: 1000 * 60 * 60,
-    },
-  )
+  const { data, isFetchingNextPage, hasNextPage, fetchNextPage, isFetched } =
+    reviews
   const [currentReviewImageId, setCurrentReviewImageId] =
     useState(reviewImageId)
   const allReviews = data?.pages.reduce(
@@ -61,6 +46,21 @@ export const ReviewDetailModal = ({
     setCurrentReviewImageId(reviewImageId)
   }, [reviewImageId])
 
+  useEffect(() => {
+    goNextPage()
+  }, [data?.pages])
+
+  const goNextPage = () => {
+    if (!currentReivew || !allReviews) return
+    const currentReivewIndex = _.indexOf(allReviews, currentReivew)
+    const nextReview = allReviews
+      .slice(currentReivewIndex + 1)
+      .find((review) => review.images)
+    if (nextReview?.images) {
+      setCurrentReviewImageId(nextReview.images[0].id)
+    }
+  }
+
   const handleNextPage = () => {
     if (!currentReivew || !allReviews) return
     const currentReivewImageIndex = _.indexOf(
@@ -73,6 +73,7 @@ export const ReviewDetailModal = ({
       setCurrentReviewImageId(nextImage.id)
       return
     }
+
     if (
       currentReivew.id === lastReview?.id &&
       hasNextPage &&
@@ -81,13 +82,7 @@ export const ReviewDetailModal = ({
       fetchNextPage()
       return
     }
-    const currentReivewIndex = _.indexOf(allReviews, currentReivew)
-    const nextReview = allReviews
-      .slice(currentReivewIndex + 1)
-      .find((review) => review.images)
-    if (nextReview?.images) {
-      setCurrentReviewImageId(nextReview.images[0].id)
-    }
+    goNextPage()
   }
   const handlePrevPage = () => {
     if (!currentReivew || !allReviews) return
@@ -121,7 +116,13 @@ export const ReviewDetailModal = ({
             onClick={handlePrevPage}
             className="absolute top-1/2 z-10 h-10 w-10 text-gray-400 hover:cursor-pointer"
           />
-          <div className="relative mb-4 h-[50vh] w-full md:h-[75vh]">
+          <div className="relative mb-4 flex h-[50vh] w-full items-center justify-center md:h-[75vh]">
+            {isFetchingNextPage && (
+              <div className="z-10">
+                <LoadingSpinner className=" h-10 w-10" />
+              </div>
+            )}
+
             {currentReivewImage && (
               <Image
                 src={currentReivewImage.image}
@@ -159,13 +160,17 @@ export const ReviewDetailModal = ({
         </div>
 
         {currentReivew && (
-          <div className="w-full md:w-[19rem]">
+          <div className="w-full md:ml-4 md:w-[19rem]">
             <div className="flex">
               <UserAvatar user={currentReivew.team_member} />
               <span className="ml-1">
                 {currentReivew.team_member.member_name}
               </span>
             </div>
+            <KeywordScoreIcon
+              score={currentReivew.score}
+              className="absolute right-0"
+            />
             <p className="mt-1 text-sm text-gray-500">
               {printDateTimeForToday(currentReivew.created_at)}
             </p>

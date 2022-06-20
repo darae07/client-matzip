@@ -8,14 +8,19 @@ import {
   WhiteRoundedCard,
   YLineCard,
 } from '@/components'
-import { NextPageWithLayout, Review, ReviewImage } from '@/type'
+import { MyReview, NextPageWithLayout, ReviewImage } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
 import { useRouter } from 'next/router'
 import { PencilIcon } from '@heroicons/react/outline'
 import { useMyReviewQuery } from '@/queries'
 import { printDateTimeForToday } from '@/utils'
 import Image from 'next/image'
-import { KeywordScoreIcon, ReviewDetailModal } from '@/components/modules'
+import {
+  CategoryName,
+  KeywordName,
+  KeywordScoreIcon,
+  ReviewDetailModal,
+} from '@/components/modules'
 
 const ProfilePage: NextPageWithLayout = () => {
   const { user } = useAppSelector((state) => state.user)
@@ -26,15 +31,15 @@ const ProfilePage: NextPageWithLayout = () => {
     }
   }, [user])
 
+  const reviews = useMyReviewQuery()
   const {
     data,
-    fetchNextPage,
-    hasNextPage,
-    hasPreviousPage,
     isLoading,
-    isFetching,
     isFetchingNextPage,
-  } = useMyReviewQuery()
+    hasNextPage,
+    isFetching,
+    fetchNextPage,
+  } = reviews
 
   const [isOpenReviewDetailModal, setOpenReviewDetailModal] = useState(false)
   const [reviewImageId, setReviewImageId] = useState<number>()
@@ -86,22 +91,24 @@ const ProfilePage: NextPageWithLayout = () => {
             <ul>
               {data.pages.map((group, i) => (
                 <Fragment key={i}>
-                  {group.results.map((item: Review) => (
+                  {group.results.map((item: MyReview) => (
                     <ListItem
                       key={item.id}
                       isPreviousData={isFetching && !isFetchingNextPage}
                     >
                       <YLineCard className="relative">
-                        <div className="flex">
-                          <UserAvatar user={item.team_member} />
-                          <span className="ml-1">
-                            {item.team_member.member_name}
-                          </span>
+                        <div className="mb-1 flex items-center">
+                          <CategoryName
+                            category={item.keyword?.category}
+                            className="mr-2"
+                          />
+                          <KeywordName keyword={item.keyword} />
+                          <KeywordScoreIcon
+                            score={item.score}
+                            className="absolute right-0"
+                          />
                         </div>
-                        <KeywordScoreIcon
-                          score={item.score}
-                          className="absolute right-0"
-                        />
+
                         <p className="mt-1 text-sm text-gray-500">
                           {printDateTimeForToday(item.created_at)}
                         </p>
@@ -140,6 +147,7 @@ const ProfilePage: NextPageWithLayout = () => {
             {reviewImageId && (
               <ReviewDetailModal
                 reviewImageId={reviewImageId}
+                reviews={reviews}
                 isOpen={isOpenReviewDetailModal}
                 setIsOpen={setOpenReviewDetailModal}
               />

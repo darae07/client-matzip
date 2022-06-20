@@ -297,8 +297,8 @@ const PartyDetail: NextPageWithLayout = () => {
               />
               {reviewImageId && (
                 <ReviewDetailModal
+                  reviews={review}
                   reviewImageId={reviewImageId}
-                  keyword={keyword}
                   isOpen={isOpenReviewDetailModal}
                   setIsOpen={setOpenReviewDetailModal}
                 />
