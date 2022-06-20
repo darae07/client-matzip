@@ -2,11 +2,14 @@ import _ from 'lodash'
 import React, { ReactElement, useState, Fragment, useLayoutEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useInfiniteQuery } from 'react-query'
-import { NextPageWithLayout, PaginatedResult, PartyList } from '@/type'
+import { NextPageWithLayout, PartyList } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
-import { listParty } from '@/api'
-import { CategoryName, KeywordName, SearchCategory } from '@/components/modules'
+import {
+  CategoryName,
+  KeywordName,
+  KeywordScore,
+  SearchCategory,
+} from '@/components/modules'
 import {
   ListItem,
   UserAvatarTooltip,
@@ -114,7 +117,7 @@ const PartyPage: NextPageWithLayout = () => {
                         key={party.id}
                         passHref
                       >
-                        <div>
+                        <div className="relative">
                           <p className="mb-2 text-xl font-bold font-bold">
                             {party.name}
                           </p>
@@ -124,6 +127,10 @@ const PartyPage: NextPageWithLayout = () => {
                               className="mr-2"
                             />
                             <KeywordName keyword={party.keyword} />
+                            <KeywordScore
+                              keyword={party.keyword}
+                              className="absolute right-0"
+                            />
                           </div>
 
                           <p className="mt-3 max-h-14 overflow-hidden text-ellipsis text-sm text-gray-600">

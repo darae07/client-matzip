@@ -23,6 +23,8 @@ import {
   EatModal,
   KeywordName,
   ReviewDetailModal,
+  KeywordScore,
+  KeywordScoreIcon,
 } from '@/components/modules'
 import {
   NextPageWithLayout,
@@ -137,6 +139,7 @@ const PartyDetail: NextPageWithLayout = () => {
           <div className="mb-4 flex items-center">
             <CategoryName category={data.keyword.category} className="mr-2" />
             <KeywordName keyword={data.keyword} />
+            <KeywordScore keyword={data.keyword} className="ml-3" />
           </div>
 
           <div className="mt-1 text-sm">
@@ -246,13 +249,17 @@ const PartyDetail: NextPageWithLayout = () => {
                           review.isFetching && !review.isFetchingNextPage
                         }
                       >
-                        <YLineCard>
+                        <YLineCard className="relative">
                           <div className="flex">
                             <UserAvatar user={item.team_member} />
                             <span className="ml-1">
                               {item.team_member.member_name}
                             </span>
                           </div>
+                          <KeywordScoreIcon
+                            score={item.score}
+                            className="absolute right-0"
+                          />
                           <p className="mt-1 text-sm text-gray-500">
                             {printDateTimeForToday(item.created_at)}
                           </p>

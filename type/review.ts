@@ -8,6 +8,7 @@ export type Review = {
   created_at: string
   modified_at: string
   team_member: TeamMember
+  score: ReviewScore
 }
 
 export type ReviewImage = {

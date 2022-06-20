@@ -39,9 +39,9 @@ export const EmojiButton = ({ emoji, score, setScore }: EmojiButtonProps) => {
       )}
       <span>
         {emoji === ReviewScore.BAD
-          ? '별로에요'
+          ? '별로'
           : emoji === ReviewScore.SOSO
-          ? '보통'
+          ? '괜찮다'
           : '맛있다'}
       </span>
     </button>
