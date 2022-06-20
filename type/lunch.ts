@@ -1,3 +1,5 @@
+import { ReviewScore } from './review'
+
 export type Keyword = {
   id: number
   name: string
@@ -6,6 +8,7 @@ export type Keyword = {
   good_count: number
   team: number
   category?: Category
+  score: ReviewScore
 }
 
 export type Category = {
