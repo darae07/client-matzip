@@ -4,17 +4,17 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import {
   Modal,
-  GoodButton,
   Form,
   FormTextarea,
   FormFileInput,
+  EmojiButton,
+  Button,
 } from '@/components'
-import { ReviewCreateValue } from '@/type'
+import { ReviewCreateValue, ReviewScore } from '@/type'
 import classNames from 'classnames'
-import {
-  useClosePartyMutation,
-  useClosePartyWithReviewMutation,
-} from '@/queries'
+import { useClosePartyWithReviewMutation } from '@/queries'
+import { PencilIcon } from '@heroicons/react/outline'
+import { openToast } from '@/components/toast'
 
 interface ReviewModalProps {
   isOpen: boolean
@@ -29,7 +29,8 @@ const reviewValues: ReviewCreateValue = {
 
 export const EatModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
   const closeModal = () => setOpen(false)
-  const [isGood, setIsGood] = useState(false)
+  const [score, setScore] = useState<ReviewScore>()
+  const [hasContent, setHasContent] = useState<boolean>(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { query } = useRouter()
@@ -37,20 +38,21 @@ export const EatModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
 
   const createReviewSchema = Yup.object().shape({})
   const handleCreateReview = (values: ReviewCreateValue) => {
+    if (!score) {
+      openToast('맛집 평가를 선택해 주세요')
+      return
+    }
     if (isSubmitting) return
     setIsSubmitting(true)
-    if (isGood) {
-      const formData = new FormData()
-      formData.append('content', values.content)
-      values.image.forEach((img) => formData.append('image', img))
-      if (domain === 'party')
-        closePartyWithReviewMutation.mutate({ id, data: formData })
-    } else {
-      if (domain === 'party') closePartyMutation.mutate(id)
-    }
+
+    const formData = new FormData()
+    formData.append('content', values.content)
+    formData.append('score', String(score))
+    values.image.forEach((img) => formData.append('image', img))
+    if (domain === 'party')
+      closePartyWithReviewMutation.mutate({ id, data: formData })
   }
 
-  const closePartyMutation = useClosePartyMutation(closeModal, setIsSubmitting)
   const closePartyWithReviewMutation = useClosePartyWithReviewMutation(
     closeModal,
     setIsSubmitting,
@@ -59,11 +61,37 @@ export const EatModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
   return (
     <Modal handleClose={closeModal} isOpen={isOpen} title="식사는 어떠셨나요?">
       <div className="mt-4 flex flex-col items-center">
-        <GoodButton isGood={isGood} setIsGood={setIsGood} />
-        <div className={classNames('mt-6 w-3/4', { hidden: !isGood })}>
-          <p className="mb-2">
-            맛있으셨나요? 동료들에게 추천 메시지를 남겨주세요
-          </p>
+        <div className="grid grid-cols-3 gap-2">
+          <EmojiButton
+            emoji={ReviewScore.GOOD}
+            score={score}
+            setScore={setScore}
+          />
+          <EmojiButton
+            emoji={ReviewScore.SOSO}
+            score={score}
+            setScore={setScore}
+          />
+          <EmojiButton
+            emoji={ReviewScore.BAD}
+            score={score}
+            setScore={setScore}
+          />
+        </div>
+        <p className="mt-6">
+          맛집은 어떠셨나요? 동료들에게 메시지를 남겨주세요
+        </p>
+        <Button
+          onClick={() => setHasContent(!hasContent)}
+          color="white"
+          className="mt-4 flex w-full items-center justify-center sm:w-72"
+        >
+          {!hasContent && <PencilIcon className="mr-2 h-5 w-5" />}
+
+          {hasContent ? '취소' : '리뷰쓰기'}
+        </Button>
+
+        <div className={classNames('mt-6 w-3/4', { hidden: !hasContent })}>
           <Form<ReviewCreateValue>
             onSubmit={handleCreateReview}
             options={{
