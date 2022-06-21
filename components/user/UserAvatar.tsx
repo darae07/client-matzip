@@ -1,5 +1,10 @@
 import { FC, HTMLAttributes, useState } from 'react'
-import { TeamMember, PartyMembership, PartyMembershipStatus } from '@/type'
+import {
+  TeamMember,
+  PartyMembership,
+  PartyMembershipStatus,
+  CrewMembership,
+} from '@/type'
 import Image from 'next/image'
 import { Tooltip, UserDetailModal } from '@/components'
 import classNames from 'classnames'
@@ -8,7 +13,7 @@ interface UserAvatarProps extends HTMLAttributes<HTMLDivElement> {
   user: TeamMember
   size?: 'small' | 'medium' | 'large'
   className?: string
-  membership?: PartyMembership
+  membership?: PartyMembership | CrewMembership
 }
 
 export const UserAvatar: FC<UserAvatarProps> = ({
