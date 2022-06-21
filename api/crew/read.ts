@@ -3,7 +3,7 @@ import { ApiResponse, isValidId } from '@/type'
 
 export const listCrew = async <ResultT>(page: number = 1) => {
   const { data: response }: ApiResponse<ResultT> = await authorizedInstance.get(
-    '/group/crew/',
+    '/group/crew/my_crew/',
     {
       params: {
         page,
