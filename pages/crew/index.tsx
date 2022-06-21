@@ -95,10 +95,12 @@ const CrewPage: NextPageWithLayout = () => {
                               />
                             )}
                           </div>
-                          <p className="text-xl font-bold font-bold">
-                            {crew.name}
-                          </p>
-                          <p className="mt-2">{crew.title}</p>
+                          <div>
+                            <p className="text-xl font-bold font-bold">
+                              {crew.name}
+                            </p>
+                            <p className="mt-2">{crew.title}</p>
+                          </div>
                         </div>
                       </Link>
                       <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">

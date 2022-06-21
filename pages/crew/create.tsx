@@ -1,4 +1,4 @@
-import { createCrew } from '@/api/crew/create'
+import { createCrew } from '@/api'
 import {
   HomeLayout,
   WhiteRoundedCard,
