@@ -126,30 +126,22 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
       )}
       {mode === 'update' && (
         <div>
-          <div className="relative h-28 w-28 rounded-lg ">
+          <div className="relative h-28 w-28 rounded-lg bg-gray-50">
             <label htmlFor={name} {...getRootProps()}>
-              <div className="absolute left-9 top-9 z-10 flex h-10 w-10 rounded-lg border bg-gray-100 hover:cursor-pointer">
-                <PhotographIcon className="mx-auto my-auto h-8 w-8" />
+              <div className="h-full w-full">
+                <div className="absolute left-9 top-9 z-10 flex h-10 w-10 rounded-lg border bg-gray-100 hover:cursor-pointer">
+                  <PhotographIcon className="mx-auto my-auto h-8 w-8" />
+                </div>
+                {(defaultFile || updatedFile) && (
+                  <Image
+                    src={defaultFile || URL.createObjectURL(updatedFile)}
+                    alt={name}
+                    width={120}
+                    height={120}
+                    className="rounded-lg"
+                  />
+                )}
               </div>
-              <Image
-                src={
-                  defaultFile
-                    ? defaultFile
-                    : updatedFile
-                    ? URL.createObjectURL(updatedFile)
-                    : ''
-                }
-                alt={
-                  defaultFile
-                    ? defaultFile
-                    : updatedFile
-                    ? updatedFile.name
-                    : ''
-                }
-                width={120}
-                height={120}
-                className="rounded-lg"
-              />
             </label>
           </div>
         </div>
