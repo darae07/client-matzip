@@ -1,5 +1,5 @@
 import { listCrew, retrieveCrew } from '@/api'
-import { PaginatedResult, Crew } from '@/type'
+import { PaginatedResult, Crew, ApiErrorResponse } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
 import { useInfiniteQuery, useQuery } from 'react-query'
 
@@ -18,4 +18,8 @@ export const useCrewQuery = () => {
 }
 
 export const useCrewItemQuery = (id?: string | string[]) =>
-  useQuery(['crewItem', id], () => retrieveCrew<Crew>(id), { enabled: !!id })
+  useQuery<void | Crew, ApiErrorResponse<Crew>>(
+    ['crewItem', id],
+    () => retrieveCrew<Crew>(id),
+    { enabled: !!id },
+  )
