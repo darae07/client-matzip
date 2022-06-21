@@ -12,7 +12,7 @@ export type Crew = {
 
 export type CreateCrewValue = {
   name: string
-  image?: File
+  image?: File | string
   title?: string
 }
 

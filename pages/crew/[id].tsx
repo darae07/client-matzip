@@ -1,4 +1,5 @@
 import {
+  Button,
   HomeLayout,
   LoadingSpinner,
   openToast,
@@ -12,14 +13,14 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import Image from 'next/image'
-import { LightBulbIcon, PlusIcon } from '@heroicons/react/outline'
+import { LightBulbIcon, PencilIcon, PlusIcon } from '@heroicons/react/outline'
 
 const CrewDetail: NextPageWithLayout = () => {
-  const {
-    query: { id },
-  } = useRouter()
   const queryClient = useQueryClient()
   const router = useRouter()
+  const {
+    query: { id },
+  } = router
 
   const { data, error, isLoading } = useCrewItemQuery(id)
 
@@ -45,7 +46,7 @@ const CrewDetail: NextPageWithLayout = () => {
     return (
       <div>
         <WhiteRoundedCard>
-          <div className="flex">
+          <div className="relative flex">
             <div className="relative mr-4 h-24 w-24 shrink-0 rounded-lg bg-gray-100">
               {data.image && (
                 <Image
@@ -57,8 +58,19 @@ const CrewDetail: NextPageWithLayout = () => {
                 />
               )}
             </div>
-            <p className="text-xl font-bold font-bold">{data.name}</p>
-            <p className="mt-2">{data.title}</p>
+            <div>
+              <p className="text-xl font-bold font-bold">{data.name}</p>
+              <p className="mt-2">{data.title}</p>
+            </div>
+            <Button
+              color="white"
+              size="small"
+              className="absolute top-0 right-0 flex items-center rounded-xl"
+              onClick={() => router.push(`/crew/edit?id=${id}`)}
+            >
+              <PencilIcon className="mr-1 h-5 w-5" />
+              <span>수정</span>
+            </Button>
           </div>
           <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
             {data.membership.map((membership) => (
