@@ -16,6 +16,7 @@ import {
   Modal,
   SearchAndSelectUser,
   Button,
+  openToast,
 } from '@/components'
 import {
   CategoryName,
@@ -47,8 +48,20 @@ const PartyDetail: NextPageWithLayout = () => {
   const { query } = useRouter()
   const { id } = query
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const { data, error, isLoading } = usePartyItemQuery(id)
+
+  useEffect(() => {
+    if (error) {
+      openToast(
+        error.response.data.message || '오늘의 메뉴를 찾을 수 없습니다.',
+      )
+      if (!isLoading) {
+        router.back()
+      }
+    }
+  }, [error])
 
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
