@@ -78,9 +78,9 @@ const PartyPage: NextPageWithLayout = () => {
             <SearchCategory setCategory={setCategory} category={category} />
           </div>
           <div className="flex justify-between ">
-            <SamllLikeButton className="my-auto ml-4 mr-2">
+            {/* <SamllLikeButton className="my-auto ml-4 mr-2">
               <HeartIcon className="h-4 w-4" />
-            </SamllLikeButton>
+            </SamllLikeButton> */}
             <SmallBlueButton onClick={createParty} className="my-auto ">
               <PlusIcon className="h-4 w-4" />
             </SmallBlueButton>
