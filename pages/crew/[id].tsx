@@ -14,19 +14,29 @@ import {
   WhiteRoundedCard,
 } from '@/components'
 import {
+  useCreateVoteMutation,
   useCrewItemQuery,
   useInviteCrewMutation,
   useLunchQuery,
   useOutCrewMutation,
+  useOutVoteMutation,
 } from '@/queries'
 import { CrewMembership, LunchList, NextPageWithLayout } from '@/type'
 import { useRouter } from 'next/router'
 import { Fragment, ReactElement, useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import Image from 'next/image'
-import { LightBulbIcon, PencilIcon, PlusIcon } from '@heroicons/react/outline'
+import {
+  LightBulbIcon,
+  PencilIcon,
+  PlusIcon,
+  LogoutIcon,
+  LoginIcon,
+  ChartBarIcon,
+} from '@heroicons/react/outline'
 import { useAppSelector } from '@/utils/hooks'
 import { CategoryName, KeywordName, KeywordScore } from '@/components/modules'
+import classNames from 'classnames'
 
 const CrewDetail: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
@@ -80,6 +90,12 @@ const CrewDetail: NextPageWithLayout = () => {
 
   const lunches = useLunchQuery(id)
   const createLunch = () => router.push(`/lunch/create?id=${id}`)
+
+  const createVoteMutation = useCreateVoteMutation(id)
+  const handelCreateVote = (lunch: number) =>
+    createVoteMutation.mutate({ lunch })
+  const outVoteMutation = useOutVoteMutation(id)
+  const handleOutVote = (lunch: number) => outVoteMutation.mutate(lunch)
 
   if (isLoading) {
     return (
@@ -161,7 +177,9 @@ const CrewDetail: NextPageWithLayout = () => {
         </WhiteRoundedCard>
 
         {lunches.isLoading ? (
-          <div></div>
+          <div className="mt-10 mb-5 flex w-full justify-center">
+            <LoadingSpinner width={30} height={30} />
+          </div>
         ) : lunches.data?.pages && lunches.data.pages[0].count ? (
           <Fragment>
             <ul className="grid gap-4 md:grid-cols-3">
@@ -195,13 +213,42 @@ const CrewDetail: NextPageWithLayout = () => {
                             />
                           </div>
                         </div>
-                        <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
-                          {lunch.votes.map((vote) => (
-                            <UserAvatarTooltip
-                              user={vote.team_member}
-                              key={vote.id}
-                            />
-                          ))}
+                        <div className="relative my-4 flex items-center border border-white border-y-gray-200 py-3 text-gray-500">
+                          <ChartBarIcon className="h-5 w-5 " />
+                          <span className="ml-1 text-xs">
+                            {lunch.votes.length}
+                          </span>
+                          <div className="ml-2 flex -space-x-1">
+                            {lunch.votes.map((vote) => (
+                              <UserAvatarTooltip
+                                user={vote.team_member}
+                                key={vote.id}
+                              />
+                            ))}
+                          </div>
+                          {!!myMembership && (
+                            <div className="absolute right-0">
+                              {!!lunch.votes.find(
+                                (v) => v.team_member.id === team_profile?.id,
+                              ) ? (
+                                <Button
+                                  onClick={() => handleOutVote(lunch.id)}
+                                  color="red"
+                                  size="xsmall"
+                                >
+                                  <LogoutIcon className="h-5 w-5" />
+                                </Button>
+                              ) : (
+                                <Button
+                                  onClick={() => handelCreateVote(lunch.id)}
+                                  color="blue"
+                                  size="xsmall"
+                                >
+                                  <LoginIcon className="h-5 w-5" />
+                                </Button>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </WhiteRoundedCard>
                     </ListItem>
