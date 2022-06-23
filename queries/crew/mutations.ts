@@ -10,6 +10,7 @@ import { openToast } from '@/components'
 import { ApiResponseData, Crew, CrewMembership } from '@/type'
 import { useAppSelector, useMutationHandleError } from '@/utils/hooks'
 import _ from 'lodash'
+import { useRouter } from 'next/router'
 import { useQueryClient } from 'react-query'
 
 export const useUpdateCrewMutation = () => {
@@ -30,28 +31,19 @@ export const useUpdateCrewMutation = () => {
 export const useOutCrewMutation = (
   setMyMembership: Function,
   id?: string | string[],
-  crew?: Crew | void,
 ) => {
   const queryClient = useQueryClient()
-  const { user } = useAppSelector((state) => state.user)
-
+  const router = useRouter()
   return useMutationHandleError(
     outCrew,
     {
       onSuccess: (response: ApiResponseData<any>) => {
         const { message, result } = response
         openToast(message || '나가기 완료')
-        const membership = crew ? crew.membership : []
-        const updatedCrew = {
-          ...crew,
-          membership: _.filter(
-            membership,
-            (member) => member.team_member.id !== user?.team_profile?.id,
-          ),
-        }
         setMyMembership(undefined)
-        queryClient.setQueryData(['crewItem', id], updatedCrew)
-        queryClient.setQueriesData(['crew', { id }], updatedCrew)
+        queryClient.invalidateQueries(['crewItem', id])
+        queryClient.invalidateQueries(['crew'])
+        router.back()
       },
     },
     '크루를 탈퇴할 수 없습니다.',

@@ -48,15 +48,16 @@ const CrewDetail: NextPageWithLayout = () => {
 
   const [myMembership, setMyMembership] = useState<CrewMembership>()
   useEffect(() => {
-    if (data && data?.membership) {
-      const my_membership = _.find(data.membership, function (e) {
-        return e.team_member.id === team_profile?.id
-      })
+    if (data && data?.membership && team_profile?.id) {
+      const my_membership = _.find(
+        data.membership,
+        (e) => e.team_member.id === team_profile?.id,
+      )
       setMyMembership(my_membership)
     }
   }, [data, team_profile])
 
-  const outMutation = useOutCrewMutation(setMyMembership, id, data)
+  const outMutation = useOutCrewMutation(setMyMembership, id)
   const handleOutCrew = () => outMutation.mutate(myMembership?.id)
 
   const [isSearchModalOpen, setSearchModalOpen] = useState(false)
