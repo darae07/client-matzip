@@ -79,7 +79,7 @@ const CrewDetail: NextPageWithLayout = () => {
   }
 
   const lunches = useLunchQuery(id)
-  const createLunch = () => {}
+  const createLunch = () => router.push(`/lunch/create?id=${id}`)
 
   if (isLoading) {
     return (
