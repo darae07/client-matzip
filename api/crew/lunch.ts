@@ -1,5 +1,5 @@
 import { authorizedInstance } from '@/api/setupAxios'
-import { ApiResponse, isValidId } from '@/type'
+import { ApiResponse, isValidId, CreateLunchValue } from '@/type'
 
 export const listLunch = async <ResultT>(
   page: number = 1,
@@ -29,4 +29,10 @@ export const retrieveLunch = async <ResultT>(
       await authorizedInstance.get(`/group/lunch/${id}/`)
     return response.result
   }
+}
+
+export const createLunch = async <ResultT>(data: CreateLunchValue) => {
+  const { data: response }: ApiResponse<ResultT> =
+    await authorizedInstance.post('/group/lunch/', data)
+  return response
 }

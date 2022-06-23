@@ -47,3 +47,10 @@ export type Lunch = {
 export type LunchList = {
   image?: ReviewImage
 } & Lunch
+
+export type CreateLunchValue = {
+  title: string
+  keyword: string
+  category: number
+  crew: number
+}
