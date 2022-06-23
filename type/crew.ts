@@ -26,3 +26,14 @@ export type CrewMembership = {
   status: number
   crew: number
 }
+
+export type JoinCrewValue = {
+  crew: number
+  invite_reason?: string
+}
+
+export type InviteCrewValue = {
+  crew: number
+  receiver: number
+  invite_reason?: string
+}
