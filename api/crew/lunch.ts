@@ -1,7 +1,10 @@
 import { authorizedInstance } from '@/api/setupAxios'
 import { ApiResponse, isValidId } from '@/type'
 
-export const listLunch = async <ResultT>(page: number = 1, crew: number) => {
+export const listLunch = async <ResultT>(
+  page: number = 1,
+  crew?: string | string[],
+) => {
   const { data: response }: ApiResponse<ResultT> = await authorizedInstance.get(
     '/group/lunch/',
     {

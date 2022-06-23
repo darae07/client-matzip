@@ -2,6 +2,8 @@ import _ from 'lodash'
 import {
   Button,
   HomeLayout,
+  InfiniteScroll,
+  ListItem,
   LoadingSpinner,
   Modal,
   openToast,
@@ -14,15 +16,17 @@ import {
 import {
   useCrewItemQuery,
   useInviteCrewMutation,
+  useLunchQuery,
   useOutCrewMutation,
 } from '@/queries'
-import { CrewMembership, NextPageWithLayout } from '@/type'
+import { CrewMembership, LunchList, NextPageWithLayout } from '@/type'
 import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
+import { Fragment, ReactElement, useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import Image from 'next/image'
 import { LightBulbIcon, PencilIcon, PlusIcon } from '@heroicons/react/outline'
 import { useAppSelector } from '@/utils/hooks'
+import { CategoryName, KeywordName, KeywordScore } from '@/components/modules'
 
 const CrewDetail: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
@@ -74,6 +78,7 @@ const CrewDetail: NextPageWithLayout = () => {
     queryClient.invalidateQueries('member')
   }
 
+  const lunches = useLunchQuery(id)
   const createLunch = () => {}
 
   if (isLoading) {
@@ -154,6 +159,67 @@ const CrewDetail: NextPageWithLayout = () => {
             <PlusIcon className="h-4 w-4" />
           </SmallBlueButton>
         </WhiteRoundedCard>
+
+        {lunches.isLoading ? (
+          <div></div>
+        ) : lunches.data?.pages && lunches.data.pages[0].count ? (
+          <Fragment>
+            <ul className="grid gap-4 md:grid-cols-3">
+              {lunches.data.pages.map((group, i) => (
+                <Fragment key={i}>
+                  {group.results.map((lunch: LunchList) => (
+                    <ListItem
+                      key={lunch.id}
+                      isPreviousData={
+                        lunches.isFetching && !lunches.isFetchingNextPage
+                      }
+                      thumbnailProps={{
+                        src: lunch.image?.image,
+                        alt: lunch.keyword?.category?.name,
+                      }}
+                    >
+                      <WhiteRoundedCard
+                        className="h-full"
+                        flatTop={!!lunch.image?.image}
+                      >
+                        <div className="relative">
+                          <div className="mb-1 flex items-center">
+                            <CategoryName
+                              category={lunch.keyword?.category}
+                              className="mr-2"
+                            />
+                            <KeywordName keyword={lunch.keyword} />
+                            <KeywordScore
+                              keyword={lunch.keyword}
+                              className="absolute right-0"
+                            />
+                          </div>
+                        </div>
+                        <div className="my-4 flex -space-x-1 border border-white border-y-gray-200 py-3">
+                          {lunch.votes.map((vote) => (
+                            <UserAvatarTooltip
+                              user={vote.team_member}
+                              key={vote.id}
+                            />
+                          ))}
+                        </div>
+                      </WhiteRoundedCard>
+                    </ListItem>
+                  ))}
+                </Fragment>
+              ))}
+            </ul>
+            <InfiniteScroll
+              fetchNextPage={lunches.fetchNextPage}
+              isFetchingNextPage={lunches.isFetchingNextPage}
+              hasNextPage={lunches.hasNextPage}
+            />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <p>먹고 싶은 메뉴가 없나요? 지금 등록해 보세요.</p>
+          </Fragment>
+        )}
       </div>
     )
   }

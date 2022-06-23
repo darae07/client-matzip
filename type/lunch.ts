@@ -1,4 +1,4 @@
-import { ReviewScore } from './review'
+import { ReviewImage, ReviewScore } from './review'
 import { TeamMember } from './user'
 
 export type Keyword = {
@@ -28,6 +28,7 @@ export type Marker = {
 }
 
 export type Vote = {
+  id: number
   team_member: TeamMember
   lunch: number
   created_at: string
@@ -42,3 +43,7 @@ export type Lunch = {
   created_at: string
   votes: Vote[]
 }
+
+export type LunchList = {
+  image?: ReviewImage
+} & Lunch
