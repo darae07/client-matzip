@@ -21,7 +21,7 @@ export const Button = styled.button.attrs((props) => ({
     props.size === 'small'
       ? tw`p-2 px-3`
       : props.size === 'xsmall'
-      ? tw`px-1 py-1`
+      ? tw`px-1 py-1 font-semibold`
       : tw`px-4 py-2`}
   ${(props) => props.disabled && tw`bg-gray-500`}
 `
