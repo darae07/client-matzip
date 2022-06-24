@@ -1,5 +1,6 @@
 import { authorizedInstance } from '@/api/setupAxios'
 import { ApiResponse, isValidId, CreateLunchValue } from '@/type'
+import httpRequest from '@/constants/httpRequest'
 
 export const listLunch = async <ResultT>(
   page: number = 1,
@@ -34,5 +35,26 @@ export const retrieveLunch = async <ResultT>(
 export const createLunch = async <ResultT>(data: CreateLunchValue) => {
   const { data: response }: ApiResponse<ResultT> =
     await authorizedInstance.post('/group/lunch/', data)
+  return response
+}
+
+interface FormDataProps {
+  id: string
+  data: FormData
+}
+export const closeLunchWithReview = async <ResultT>({
+  id,
+  data,
+}: FormDataProps) => {
+  const { data: response }: ApiResponse<ResultT> =
+    await authorizedInstance.post(
+      `/group/lunch/${id}/close_with_review/`,
+      data,
+      {
+        headers: {
+          'Content-Type': httpRequest.REQUEST_HEADER_CONTENTS_MULTIPART_FORM,
+        },
+      },
+    )
   return response
 }
