@@ -12,6 +12,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorFallback } from 'components/error/ErrorFallback'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
+import Head from 'next/head'
 
 declare global {
   interface Window {
@@ -58,6 +59,9 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
             <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => {}}>
+              <Head>
+                <link rel="shortcut icon" href="/favicon.png" />
+              </Head>
               {getLayout(<Component {...pageProps} />)}
             </ErrorBoundary>
             <ReactQueryDevtools />
