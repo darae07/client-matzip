@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { useEffect, useState, HTMLAttributes } from 'react'
 import { EmojiHappyIcon, EmojiSadIcon } from '@heroicons/react/outline'
 import EmojiSosoIcon from '@/public/icon/EmojiSosoIcon'
+import Link from 'next/link'
 
 interface Props extends HTMLAttributes<HTMLSpanElement> {
   keyword: Keyword
@@ -10,9 +11,16 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
 export const KeywordName = ({ keyword, className }: Props) => {
   if (!keyword) return <></>
   return (
-    <span className={classNames('font-bold text-blue-500', className)}>
-      {keyword?.name}
-    </span>
+    <Link href={`/keyword/${keyword.id}`}>
+      <span
+        className={classNames(
+          'cursor-pointer font-bold text-blue-500',
+          className,
+        )}
+      >
+        {keyword?.name}
+      </span>
+    </Link>
   )
 }
 
