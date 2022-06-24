@@ -132,17 +132,17 @@ const CrewDetail: NextPageWithLayout = () => {
                 />
               )}
             </div>
-            <div>
+            <div className="grow">
               <p className="text-xl font-bold font-bold">{data.name}</p>
               <p className="mt-2">{data.title}</p>
             </div>
             <Button
               color="white"
-              size="small"
-              className="absolute top-16 right-0 flex items-center rounded-xl md:top-0"
+              size="xsmall"
+              className="ml-2 flex h-fit shrink-0 grow-0 items-center rounded-xl"
               onClick={() => router.push(`/crew/edit?id=${id}`)}
             >
-              <PencilIcon className="h-5 w-5" />
+              <PencilIcon className="h-3 w-3 md:h-5 md:w-5" />
               <span className="ml-1 hidden md:block">수정</span>
             </Button>
           </div>
