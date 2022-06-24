@@ -24,8 +24,7 @@ export const ReviewDetailModal = ({
 
   const { data, isFetchingNextPage, hasNextPage, fetchNextPage, isFetched } =
     reviews
-  const [currentReviewImageId, setCurrentReviewImageId] =
-    useState(reviewImageId)
+  const [currentReviewImageId, setCurrentReviewImageId] = useState<number>()
   const allReviews = data?.pages.reduce(
     (acc: Review[], val: PaginatedResult<Review>) => {
       return [...acc, ...val.results.filter((review) => review.images)]
@@ -44,7 +43,7 @@ export const ReviewDetailModal = ({
 
   useEffect(() => {
     setCurrentReviewImageId(reviewImageId)
-  }, [reviewImageId])
+  }, [reviewImageId, setCurrentReviewImageId])
 
   useEffect(() => {
     goNextPage()
