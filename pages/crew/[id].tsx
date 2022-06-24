@@ -41,7 +41,6 @@ import {
   KeywordName,
   KeywordScore,
 } from '@/components/modules'
-import classNames from 'classnames'
 
 const CrewDetail: NextPageWithLayout = () => {
   const queryClient = useQueryClient()
@@ -211,6 +210,7 @@ const CrewDetail: NextPageWithLayout = () => {
                       thumbnailProps={{
                         src: lunch.image?.image,
                         alt: lunch.keyword?.category?.name,
+                        href: `/keyword/${lunch.keyword?.id}`,
                       }}
                     >
                       <WhiteRoundedCard
