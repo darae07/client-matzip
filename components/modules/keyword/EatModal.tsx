@@ -12,7 +12,10 @@ import {
 } from '@/components'
 import { ReviewCreateValue, ReviewScore } from '@/type'
 import classNames from 'classnames'
-import { useClosePartyWithReviewMutation } from '@/queries'
+import {
+  useCloseLunchWithReviewMutation,
+  useClosePartyWithReviewMutation,
+} from '@/queries'
 import { PencilIcon } from '@heroicons/react/outline'
 import { openToast } from '@/components/toast'
 
@@ -34,7 +37,7 @@ export const EatModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { query } = useRouter()
-  const { id } = query
+  const { id, lunch } = query
 
   const createReviewSchema = Yup.object().shape({})
   const handleCreateReview = (values: ReviewCreateValue) => {
@@ -49,11 +52,19 @@ export const EatModal = ({ isOpen, setOpen, domain }: ReviewModalProps) => {
     formData.append('content', values.content)
     formData.append('score', String(score))
     values.image.forEach((img) => formData.append('image', img))
-    if (domain === 'party')
+    if (domain === 'party') {
       closePartyWithReviewMutation.mutate({ id, data: formData })
+    } else if (domain === 'lunch') {
+      closeLunchWithReviewMutation.mutate({ id: lunch, data: formData })
+    }
   }
 
   const closePartyWithReviewMutation = useClosePartyWithReviewMutation(
+    closeModal,
+    setIsSubmitting,
+  )
+
+  const closeLunchWithReviewMutation = useCloseLunchWithReviewMutation(
     closeModal,
     setIsSubmitting,
   )

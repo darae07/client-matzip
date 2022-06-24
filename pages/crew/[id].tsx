@@ -35,7 +35,12 @@ import {
   ChartBarIcon,
 } from '@heroicons/react/outline'
 import { useAppSelector } from '@/utils/hooks'
-import { CategoryName, KeywordName, KeywordScore } from '@/components/modules'
+import {
+  CategoryName,
+  EatModal,
+  KeywordName,
+  KeywordScore,
+} from '@/components/modules'
 import classNames from 'classnames'
 
 const CrewDetail: NextPageWithLayout = () => {
@@ -97,6 +102,13 @@ const CrewDetail: NextPageWithLayout = () => {
   const outVoteMutation = useOutVoteMutation(id)
   const handleOutVote = (lunch: number) => outVoteMutation.mutate(lunch)
 
+  const [isEatModalOpen, setEatModalOpen] = useState(false)
+  const openEatModal = (id: number) => {
+    router.query.lunch = id + ''
+    router.push(router)
+    setEatModalOpen(true)
+  }
+
   if (isLoading) {
     return (
       <div className="mt-10 mb-5 flex w-full justify-center">
@@ -127,15 +139,15 @@ const CrewDetail: NextPageWithLayout = () => {
             <Button
               color="white"
               size="small"
-              className="absolute top-0 right-0 flex items-center rounded-xl"
+              className="absolute top-16 right-0 flex items-center rounded-xl md:top-0"
               onClick={() => router.push(`/crew/edit?id=${id}`)}
             >
-              <PencilIcon className="mr-1 h-5 w-5" />
-              <span>수정</span>
+              <PencilIcon className="h-5 w-5" />
+              <span className="ml-1 hidden md:block">수정</span>
             </Button>
           </div>
           <div className="my-4 flex justify-between border border-white border-y-gray-200 py-3">
-            <div className="flex -space-x-1">
+            <div className="grid grid-cols-10 -space-x-1 md:flex md:grid-cols-none">
               {data.membership.map((membership) => (
                 <UserAvatarTooltip
                   user={membership.team_member}
@@ -182,6 +194,11 @@ const CrewDetail: NextPageWithLayout = () => {
           </div>
         ) : lunches.data?.pages && lunches.data.pages[0].count ? (
           <Fragment>
+            <EatModal
+              isOpen={isEatModalOpen}
+              setOpen={setEatModalOpen}
+              domain="lunch"
+            />
             <ul className="grid gap-4 md:grid-cols-3">
               {lunches.data.pages.map((group, i) => (
                 <Fragment key={i}>
@@ -248,6 +265,17 @@ const CrewDetail: NextPageWithLayout = () => {
                                 </Button>
                               )}
                             </div>
+                          )}
+                        </div>
+                        <div className="flex w-full flex-row-reverse">
+                          {!lunch.eat && (
+                            <Button
+                              onClick={() => openEatModal(lunch.id)}
+                              size="small"
+                              color="pink"
+                            >
+                              먹었어요
+                            </Button>
                           )}
                         </div>
                       </WhiteRoundedCard>
