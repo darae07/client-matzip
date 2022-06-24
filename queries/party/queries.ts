@@ -1,5 +1,11 @@
 import { listParty, myInviteList, retrieveParty } from '@/api'
-import { PaginatedResult, Party, PartyList, PartyMembership } from '@/type'
+import {
+  ApiErrorResponse,
+  PaginatedResult,
+  Party,
+  PartyList,
+  PartyMembership,
+} from '@/type'
 import { useAppSelector } from '@/utils/hooks'
 import { useInfiniteQuery, useQuery } from 'react-query'
 
@@ -18,7 +24,11 @@ export const usePartyQuery = (category?: number) => {
 }
 
 export const usePartyItemQuery = (id?: string | string[]) =>
-  useQuery(['partyItem', id], () => retrieveParty<Party>(id), { enabled: !!id })
+  useQuery<void | Party, ApiErrorResponse<Party>>(
+    ['partyItem', id],
+    () => retrieveParty<Party>(id),
+    { enabled: !!id },
+  )
 
 export const useMyPartyInvitedQuery = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)

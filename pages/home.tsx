@@ -1,7 +1,6 @@
-import HomeLayout from '@/components/layout/HomeLayout'
 import { ReactElement } from 'react'
-import { NextPageWithLayout } from 'type/ui'
-import { WhiteRoundedCard } from '@/components/card/styledCard'
+import { NextPageWithLayout } from '@/type'
+import { WhiteRoundedCard, HomeLayout } from '@/components'
 import {
   LightBulbIcon,
   UserGroupIcon,

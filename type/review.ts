@@ -1,3 +1,4 @@
+import { Keyword } from './lunch'
 import { TeamMember } from './user'
 
 export type Review = {
@@ -8,10 +9,21 @@ export type Review = {
   created_at: string
   modified_at: string
   team_member: TeamMember
+  score: ReviewScore
 }
+
+export type MyReview = {
+  keyword: Keyword
+} & Review
 
 export type ReviewImage = {
   id: number
   image: string
   review: number
+}
+
+export enum ReviewScore {
+  BAD = 1,
+  SOSO = 3,
+  GOOD = 5,
 }

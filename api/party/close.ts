@@ -1,10 +1,16 @@
 import { authorizedInstance } from '@/api/setupAxios'
-import { ApiResponse, ReviewCreateValue } from '@/type'
+import { ApiResponse, ReviewCreateValue, ReviewScore } from '@/type'
 import httpRequest from '@/constants/httpRequest'
 
-export const closeParty = async <ResultT>(id: string) => {
+interface ClosePartyData {
+  score?: ReviewScore
+}
+export const closeParty = async <ResultT>(
+  id: string,
+  data?: ClosePartyData,
+) => {
   const { data: response }: ApiResponse<ResultT> =
-    await authorizedInstance.post(`/group/party/${id}/close/`)
+    await authorizedInstance.post(`/group/party/${id}/close/`, data)
   return response
 }
 

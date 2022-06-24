@@ -75,6 +75,7 @@ const PartyCreate: NextPageWithLayout = () => {
             <FormInput<PartyCreateValue>
               name="name"
               placeholder="게시글 제목을 입력해 주세요"
+              hasWhiteSpace
             />
             <div className="mt-2.5"></div>
             <SearchKeywordMap setKeyword={setKeyword} keyword={keyword} />

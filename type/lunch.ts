@@ -1,3 +1,6 @@
+import { ReviewImage, ReviewScore } from './review'
+import { TeamMember } from './user'
+
 export type Keyword = {
   id: number
   name: string
@@ -6,6 +9,7 @@ export type Keyword = {
   good_count: number
   team: number
   category?: Category
+  score: ReviewScore
 }
 
 export type Category = {
@@ -21,4 +25,32 @@ export type Marker = {
   id?: number | string
   content: string
   place_url: string
+}
+
+export type Vote = {
+  id: number
+  team_member: TeamMember
+  lunch: number
+  created_at: string
+}
+
+export type Lunch = {
+  id: number
+  title: string
+  eat: boolean
+  crew: number
+  keyword: Keyword
+  created_at: string
+  votes: Vote[]
+}
+
+export type LunchList = {
+  image?: ReviewImage
+} & Lunch
+
+export type CreateLunchValue = {
+  title: string
+  keyword: string
+  category: number
+  crew: number
 }

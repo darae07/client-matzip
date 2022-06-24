@@ -16,3 +16,15 @@ export const listReview = async <ResultT>(
   )
   return response.result
 }
+
+export const myReview = async <ResultT>(page: number = 1) => {
+  const { data: response }: ApiResponse<ResultT> = await authorizedInstance.get(
+    'review/review/my_review/',
+    {
+      params: {
+        page,
+      },
+    },
+  )
+  return response.result
+}

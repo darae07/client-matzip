@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 interface ThumbnailProps {
   src?: string
   alt?: string
-  href: string
+  href?: string
 }
 
 interface Props extends LiHTMLAttributes<HTMLLIElement> {
@@ -27,7 +27,7 @@ export const ListItem = ({
     className={classNames('flex flex-col', { 'animate-pulse': isPreviousData })}
   >
     {thumbnailProps?.src && (
-      <Link href={thumbnailProps.href} passHref>
+      <Link href={thumbnailProps.href || ''} passHref>
         <Thumbnail {...thumbnailProps} />
       </Link>
     )}
@@ -38,7 +38,7 @@ export const ListItem = ({
 const Thumbnail = forwardRef<HTMLDivElement, ThumbnailProps>(
   ({ src = '', alt = '', href }, ref) => {
     const router = useRouter()
-    const handlePush = () => router.push(href)
+    const handlePush = () => href && router.push(href)
     return (
       <div
         className="relative h-40 w-full shrink-0"

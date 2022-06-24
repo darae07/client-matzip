@@ -6,9 +6,11 @@ import React, {
   HTMLAttributes,
   createRef,
   useEffect,
+  LiHTMLAttributes,
 } from 'react'
 import classNames from 'classnames'
 import { CloseButton } from '@/components'
+import { useRouter } from 'next/router'
 
 interface PopoverContextValue {
   isOpen: boolean
@@ -29,7 +31,7 @@ const PopoverContext = createContext<PopoverContextValue>(
   PopoverContextInitialValue,
 )
 
-const usePopoverContext = () => {
+export const usePopoverContext = () => {
   const context = useContext(PopoverContext)
   if (!context) {
     throw new Error(
@@ -116,7 +118,7 @@ const Panel = ({ children, className }: PopoverPanelProps) => {
     document.addEventListener('click', handleClickOutside)
 
     return () => document.removeEventListener('click', handleClickOutside)
-  }, [popoverDropdownRef])
+  }, [popoverDropdownRef, btnDropdownRef, handleClose])
 
   return (
     <div
@@ -142,5 +144,38 @@ const Panel = ({ children, className }: PopoverPanelProps) => {
   )
 }
 
+interface Props extends LiHTMLAttributes<HTMLLIElement> {
+  href?: string
+  onClick?: () => void
+}
+
+const PopoverItem = ({ children, href, onClick }: Props) => {
+  const { handleClose } = usePopoverContext()
+  const router = useRouter()
+  const handleClick = () => {
+    if (href) {
+      router.push(href)
+      handleClose()
+    } else if (onClick) {
+      onClick()
+    }
+  }
+
+  return (
+    <li
+      onClick={handleClick}
+      className={classNames(
+        'flex items-center rounded-lg p-3 pr-7 text-gray-600 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none sm:pr-3',
+        {
+          'cursor-pointer': !!href,
+        },
+      )}
+    >
+      {children}
+    </li>
+  )
+}
+
 Popover.Button = Button
 Popover.Panel = Panel
+Popover.Item = PopoverItem

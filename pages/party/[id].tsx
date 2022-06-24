@@ -7,15 +7,11 @@ import {
   WhiteRoundedCard,
   HomeLayout,
   UserAvatarTooltip,
-  LoadingSpinner,
-  InfiniteScroll,
-  ListItem,
-  YLineCard,
-  UserAvatar,
   PlusButton,
   Modal,
   SearchAndSelectUser,
   Button,
+  openToast,
 } from '@/components'
 import {
   CategoryName,
@@ -23,15 +19,11 @@ import {
   EatModal,
   KeywordName,
   ReviewDetailModal,
+  KeywordScore,
 } from '@/components/modules'
-import {
-  NextPageWithLayout,
-  PartyMembership,
-  Review,
-  ReviewImage,
-} from '@/type'
+import { NextPageWithLayout, PartyMembership } from '@/type'
 import { useAppSelector } from '@/utils/hooks'
-import { calculatePercent, printDateTimeForToday } from '@/utils'
+import { calculatePercent } from '@/utils'
 import {
   useInvitePartyMutation,
   useJoinPartyMutation,
@@ -42,11 +34,23 @@ import {
 } from '@/queries'
 
 const PartyDetail: NextPageWithLayout = () => {
-  const { query } = useRouter()
+  const router = useRouter()
+  const { query } = router
   const { id } = query
   const queryClient = useQueryClient()
 
   const { data, error, isLoading } = usePartyItemQuery(id)
+
+  useEffect(() => {
+    if (error) {
+      openToast(
+        error.response.data.message || '오늘의 메뉴를 찾을 수 없습니다.',
+      )
+      if (!isLoading) {
+        router.back()
+      }
+    }
+  }, [error, isLoading, router])
 
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
@@ -82,7 +86,6 @@ const PartyDetail: NextPageWithLayout = () => {
 
   const keyword = data?.keyword.id
   const review = useReviewQuery(keyword)
-  const reviewData = review.data
   const [isOpenReviewDetailModal, setOpenReviewDetailModal] = useState(false)
   const [reviewImageId, setReviewImageId] = useState<number>()
   const handleSelectReviewImage = (id: number) => {
@@ -137,6 +140,7 @@ const PartyDetail: NextPageWithLayout = () => {
           <div className="mb-4 flex items-center">
             <CategoryName category={data.keyword.category} className="mr-2" />
             <KeywordName keyword={data.keyword} />
+            <KeywordScore keyword={data.keyword} className="ml-3" />
           </div>
 
           <div className="mt-1 text-sm">
@@ -223,81 +227,13 @@ const PartyDetail: NextPageWithLayout = () => {
           </WhiteRoundedCard>
         )}
 
-        {review.isLoading ? (
-          <div className="mt-10 mb-5 flex w-full justify-center">
-            <LoadingSpinner width={30} height={30} />
-          </div>
-        ) : (
-          reviewData?.pages && (
-            <WhiteRoundedCard className="mt-4">
-              <p className="mb-5 text-xl">
-                이 맛집을 추천한 동료들
-                <span className="ml-1 text-gray-500">
-                  ({reviewData.pages[0]?.count})
-                </span>
-              </p>
-              <ul>
-                {reviewData.pages.map((group, i) => (
-                  <Fragment key={i}>
-                    {group.results.map((item: Review) => (
-                      <ListItem
-                        key={item.id}
-                        isPreviousData={
-                          review.isFetching && !review.isFetchingNextPage
-                        }
-                      >
-                        <YLineCard>
-                          <div className="flex">
-                            <UserAvatar user={item.team_member} />
-                            <span className="ml-1">
-                              {item.team_member.member_name}
-                            </span>
-                          </div>
-                          <p className="mt-1 text-sm text-gray-500">
-                            {printDateTimeForToday(item.created_at)}
-                          </p>
-                          <p className="my-4">{item.content}</p>
-
-                          <div className="flex">
-                            {item.images?.map((image: ReviewImage) => (
-                              <div
-                                className="mr-2"
-                                key={image.id}
-                                onClick={() => {
-                                  handleSelectReviewImage(image.id)
-                                }}
-                              >
-                                <Image
-                                  src={image.image}
-                                  alt={data.keyword.category?.name}
-                                  width={120}
-                                  height={120}
-                                  className="rounded-lg"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </YLineCard>
-                      </ListItem>
-                    ))}
-                  </Fragment>
-                ))}
-              </ul>
-              <InfiniteScroll
-                fetchNextPage={review.fetchNextPage}
-                isFetchingNextPage={review.isFetchingNextPage}
-                hasNextPage={review.hasNextPage}
-              />
-              {reviewImageId && (
-                <ReviewDetailModal
-                  reviewImageId={reviewImageId}
-                  keyword={keyword}
-                  isOpen={isOpenReviewDetailModal}
-                  setIsOpen={setOpenReviewDetailModal}
-                />
-              )}
-            </WhiteRoundedCard>
-          )
+        {reviewImageId && (
+          <ReviewDetailModal
+            reviews={review}
+            reviewImageId={reviewImageId}
+            isOpen={isOpenReviewDetailModal}
+            setIsOpen={setOpenReviewDetailModal}
+          />
         )}
       </div>
     )

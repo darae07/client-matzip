@@ -20,7 +20,7 @@ export interface User {
   team_profile: TeamMember | null
 }
 
-export interface TeamMember {
+export type TeamMember = {
   date_joined: string
   id: number
   image: string
