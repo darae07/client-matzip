@@ -31,7 +31,7 @@ const CrewEdit: NextPageWithLayout = () => {
         router.back()
       }
     }
-  }, [error, isLoading])
+  }, [error, isLoading, router])
 
   const createCrewSchema = Yup.object({
     name: Yup.string().required('이름을 입력해 주세요'),

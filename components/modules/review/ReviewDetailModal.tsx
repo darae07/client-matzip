@@ -57,7 +57,7 @@ export const ReviewDetailModal = ({
   }
   useEffect(() => {
     goNextPage()
-  }, [data?.pages, goNextPage])
+  }, [data?.pages])
 
   const handleNextPage = () => {
     if (!currentReivew || !allReviews) return

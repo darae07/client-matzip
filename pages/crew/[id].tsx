@@ -58,7 +58,7 @@ const CrewDetail: NextPageWithLayout = () => {
         router.back()
       }
     }
-  }, [error, isLoading])
+  }, [error, isLoading, router])
 
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile

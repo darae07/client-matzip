@@ -17,7 +17,6 @@ import { useQueryClient } from 'react-query'
 import {
   CategoryName,
   KakaoMap,
-  KeywordName,
   KeywordScore,
   KeywordScoreIcon,
   ReviewDetailModal,
@@ -42,7 +41,7 @@ const KeywordDetail: NextPageWithLayout = () => {
         router.back()
       }
     }
-  }, [error, isLoading])
+  }, [error, isLoading, router])
 
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile
