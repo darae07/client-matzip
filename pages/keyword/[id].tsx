@@ -63,9 +63,32 @@ const KeywordDetail: NextPageWithLayout = () => {
     return (
       <div>
         <WhiteRoundedCard className="mb-4">
+          {reviewData?.pages && (
+            <div className="mb-2 flex overflow-x-auto">
+              {reviewData.pages[0].results.map((item: Review) =>
+                item.images?.map((image) => (
+                  <div
+                    className="mr-1 shrink-0 hover:cursor-pointer"
+                    key={image.id}
+                    onClick={() => {
+                      handleSelectReviewImage(image.id)
+                    }}
+                  >
+                    <Image
+                      src={image.image}
+                      alt={data.category?.name}
+                      width={120}
+                      height={120}
+                      className="rounded-lg"
+                    />
+                  </div>
+                )),
+              )}
+            </div>
+          )}
           <div className="mb-4 flex items-center">
             <CategoryName category={data.category} className="mr-2" />
-            <KeywordName keyword={data} />
+            <p className="text-2xl font-bold ">{data.name}</p>
             <KeywordScore keyword={data} className="ml-3" />
           </div>
 
