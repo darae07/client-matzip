@@ -87,7 +87,7 @@ const CrewEdit: NextPageWithLayout = () => {
             />
             <FormTextarea<CreateCrewValue>
               name="title"
-              className="mb-4 h-20"
+              className="mb-4"
               placeholder="크루 설명을 입력해 주세요."
             />
             <input
