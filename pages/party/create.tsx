@@ -83,7 +83,7 @@ const PartyCreate: NextPageWithLayout = () => {
             <SearchCategory setCategory={setCategory} category={category} />
             <FormTextarea<PartyCreateValue>
               name="description"
-              className="my-2.5 h-20"
+              className="my-2.5"
               placeholder="동료들이 함께 식사할 수 있도록 설명을 입력해 주세요.(ex 점심시간에 정문앞에서 봐요)"
             />
 
