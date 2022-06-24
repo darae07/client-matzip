@@ -268,7 +268,9 @@ const CrewDetail: NextPageWithLayout = () => {
                           )}
                         </div>
                         <div className="flex w-full flex-row-reverse">
-                          {!lunch.eat && (
+                          {lunch.eat ? (
+                            <span className="text-sm">마감</span>
+                          ) : (
                             <Button
                               onClick={() => openEatModal(lunch.id)}
                               size="small"
