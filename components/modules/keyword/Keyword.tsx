@@ -11,7 +11,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
 export const KeywordName = ({ keyword, className }: Props) => {
   if (!keyword) return <></>
   return (
-    <Link href={`/keyword/${keyword.id}`}>
+    <Link href={`/keyword/${keyword.id}`} passHref>
       <span
         className={classNames(
           'cursor-pointer font-bold text-blue-500',

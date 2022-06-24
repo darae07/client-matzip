@@ -19,7 +19,7 @@ const EditProfile: NextPageWithLayout = () => {
     if (!user) {
       router.back()
     }
-  }, [user])
+  }, [user, router])
 
   const dispatch = useAppDispatch()
   const handleSubmit = (values: any) => {

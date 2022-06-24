@@ -118,7 +118,7 @@ const Panel = ({ children, className }: PopoverPanelProps) => {
     document.addEventListener('click', handleClickOutside)
 
     return () => document.removeEventListener('click', handleClickOutside)
-  }, [popoverDropdownRef])
+  }, [popoverDropdownRef, btnDropdownRef, handleClose])
 
   return (
     <div

@@ -50,7 +50,7 @@ const PartyDetail: NextPageWithLayout = () => {
         router.back()
       }
     }
-  }, [error])
+  }, [error, isLoading])
 
   const user = useAppSelector((state) => state.user)
   const team_profile = user.user?.team_profile

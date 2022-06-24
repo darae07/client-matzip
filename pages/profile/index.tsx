@@ -29,7 +29,7 @@ const ProfilePage: NextPageWithLayout = () => {
     if (!user) {
       router.back()
     }
-  }, [user])
+  }, [user, router])
 
   const reviews = useMyReviewQuery()
   const {

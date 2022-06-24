@@ -45,10 +45,6 @@ export const ReviewDetailModal = ({
     setCurrentReviewImageId(reviewImageId)
   }, [reviewImageId, setCurrentReviewImageId])
 
-  useEffect(() => {
-    goNextPage()
-  }, [data?.pages])
-
   const goNextPage = () => {
     if (!currentReivew || !allReviews) return
     const currentReivewIndex = _.indexOf(allReviews, currentReivew)
@@ -59,6 +55,9 @@ export const ReviewDetailModal = ({
       setCurrentReviewImageId(nextReview.images[0].id)
     }
   }
+  useEffect(() => {
+    goNextPage()
+  }, [data?.pages, goNextPage])
 
   const handleNextPage = () => {
     if (!currentReivew || !allReviews) return
