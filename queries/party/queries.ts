@@ -11,7 +11,10 @@ import { useInfiniteQuery, useQuery } from 'react-query'
 
 export const usePartyQuery = (category?: number) => {
   const { isLoading, user } = useAppSelector((state) => state.user)
-  return useInfiniteQuery<PaginatedResult<PartyList>>(
+  return useInfiniteQuery<
+    PaginatedResult<PartyList>,
+    ApiErrorResponse<PartyList>
+  >(
     ['party', category],
     ({ pageParam = 1 }) => listParty(pageParam, category),
     {
