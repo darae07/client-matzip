@@ -1,6 +1,5 @@
 import { authorizedInstance } from '@/api/setupAxios'
-import { ApiResponse } from '@/type/api'
-import { isValidId } from '@/type/validation'
+import { ApiResponse, isValidId } from '@/type'
 
 export const listParty = async <ResultT>(
   page: number = 1,
