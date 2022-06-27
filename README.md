@@ -1,34 +1,89 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 프로젝트 소개
 
-## Getting Started
+> 직장인들의 점심 메뉴 선정 시 간편하게 커뮤니케이션 할 수 있도록 돕는 서비스 **'오늘 뭐 먹지?'**의 클라이언트 레포지토리 입니다.
 
-First, run the development server:
+## 서비스 링크
+
+https://eatwhat.kr
+
+## 프로젝트 상세 소개
+
+https://dahna.tistory.com/7
+
+<br/>
+
+## 프로젝트 실행
+
+서버 구동:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
+npm run test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000) 에서 구동 결과 확인  
+-- env 파일 필요
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+<br/><br/>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 기술 스택
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+<img width="530" alt="스크린샷 2022-06-25 오후 5 02 29" src="https://user-images.githubusercontent.com/61297852/175764424-f52ca011-2d3f-42e4-b657-85310ba9fb41.png">
 
-## Learn More
+<br/><br/>
 
-To learn more about Next.js, take a look at the following resources:
+## 폴더 구조
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+📦 client-matzip
+├─ .babelrc.js
+├─ .eslintrc.json
+├─ .gitignore
+├─ .npmrc
+├─ README.md
+├─ api // api 호출 함수
+│  ├─ api.ts // 인증 token 설정
+│  ├─ setupAxios.ts // axios 인스턴스 설정
+│  ├─ ...
+├─ babel-plugin-macros.config.js
+├─ babel.plugin.js
+├─ components
+│  ├─ modules // 도메인 데이터를 표현하는 컴포넌트
+│  └─ ... // 공용 인터페이스 컴포넌트
+├─ constants
+├─ jest.config.js
+├─ jest.setup.js
+├─ next-env.d.ts
+├─ next.config.js
+├─ package.json
+├─ pages
+│  ├─ 404.tsx
+│  ├─ _app.tsx
+│  └─ ...
+├─ postcss.config.js
+├─ public
+├─ queries // react-query 호출 커스텀 훅
+├─ store // redux 상태관리
+│  ├─ index.ts
+│  └─ modules
+│     ├─ auth // 인증 상태
+│     └─ ui // ui 상태
+├─ styles
+├─ svgTransform.js // jest svg 사용시 필요
+├─ tailwind.config.js
+├─ tsconfig.json
+├─ type
+└─ utils // 공통 함수 모음
+   ├─ hooks
+   ├─ scroll.ts // 페이지 이동 시 스크롤 위치 기억
+   └─ value.ts // 값 포맷 변경 처리
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<br/><br/>
 
-## Deploy on Vercel
+## 배포 환경
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+client server - Netlify 배포  
+domain - gabia  
+DNS server - Netlify
