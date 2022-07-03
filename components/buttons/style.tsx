@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: 'red' | 'blue' | 'pink' | 'white'
   size?: 'small' | 'medium' | 'xsmall'
   disabled?: boolean
