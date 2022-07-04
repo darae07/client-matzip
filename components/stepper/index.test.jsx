@@ -1,7 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, cleanup } from '@testing-library/react'
 import { Stepper } from '@/components'
 
 describe('단계 컴포넌트', () => {
+  afterEach(() => {
+    cleanup()
+  })
   it('Stepper 컴포넌트는 조합 컴포넌트로 내부 Stepper.Step컴포넌트를 단계에 따라 렌더링한다.', () => {
     const { getByRole } = render(
       <Stepper>
@@ -18,11 +21,14 @@ describe('단계 컴포넌트', () => {
         <Stepper.Button text="다음" atctionType="next" />
       </Stepper>,
     )
-    expect(screen.getByText('step1')).toBeInTheDocument()
+
+    expect(screen.getByRole('stepper1').classList.contains('hidden')).toBe(true)
     fireEvent.click(getByRole('button', { name: '다음' }))
-    expect(screen.getByText('step2')).toBeInTheDocument()
+    expect(screen.getByRole('stepper1').classList.contains('hidden')).toBe(
+      false,
+    )
     fireEvent.click(getByRole('button', { name: '이전' }))
-    expect(screen.getByText('step1')).toBeInTheDocument()
+    expect(screen.getByRole('stepper1').classList.contains('hidden')).toBe(true)
   })
   it('Stepper 컴포넌트는 초기값을 받을 수 있다.', () => {
     render(
@@ -40,6 +46,8 @@ describe('단계 컴포넌트', () => {
         <Stepper.Button text="다음" type="next" />
       </Stepper>,
     )
-    expect(screen.getByText('step2')).toBeInTheDocument()
+    expect(screen.getByRole('stepper1').classList.contains('hidden')).toBe(
+      false,
+    )
   })
 })
