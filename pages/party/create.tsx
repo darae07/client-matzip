@@ -17,7 +17,11 @@ import {
   openToast,
   Stepper,
 } from '@/components'
-import { SearchKeywordMap, SearchCategory } from '@/components/modules'
+import {
+  SearchKeywordMap,
+  SearchCategory,
+  WrappedStepperContextSearchKeywordMap,
+} from '@/components/modules'
 import { createParty } from '@/api'
 import { useRouter } from 'next/router'
 import classNames from 'classnames'
@@ -63,20 +67,18 @@ const PartyCreate: NextPageWithLayout = () => {
     '오늘의 메뉴를 등록할 수 없습니다.',
   )
 
-  const [step, setStep] = useState(0)
-
   return (
     <div>
       <WhiteRoundedCard>
         <div className="text-xl font-bold">오늘의 메뉴 등록하기</div>
-        <Stepper step={step}>
+        <Stepper>
           <Stepper.Step>
             <div>
               <p className="mb-4 mt-1 text-sm">
                 동료들과 오늘 먹고 싶은 점심 메뉴를 등록해 보세요. 맛집 이름으로
                 검색해 보세요.
               </p>
-              <SearchKeywordMap setKeyword={setKeyword} setStep={setStep} />
+              <WrappedStepperContextSearchKeywordMap setKeyword={setKeyword} />
             </div>
           </Stepper.Step>
           <Stepper.Step>

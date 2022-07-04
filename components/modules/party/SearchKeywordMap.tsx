@@ -11,6 +11,7 @@ import classNames from 'classnames'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@/components/buttons'
+import { useStepperContext } from '@/components/stepper'
 
 type SearchKeywordMapProps = {
   setKeyword: Function
@@ -32,7 +33,10 @@ const searchKeywordValues = {
   use_kakaomap: true,
   isSetted: false,
 }
-const SearchKeywordMap = ({ setKeyword, setStep }: SearchKeywordMapProps) => {
+export const SearchKeywordMap = ({
+  setKeyword,
+  setStep,
+}: SearchKeywordMapProps) => {
   const [markers, setMarkers] = useState<Marker[]>([])
   const [map, setMap] = useState<any>()
   const [mapStatus, setMapStatus] = useState<KakaoResponseStatus>(
@@ -120,7 +124,7 @@ const SearchKeywordMap = ({ setKeyword, setStep }: SearchKeywordMapProps) => {
     setKeyword((prev: SearchKeywordValue) => {
       return { ...prev, use_kakaomap: false, isSetted: true }
     })
-    setStep && setStep((prev: number) => prev + 1)
+    setStep && setStep(1)
   }
   return (
     <div>
@@ -255,4 +259,10 @@ const SearchKeywordMap = ({ setKeyword, setStep }: SearchKeywordMapProps) => {
   )
 }
 
-export { SearchKeywordMap }
+export const WrappedStepperContextSearchKeywordMap = ({
+  setKeyword,
+}: SearchKeywordMapProps) => {
+  const { setStep } = useStepperContext()
+
+  return <SearchKeywordMap setKeyword={setKeyword} setStep={setStep} />
+}
