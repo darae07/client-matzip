@@ -50,8 +50,9 @@ const EditProfile: NextPageWithLayout = () => {
               }}
               mode="update"
             />
-
-            <FormInput<TeamMember> name="member_name" className="py-4" />
+            <p className="pt-4 font-semibold">이름</p>
+            <FormInput<TeamMember> name="member_name" className="pb-4" />
+            <p className="font-semibold">소개글</p>
             <FormInput<TeamMember> name="title" placeholder="소개글" />
             <Button
               type="submit"
