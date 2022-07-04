@@ -12,12 +12,14 @@ type FormProps<TFomValues> = {
   onSubmit: SubmitHandler<TFomValues>
   children: any
   autoSubmit?: boolean
+  className?: string
 }
 export const Form = <TFomValues extends Record<string, unknown>>({
   options,
   onSubmit,
   children,
   autoSubmit = false,
+  className,
 }: FormProps<TFomValues>) => {
   const methods = useForm<TFomValues>(options)
   const handleAutoSubmit = _.debounce(onSubmit, 250, {
@@ -33,9 +35,12 @@ export const Form = <TFomValues extends Record<string, unknown>>({
 
   return (
     <FormProvider<TFomValues> {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className={className || ''}
+      >
         {React.Children.map(children, (child) => {
-          return child.props.name
+          return child?.props.name
             ? React.createElement(child.type, {
                 ...{
                   ...child.props,

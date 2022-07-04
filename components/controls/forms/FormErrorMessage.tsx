@@ -11,7 +11,10 @@ export const FormErrorMessage: FC<FormErrorMessageProps> = ({
 }) => {
   return (
     <p
-      className={classNames('block text-left text-sm text-red-600', className)}
+      className={classNames(
+        'inline-block text-left text-sm text-red-600',
+        className,
+      )}
     >
       {children}
     </p>
