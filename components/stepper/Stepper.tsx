@@ -4,8 +4,10 @@ import React, {
   Children,
   useContext,
   useState,
+  useEffect,
 } from 'react'
 import { ButtonProps, Button } from '@/components'
+import classNames from 'classnames'
 
 interface StepperContextValue {
   currentStep: number
@@ -38,8 +40,9 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Stepper = ({ children, step = 0 }: StepperProps) => {
   const [currentStep, setStep] = useState(step)
+  useEffect(() => setStep(step), [step, setStep])
   const pageLength = Children.toArray(children).filter(
-    (el: any) => el.type.name === 'StepperStep',
+    (el: any) => el?.type.name === 'StepperStep',
   ).length
 
   const contextValue = { currentStep, setStep, pageLength }
@@ -47,8 +50,13 @@ export const Stepper = ({ children, step = 0 }: StepperProps) => {
     <div>
       <StepperContext.Provider value={contextValue}>
         {React.Children.map(children, (child: any, i) => {
-          return child.type.name === 'StepperStep' && i !== currentStep
-            ? null
+          return child
+            ? React.createElement(child.type, {
+                ...{
+                  ...child.props,
+                  index: i,
+                },
+              })
             : child
         })}
       </StepperContext.Provider>
@@ -84,10 +92,19 @@ StepperButton.displayName = 'StepperButton'
 
 interface StepperStepProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactChild
+  index?: number
 }
 
-const StepperStep = ({ children }: StepperStepProps) => {
-  return <div>{children}</div>
+const StepperStep = ({ children, index }: StepperStepProps) => {
+  const { currentStep } = useStepperContext()
+  return (
+    <div
+      className={classNames({ hidden: index !== currentStep })}
+      role={`stepper${index}`}
+    >
+      {children}
+    </div>
+  )
 }
 StepperStep.displayName = 'StepperStep'
 
