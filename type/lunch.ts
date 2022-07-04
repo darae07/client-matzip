@@ -32,6 +32,8 @@ export type Marker = {
   id?: number | string
   content: string
   place_url: string
+  road_address_name: string
+  phone: string
 }
 
 export type Vote = {
