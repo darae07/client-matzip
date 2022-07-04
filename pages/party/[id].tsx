@@ -218,12 +218,9 @@ const PartyDetail: NextPageWithLayout = () => {
           </div>
         </WhiteRoundedCard>
 
-        {myTeam.data && (
+        {myTeam.data && data.keyword.use_kakaomap && (
           <WhiteRoundedCard className="h-72">
-            <KakaoMap
-              location={myTeam.data.location}
-              keyword={data.keyword.name}
-            />
+            <KakaoMap location={myTeam.data.location} keyword={data.keyword} />
           </WhiteRoundedCard>
         )}
 

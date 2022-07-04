@@ -34,6 +34,15 @@ export type FormFileInputProps<TFormValues> = {
   accept: Accept
 } & Omit<Omit<Omit<FileInputProps, 'name'>, 'accept'>, 'ref'>
 
+type FileWhitBlobSrc = {
+  blobSrc?: string
+} & File
+
+const blobSrcMaker = (file: FileWhitBlobSrc) => {
+  const f = file
+  f.blobSrc = URL.createObjectURL(file)
+  return f
+}
 export const FormFileInput = <TFormValues extends Record<string, unknown>>({
   className,
   name,
@@ -52,6 +61,9 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
 
   const onDrop = useCallback(
     (droppedFiles) => {
+      droppedFiles = droppedFiles.map((file: FileWhitBlobSrc) =>
+        blobSrcMaker(file),
+      )
       let newFiles =
         mode === 'update' ? droppedFiles : [...(files || []), ...droppedFiles]
       if (mode === 'append') {
@@ -93,7 +105,7 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
         <div className="grid grid-cols-2 gap-1 sm:grid-cols-4">
           {Array.isArray(files) && (
             <Fragment>
-              {files.map((file: File) => (
+              {files.map((file: FileWhitBlobSrc) => (
                 <div key={file.name} className="relative h-28 w-28 rounded-lg">
                   <span className="absolute right-0 z-10">
                     <Button
@@ -106,7 +118,7 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
                   </span>
 
                   <Image
-                    src={URL.createObjectURL(file)}
+                    src={file.blobSrc || ''}
                     alt={file.name}
                     width={120}
                     height={120}
@@ -134,7 +146,7 @@ export const FormFileInput = <TFormValues extends Record<string, unknown>>({
                 </div>
                 {(defaultFile || updatedFile) && (
                   <Image
-                    src={defaultFile || URL.createObjectURL(updatedFile)}
+                    src={defaultFile || updatedFile.blobSrc || ''}
                     alt={name}
                     width={120}
                     height={120}

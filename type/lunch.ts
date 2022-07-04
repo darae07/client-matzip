@@ -10,6 +10,15 @@ export type Keyword = {
   team: number
   category?: Category
   score: ReviewScore
+  use_team_location: boolean
+  use_kakaomap: boolean
+}
+
+export type SearchKeywordValue = {
+  keyword: string
+  use_team_location: boolean
+  use_kakaomap: boolean
+  isSetted: boolean
 }
 
 export type Category = {
@@ -25,6 +34,8 @@ export type Marker = {
   id?: number | string
   content: string
   place_url: string
+  road_address_name: string
+  phone: string
 }
 
 export type Vote = {
