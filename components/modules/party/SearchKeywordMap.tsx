@@ -181,9 +181,9 @@ export const SearchKeywordMap = ({
               </Button>
             </div>
           )}
-          {mapStatus === KakaoResponseStatus.INITAIL && (
+          {/* {mapStatus === KakaoResponseStatus.INITAIL && (
             <p>맛집 이름을 검색해 보세요. 회사 근처 맛집을 찾아드려요.</p>
-          )}
+          )} */}
           {mapStatus === KakaoResponseStatus.LOADING && (
             <div className="flex h-20 w-full items-center justify-center p-3">
               <LoadingSpinner className="h-8 w-8" />
@@ -227,32 +227,34 @@ export const SearchKeywordMap = ({
               </MapMarker>
             ))}
           </Map>
-          <div className="sm:ml-4 sm:w-72">
-            <ul className="h-80 overflow-y-auto rounded-lg text-sm text-gray-800 shadow">
-              {markers.map((marker: Marker) => (
-                <li
-                  key={marker.id}
-                  onClick={() => selectKeyword(marker)}
-                  className={classNames(
-                    'cursor-pointer border-b py-4 px-3 hover:bg-gray-50',
-                    {
-                      'bg-blue-100': markerInfo?.id === marker.id,
-                    },
-                  )}
-                >
-                  <p className="text-base font-bold">{marker.content}</p>
-                  <p className="text-gray-700">{marker.road_address_name}</p>
-                  <p className="text-green-700">{marker.phone}</p>
+          {!!markers.length && (
+            <div className="sm:ml-4 sm:w-72">
+              <ul className="h-80 overflow-y-auto rounded-lg text-sm text-gray-800 shadow">
+                {markers.map((marker: Marker) => (
+                  <li
+                    key={marker.id}
+                    onClick={() => selectKeyword(marker)}
+                    className={classNames(
+                      'cursor-pointer border-b py-4 px-3 hover:bg-gray-50',
+                      {
+                        'bg-blue-100': markerInfo?.id === marker.id,
+                      },
+                    )}
+                  >
+                    <p className="text-base font-bold">{marker.content}</p>
+                    <p className="text-gray-700">{marker.road_address_name}</p>
+                    <p className="text-green-700">{marker.phone}</p>
+                  </li>
+                ))}
+                <li className="cursor-pointer py-3 px-3 hover:bg-gray-50">
+                  <p className="mb-1 text-gray-600">찾는 맛집이 없나요?</p>
+                  <Button color="blue" onClick={handleUnuseKakaomap}>
+                    지도 없이 등록하기
+                  </Button>
                 </li>
-              ))}
-              <li className="cursor-pointer py-3 px-3 hover:bg-gray-50">
-                <p className="mb-1 text-gray-600">찾는 맛집이 없나요?</p>
-                <Button color="blue" onClick={handleUnuseKakaomap}>
-                  지도 없이 등록하기
-                </Button>
-              </li>
-            </ul>
-          </div>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
