@@ -83,6 +83,7 @@ const LunchCreate: NextPageWithLayout = () => {
               <p className="mb-4 mt-1 text-sm">
                 동료들을 만날 수 있도록 정보를 알려주세요.
               </p>
+              <p className="mb-2 font-bold">{keyword?.keyword}</p>
               <Form<LunchCreateValue>
                 onSubmit={handleCreateLunch}
                 options={{

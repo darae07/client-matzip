@@ -88,6 +88,8 @@ const SearchKeywordMap = ({ setKeyword, setStep }: SearchKeywordMapProps) => {
                 content: data[i].place_name,
                 place_url: data[i].place_url,
                 id: data[i].id,
+                road_address_name: data[i].road_address_name,
+                phone: data[i].phone,
               })
               // @ts-ignore
               bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
@@ -221,8 +223,8 @@ const SearchKeywordMap = ({ setKeyword, setStep }: SearchKeywordMapProps) => {
               </MapMarker>
             ))}
           </Map>
-          <div className="sm:ml-4 sm:w-56">
-            <ul className="h-80 overflow-y-auto rounded-lg text-gray-800 shadow">
+          <div className="sm:ml-4 sm:w-72">
+            <ul className="h-80 overflow-y-auto rounded-lg text-sm text-gray-800 shadow">
               {markers.map((marker: Marker) => (
                 <li
                   key={marker.id}
@@ -230,11 +232,13 @@ const SearchKeywordMap = ({ setKeyword, setStep }: SearchKeywordMapProps) => {
                   className={classNames(
                     'cursor-pointer border-b py-4 px-3 hover:bg-gray-50',
                     {
-                      'bg-blue-100 font-bold': markerInfo?.id === marker.id,
+                      'bg-blue-100': markerInfo?.id === marker.id,
                     },
                   )}
                 >
-                  {marker.content}
+                  <p className="text-base font-bold">{marker.content}</p>
+                  <p className="text-gray-700">{marker.road_address_name}</p>
+                  <p className="text-green-700">{marker.phone}</p>
                 </li>
               ))}
               <li className="cursor-pointer py-3 px-3 hover:bg-gray-50">
