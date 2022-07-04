@@ -22,13 +22,16 @@ import {
   useRefuseInviteCrewMutation,
   useRefuseInvitePartyMutation,
 } from '@/queries'
+import { useQueryClient } from 'react-query'
 
 const MenuUserAvatar: FC = () => {
   const { isLoading, user } = useAppSelector((state) => state.user)
+  const queryClient = useQueryClient()
 
   const dispatch = useAppDispatch()
   const handleLogout = () => {
     dispatch(logout())
+    queryClient.clear()
   }
 
   const partyInviteList = useMyPartyInvitedQuery()
