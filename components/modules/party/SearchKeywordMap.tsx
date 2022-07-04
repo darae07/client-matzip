@@ -169,7 +169,7 @@ export const SearchKeywordMap = ({
 
       <div className={`relative mt-2 w-full`}>
         <div
-          className={`absolute z-10 h-80 w-full bg-white text-sm ${
+          className={`absolute z-[3] h-80 w-full bg-white text-sm ${
             mapStatus === KakaoResponseStatus.OK && 'hidden'
           }`}
         >
