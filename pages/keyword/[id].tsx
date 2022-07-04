@@ -104,7 +104,7 @@ const KeywordDetail: NextPageWithLayout = () => {
 
         {myTeam.data && (
           <WhiteRoundedCard className="h-72">
-            <KakaoMap location={myTeam.data.location} keyword={data.name} />
+            <KakaoMap location={myTeam.data.location} keyword={data} />
           </WhiteRoundedCard>
         )}
 

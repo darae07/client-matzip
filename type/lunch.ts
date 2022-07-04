@@ -10,6 +10,8 @@ export type Keyword = {
   team: number
   category?: Category
   score: ReviewScore
+  use_team_location: boolean
+  use_kakaomap: boolean
 }
 
 export type SearchKeywordValue = {
