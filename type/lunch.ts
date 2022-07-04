@@ -12,6 +12,13 @@ export type Keyword = {
   score: ReviewScore
 }
 
+export type SearchKeywordValue = {
+  keyword: string
+  use_team_location: boolean
+  use_kakaomap: boolean
+  isSetted: boolean
+}
+
 export type Category = {
   id: number
   name: string
