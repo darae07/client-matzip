@@ -34,7 +34,6 @@
     "react-google-login": "^5.2.2",
     "react-hook-form": "^7.31.3",
     "react-intersection-observer": "^9.1.0",
-    "react-kakao-login": "^2.1.0",
     "react-kakao-maps-sdk": "^1.0.4",
     "react-query": "^3.34.15",
     "react-redux": "^7.2.8",
