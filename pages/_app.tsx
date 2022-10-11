@@ -17,6 +17,7 @@ import Head from 'next/head'
 declare global {
   interface Window {
     kakao: any
+    Kakao: any
   }
 }
 
@@ -25,9 +26,15 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const persistor = persistStore(store)
   const router = useRouter()
 
+  const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
+
   injectStore(store)
   useEffect(() => {
     setupAxiosInterceptors(store, router)
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(KAKAO_KEY)
+      console.log(window.Kakao)
+    }
   }, [])
 
   const getLayout = Component.getLayout ?? ((page: ReactNode) => page)
@@ -44,8 +51,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
         },
       }),
   )
-
-  const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
 
   return (
     <>
