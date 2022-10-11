@@ -1,24 +1,18 @@
 import { LoginForm } from 'components/forms/auth/LoginForm'
 import { useAppDispatch, useAppSelector } from '@/utils/hooks'
 import { NextPageWithLayout } from 'type/ui'
-import KakaoLogin from 'react-kakao-login'
 import GoogleLogin from 'react-google-login'
-import { kakaoLogin, googleLogin } from 'api/auth/socialLogin'
+import { googleLogin, kakaoAuthorize } from 'api/auth/socialLogin'
 import { ReactElement, useEffect } from 'react'
 import AuthLayout from 'components/layout/AuthLayout'
 import { loginFail, logout } from 'api/auth/login'
 import Link from 'next/link'
-import { redirect } from 'next/dist/server/api-utils'
 import { useRouter } from 'next/router'
 
 const Login: NextPageWithLayout = () => {
-  const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY
   const GOOGLE_KEY = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
   const dispatch = useAppDispatch()
-  const handleKakaoLoginSuccess = (response: any) => {
-    dispatch(kakaoLogin(response))
-  }
   const handleGoogleLoginSuccess = (response: any) => {
     dispatch(googleLogin(response))
   }
@@ -30,9 +24,6 @@ const Login: NextPageWithLayout = () => {
     } else {
       dispatch(loginFail('로그인에 실패했습니다.'))
     }
-  }
-  const handleLogout = () => {
-    dispatch(logout())
   }
 
   const { user } = useAppSelector((state) => state.user)
@@ -75,25 +66,11 @@ const Login: NextPageWithLayout = () => {
           />
         )}
 
-        {KAKAO_KEY && (
-          <KakaoLogin
-            token={KAKAO_KEY}
-            onSuccess={handleKakaoLoginSuccess}
-            onFail={handleLoginFail}
-            onLogout={handleLogout}
-            scopes={['id', 'kakao_account']}
-            render={({ onClick }) => (
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault()
-                  onClick()
-                }}
-                className="flex w-1/2 items-center justify-center rounded-md bg-[url(//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg)] py-2 px-2 font-semibold text-amber-900 md:text-sm"
-              />
-            )}
-          />
-        )}
+        <button
+          type="button"
+          className="kakao-button"
+          onClick={() => dispatch(kakaoAuthorize())}
+        ></button>
       </div>
     </div>
   )
