@@ -33,7 +33,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     setupAxiosInterceptors(store, router)
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(KAKAO_KEY)
-      console.log(window.Kakao)
     }
   }, [])
 
