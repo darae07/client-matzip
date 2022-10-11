@@ -5,7 +5,10 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+          <script
+            src="//developers.kakao.com/sdk/js/kakao.min.js"
+            async
+          ></script>
         </Head>
         <body>
           <Main />
