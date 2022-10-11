@@ -12,3 +12,9 @@
  20 드랍다운
  21-29 모달
  30-39 토스트, 알림 */
+
+.kakao-button {
+  background-image: url('../public/icon/kakao_login_medium_narrow.png');
+  min-width: 183px;
+  height: 45px;
+}
